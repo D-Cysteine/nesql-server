@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.function.Function;
 
 /** Contains helper logic for handling searching and pagination. */
@@ -35,6 +37,7 @@ public class SearchService {
                 ServletUriComponentsBuilder.fromCurrentRequest()
                         .replaceQueryParam("page")
                         .toUriString();
+        baseUri = URLDecoder.decode(baseUri, StandardCharsets.UTF_8);
 
         model.addAttribute("page", results);
         model.addAttribute("baseUri", baseUri);
