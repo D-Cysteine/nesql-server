@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragment::header('Index')}"></head>
+<body>
+<ul th:replace="~{fragment::navBar('index')}"></ul>
+<div class="container">
+  <div class="row">
+    <h1 class="display-1 text-center">
+      Welcome to NESQL!
+    </h1>
+  </div>
+  <div class="row justify-content-center">
+    Loaded [[${itemCount}]] items, [[${fluidCount}]] fluids, [[${recipeCount}]] recipes.
+  </div>
+</div>
+</body>
+</html>

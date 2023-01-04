@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragment::header('Item Group: ' + ${displayItemGroup.icon.description})}"></head>
+<body>
+<ul th:replace="~{fragment::navBar('itemgroup')}"></ul>
+
+<div class="container">
+  <div class="row justify-content-center mb-3">
+    <div th:replace="~{fragment::overlayIconRowCentered(${displayItemGroup.icon})}"></div>
+  </div>
+
+  <div class="row">
+    <nav>
+      <div class="nav nav-tabs justify-content-center" id="item-group-relations-tab" role="tablist">
+        <button class="nav-link active" id="item-group-relations-recipes-with-input-tab"
+                data-bs-toggle="tab" data-bs-target="#recipes-with-input"
+                type="button" role="tab"
+                aria-controls="recipes-with-input" aria-selected="true">
+          Recipes with input
+        </button>
+        <button class="nav-link" id="item-group-relations-item-stacks-tab"
+                data-bs-toggle="tab" data-bs-target="#item-stacks"
+                type="button" role="tab"
+                aria-controls="item-stacks" aria-selected="true">
+          Item stacks
+        </button>
+        <button class="nav-link" id="item-group-relations-wildcard-item-ids-tab"
+                data-bs-toggle="tab" data-bs-target="#wildcard-item-ids"
+                type="button" role="tab"
+                aria-controls="wildcard-item-ids" aria-selected="true">
+          Wildcard item IDs
+        </button>
+        <button class="nav-link" id="item-group-relations-wildcard-item-stacks-tab"
+                data-bs-toggle="tab" data-bs-target="#wildcard-item-stacks"
+                type="button" role="tab"
+                aria-controls="wildcard-item-stacks" aria-selected="true">
+          Wildcard item stacks
+        </button>
+      </div>
+    </nav>
+    <div class="tab-content" id="item-group-relations-tabContent">
+      <div class="tab-pane fade show active" id="recipes-with-input" role="tabpanel" tabindex="0"
+           aria-labelledby="item-group-relations-recipes-with-input-tab">
+        <table th:replace="~{fragment::overlayIconTable(${displayItemGroup.recipesWithInput})}">
+        </table>
+      </div>
+      <div class="tab-pane fade" id="item-stacks" role="tabpanel" tabindex="0"
+           aria-labelledby="item-group-relations-item-stacks-tab">
+        <table th:replace="~{fragment::overlayIconTable(${displayItemGroup.itemStacks})}">
+        </table>
+      </div>
+      <div class="tab-pane fade" id="wildcard-item-ids" role="tabpanel" tabindex="0"
+           aria-labelledby="item-group-relations-wildcard-item-ids-tab">
+        <table th:replace="~{fragment::overlayIconTable(${displayItemGroup.wildcardItemStacks})}">
+        </table>
+      </div>
+      <div class="tab-pane fade" id="wildcard-item-stacks" role="tabpanel" tabindex="0"
+           aria-labelledby="item-group-relations-wildcard-item-stacks-tab">
+        <table th:replace="~{fragment::overlayIconTable(${displayItemGroup.resolvedWildcardItemStacks.values})}">
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script th:replace="~{fragment::initializeTooltips}"></script>
+</body>
+</html>

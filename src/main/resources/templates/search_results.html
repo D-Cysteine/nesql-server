@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragment::header('Search Results')}"></head>
+<body>
+<ul th:replace="~{fragment::navBar('index')}"></ul>
+<div th:replace="~{fragment::paginatedTable(${page}, ${baseUri})}"></div>
+<script th:replace="~{fragment::initializeTooltips}"></script>
+</body>
+</html>

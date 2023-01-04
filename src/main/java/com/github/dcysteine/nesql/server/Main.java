@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EntityScan(basePackageClasses = Sql.class)
 @EnableJpaRepositories(basePackageClasses = Sql.class)
 public class Main {
-    public static final Logger LOGGER = LoggerFactory.getLogger("NESQL Server");
+    public static final Logger Logger = LoggerFactory.getLogger("NESQL Server");
 
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);

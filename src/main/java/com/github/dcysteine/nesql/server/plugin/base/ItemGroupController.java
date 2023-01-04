@@ -1,10 +1,10 @@
 package com.github.dcysteine.nesql.server.plugin.base;
 
-import com.github.dcysteine.nesql.server.plugin.base.display.recipe.DisplayRecipe;
+import com.github.dcysteine.nesql.server.plugin.base.display.item.DisplayItemGroup;
 import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayService;
 import com.github.dcysteine.nesql.server.service.SearchService;
-import com.github.dcysteine.nesql.sql.base.recipe.Recipe;
-import com.github.dcysteine.nesql.sql.base.recipe.RecipeRepository;
+import com.github.dcysteine.nesql.sql.base.item.ItemGroup;
+import com.github.dcysteine.nesql.sql.base.item.ItemGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Optional;
 
 @Controller
-@RequestMapping(path = "/recipe")
-public class RecipeController {
+@RequestMapping(path = "/itemgroup")
+public class ItemGroupController {
     @Autowired
-    private RecipeRepository recipeRepository;
+    private ItemGroupRepository itemGroupRepository;
 
     @Autowired
     private BaseDisplayService baseDisplayService;
@@ -27,18 +27,18 @@ public class RecipeController {
     @Autowired
     private SearchService searchService;
 
-    @GetMapping(path = "/{recipe_id}")
-    public String view(@PathVariable(name = "recipe_id") String id, Model model) {
-        Optional<Recipe> recipeOptional = recipeRepository.findById(id);
-        if (recipeOptional.isEmpty()) {
+    @GetMapping(path = "/{item_group_id}")
+    public String view(@PathVariable(name = "item_group_id") String id, Model model) {
+        Optional<ItemGroup> itemGroupOptional = itemGroupRepository.findById(id);
+        if (itemGroupOptional.isEmpty()) {
             return "not_found";
         }
-        Recipe recipe = recipeOptional.get();
-        DisplayRecipe displayRecipe = baseDisplayService.buildDisplayRecipe(recipe);
+        ItemGroup itemGroup = itemGroupOptional.get();
+        DisplayItemGroup displayItemGroup = baseDisplayService.buildDisplayItemGroup(itemGroup);
 
-        model.addAttribute("recipe", recipe);
-        model.addAttribute("displayRecipe", displayRecipe);
-        return "plugin/base/recipe/recipe";
+        model.addAttribute("itemGroup", itemGroup);
+        model.addAttribute("displayItemGroup", displayItemGroup);
+        return "plugin/base/itemgroup/item_group";
     }
 
     @GetMapping(path = "/search")
@@ -50,6 +50,6 @@ public class RecipeController {
     @GetMapping(path = "/all")
     public String all(@RequestParam(defaultValue = "1") int page, Model model) {
         return searchService.handleGetAll(
-                page, model, recipeRepository, baseDisplayService::buildDisplayRecipeIcon);
+                page, model, itemGroupRepository, baseDisplayService::buildDisplayItemGroupIcon);
     }
 }

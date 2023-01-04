@@ -1,10 +1,11 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <title>Shutting Down</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-</head>
+<head th:replace="~{fragment::header('Shutting Down')}"></head>
 <body>
-  <p th:text="'Server is shutting down now!'" />
+<!-- The styling here doesn't actually work,
+     because the server shuts down before it can serve the CSS. Oh well. -->
+<div class="alert alert-danger" role="alert">
+  Server is shutting down now!
+</div>
 </body>
 </html>

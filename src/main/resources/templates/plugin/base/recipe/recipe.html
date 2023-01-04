@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragment::header('Recipe: ' + ${displayRecipe.icon.description})}"></head>
+<body>
+<ul th:replace="~{fragment::navBar('recipe')}"></ul>
+
+<div class="container">
+  <div class="row justify-content-center mb-3">
+    <div th:replace="~{fragment::overlayIconRowCentered(${displayRecipe.icon})}"></div>
+  </div>
+  <div class="row mb-5">
+    <h1 class="display-6 text-center">
+      <span th:if="${displayRecipe.recipe.recipeType.shapeless}" class="badge bg-info">
+        Shapeless
+      </span>
+      <span th:if="${!displayRecipe.recipe.recipeType.shapeless}" class="badge bg-info">
+        Shaped
+      </span>
+    </h1>
+  </div>
+
+  <div class="row">
+    <nav>
+      <div class="nav nav-tabs justify-content-center" id="recipe-relations-tab" role="tablist">
+        <button class="nav-link active" id="recipe-relations-item-inputs-tab"
+                data-bs-toggle="tab" data-bs-target="#item-inputs"
+                type="button" role="tab"
+                aria-controls="item-inputs" aria-selected="true">
+          Item inputs
+        </button>
+        <button class="nav-link" id="recipe-relations-fluid-inputs-tab"
+                data-bs-toggle="tab" data-bs-target="#fluid-inputs"
+                type="button" role="tab"
+                aria-controls="fluid-inputs" aria-selected="true">
+          Fluid inputs
+        </button>
+        <button class="nav-link" id="recipe-relations-item-outputs-tab"
+                data-bs-toggle="tab" data-bs-target="#item-outputs"
+                type="button" role="tab"
+                aria-controls="item-outputs" aria-selected="true">
+          Item outputs
+        </button>
+        <button class="nav-link" id="recipe-relations-fluid-outputs-tab"
+                data-bs-toggle="tab" data-bs-target="#fluid-outputs"
+                type="button" role="tab"
+                aria-controls="fluid-outputs" aria-selected="true">
+          Fluid outputs
+        </button>
+      </div>
+    </nav>
+    <div class="tab-content" id="recipe-relations-tabContent">
+      <div class="tab-pane fade show active" id="item-inputs" role="tabpanel" tabindex="0"
+           aria-labelledby="recipe-relations-item-inputs-tab">
+        <div th:replace="~{fragment::recipeGridTable(${displayRecipe.itemInputs},${displayRecipe.displayRecipeType.itemInputGrid})}">
+        </div>
+      </div>
+      <div class="tab-pane fade" id="fluid-inputs" role="tabpanel" tabindex="0"
+           aria-labelledby="recipe-relations-fluid-inputs-tab">
+        <div th:replace="~{fragment::recipeGridTable(${displayRecipe.fluidInputs},${displayRecipe.displayRecipeType.fluidInputGrid})}">
+        </div>
+      </div>
+      <div class="tab-pane fade" id="item-outputs" role="tabpanel" tabindex="0"
+           aria-labelledby="recipe-relations-item-outputs-tab">
+        <div th:replace="~{fragment::recipeGridTable(${displayRecipe.itemOutputs},${displayRecipe.displayRecipeType.itemOutputGrid})}">
+        </div>
+      </div>
+      <div class="tab-pane fade" id="fluid-outputs" role="tabpanel" tabindex="0"
+           aria-labelledby="recipe-relations-fluid-outputs-tab">
+        <div th:replace="~{fragment::recipeGridTable(${displayRecipe.fluidOutputs},${displayRecipe.displayRecipeType.fluidOutputGrid})}">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script th:replace="~{fragment::initializeTooltips}"></script>
+</body>
+</html>

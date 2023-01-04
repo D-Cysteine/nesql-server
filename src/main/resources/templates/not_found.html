@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragment::header('Not Found')}"></head>
+<body>
+<ul th:replace="~{fragment::navBar('index')}"></ul>
+<div class="alert alert-warning" role="alert">
+  The entity was not found!
+</div>
+</body>
+</html>
