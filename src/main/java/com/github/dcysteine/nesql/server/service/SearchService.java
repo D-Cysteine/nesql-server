@@ -27,17 +27,17 @@ public class SearchService {
     public <T extends JpaSpecificationExecutor<R>, R, D> String handleSearch(
             int page, Model model,
             T repository, Specification<R> spec, Function<R, D> buildDisplay) {
-            // Pageable uses 0-index page, but we want 1-indexed.
-            Pageable pageable = Pageable.ofSize(externalConfig.getPageSize()).withPage(page - 1);
-            Page<D> results = repository.findAll(spec, pageable).map(buildDisplay);
+        // Pageable uses 0-index page, but we want 1-indexed.
+        Pageable pageable = Pageable.ofSize(externalConfig.getPageSize()).withPage(page - 1);
+        Page<D> results = repository.findAll(spec, pageable).map(buildDisplay);
 
-            String baseUri =
-                    ServletUriComponentsBuilder.fromCurrentRequest()
-                            .replaceQueryParam("page")
-                            .toUriString();
+        String baseUri =
+                ServletUriComponentsBuilder.fromCurrentRequest()
+                        .replaceQueryParam("page")
+                        .toUriString();
 
-            model.addAttribute("page", results);
-            model.addAttribute("baseUri", baseUri);
-            return "search_results";
+        model.addAttribute("page", results);
+        model.addAttribute("baseUri", baseUri);
+        return "search_results";
     }
 }

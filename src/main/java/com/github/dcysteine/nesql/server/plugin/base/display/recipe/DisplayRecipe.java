@@ -14,8 +14,10 @@ import com.github.dcysteine.nesql.sql.base.recipe.Recipe;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableTable;
+import com.google.common.collect.Maps;
 
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Packages up a {@link Recipe} for displaying on a page.
@@ -28,34 +30,30 @@ public abstract class DisplayRecipe implements Comparable<DisplayRecipe> {
     public static DisplayRecipe create(Recipe recipe, ItemRepository itemRepository) {
         DisplayRecipeType displayRecipeType = DisplayRecipeType.create(recipe.getRecipeType());
 
-        ImmutableList<Icon> displayItemInputs =
-                recipe.getItemInputs().stream()
-                        .map(itemGroup -> DisplayItemGroup.buildIcon(itemGroup, itemRepository))
-                        .collect(ImmutableList.toImmutableList());
+        Map<Integer, Icon> displayItemInputs =
+                Maps.transformValues(
+                        recipe.getItemInputs(),
+                        itemGroup -> DisplayItemGroup.buildIcon(itemGroup, itemRepository));
         ImmutableTable<Integer, Integer, Icon> itemInputs =
                 buildIngredientsGrid(
                         displayRecipeType.getItemInputGrid(), displayItemInputs, recipe);
 
-        ImmutableList<Icon> displayFluidInputs =
-                recipe.getFluidInputs().stream()
-                        .map(DisplayFluidGroup::buildIcon)
-                        .collect(ImmutableList.toImmutableList());
+        Map<Integer, Icon> displayFluidInputs =
+                Maps.transformValues(recipe.getFluidInputs(), DisplayFluidGroup::buildIcon);
         ImmutableTable<Integer, Integer, Icon> fluidInputs =
                 buildIngredientsGrid(
                         displayRecipeType.getFluidInputGrid(), displayFluidInputs, recipe);
 
-        ImmutableList<Icon> displayItemOutputs =
-                recipe.getItemOutputs().stream()
-                        .map(DisplayItemStackWithProbability::buildIcon)
-                        .collect(ImmutableList.toImmutableList());
+        Map<Integer, Icon> displayItemOutputs =
+                Maps.transformValues(
+                        recipe.getItemOutputs(), DisplayItemStackWithProbability::buildIcon);
         ImmutableTable<Integer, Integer, Icon> itemOutputs =
                 buildIngredientsGrid(
                         displayRecipeType.getItemOutputGrid(), displayItemOutputs, recipe);
 
-        ImmutableList<Icon> displayFluidOutputs =
-                recipe.getFluidOutputs().stream()
-                        .map(DisplayFluidStackWithProbability::buildIcon)
-                        .collect(ImmutableList.toImmutableList());
+        Map<Integer, Icon> displayFluidOutputs =
+                Maps.transformValues(
+                        recipe.getFluidOutputs(), DisplayFluidStackWithProbability::buildIcon);
         ImmutableTable<Integer, Integer, Icon> fluidOutputs =
                 buildIngredientsGrid(
                         displayRecipeType.getFluidOutputGrid(), displayFluidOutputs, recipe);
@@ -113,33 +111,27 @@ public abstract class DisplayRecipe implements Comparable<DisplayRecipe> {
     public abstract ImmutableTable<Integer, Integer, Icon> getFluidOutputs();
 
     private static ImmutableTable<Integer, Integer, Icon> buildIngredientsGrid(
-            Dimension gridDimension, Iterable<Icon> ingredients, Recipe recipe) {
+            Dimension gridDimension, Map<Integer, Icon> ingredients, Recipe recipe) {
         ImmutableTable.Builder<Integer, Integer, Icon> builder = ImmutableTable.builder();
-        Iterator<Icon> iterator = ingredients.iterator();
-        for (int row = 0; row < gridDimension.getHeight(); row++) {
-            for (int col = 0; col < gridDimension.getHeight(); col++) {
-                if (!iterator.hasNext()) {
-                    break;
-                }
+        int excessEntries = 0;
+        int maxIndex = 0;
+        for (Map.Entry<Integer, Icon> entry : ingredients.entrySet()) {
+            int row = entry.getKey() / gridDimension.getWidth();
+            int col = entry.getKey() % gridDimension.getWidth();
+            builder.put(row, col, entry.getValue());
 
-                Icon icon = iterator.next();
-                if (icon != null) {
-                    builder.put(row, col, icon);
-                }
+            if (row >= gridDimension.getHeight()) {
+                excessEntries++;
+                maxIndex = Math.max(maxIndex, entry.getKey());
             }
         }
 
-        if (iterator.hasNext()) {
-            int excess = 0;
-            while (iterator.hasNext()) {
-                excess++;
-                iterator.next();
-            }
-
+        if (excessEntries > 0) {
             Main.Logger.error(
                     "Tried to build recipe ingredients grid with too many ingredients!\n"
-                    + "Expected {}x{}; got {} excess for recipe {}",
-                    gridDimension.getWidth(), gridDimension.getHeight(), excess, recipe.getId());
+                            + "Expected {}x{}; got {} excess, {} max index for recipe {}",
+                    gridDimension.getHeight(), gridDimension.getWidth(),
+                    excessEntries, maxIndex, recipe.getId());
         }
 
         return builder.build();
