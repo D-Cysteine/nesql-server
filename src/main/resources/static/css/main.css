@@ -1,3 +1,8 @@
+/* Fix for Bootstrap text-truncate in table cells. */
+table {
+    table-layout: fixed;
+}
+
 /* An icon is a rendered item or fluid. */
 img.icon {
     width: 64px;

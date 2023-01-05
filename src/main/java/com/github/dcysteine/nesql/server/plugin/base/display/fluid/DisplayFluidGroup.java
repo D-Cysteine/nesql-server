@@ -30,8 +30,14 @@ public abstract class DisplayFluidGroup implements Comparable<DisplayFluidGroup>
         Icon icon;
         if (!fluidGroup.getFluidStacks().isEmpty()) {
             int size = fluidGroup.getFluidStacks().size();
-            icon = DisplayFluidStack.buildIcon(fluidGroup.getFluidStacks().first()).toBuilder()
-                    .setDescription(String.format("Fluid Group (%d fluid stacks)", size))
+            String description = String.format("Fluid Group (%d fluid stacks)", size);
+            Icon innerIcon = DisplayFluidStack.buildIcon(fluidGroup.getFluidStacks().first());
+            if (size == 1) {
+                description = String.format("Fluid Group (%s)", innerIcon.getDescription());
+            }
+
+            icon = innerIcon.toBuilder()
+                    .setDescription(description)
                     .setUrl(url)
                     .build();
         } else {

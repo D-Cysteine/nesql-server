@@ -64,17 +64,29 @@ public abstract class DisplayItemGroup implements Comparable<DisplayItemGroup> {
         String url = UrlBuilder.buildItemGroupUrl(itemGroup);
         Icon icon;
         if (!itemStacks.isEmpty()) {
-            icon = DisplayItemStack.buildIcon(itemStacks.first()).toBuilder()
-                    .setDescription(String.format("Item Group (%d item stacks)", size))
+            String description = String.format("Item Group (%d item stacks)", size);
+            Icon innerIcon = DisplayItemStack.buildIcon(itemStacks.first());
+            if (size == 1) {
+                description = String.format("Item Group (%s)", innerIcon.getDescription());
+            }
+
+            icon = innerIcon.toBuilder()
+                    .setDescription(description)
                     .setUrl(url)
                     .build();
         } else if (!wildcardItemStacks.isEmpty()) {
-            icon = DisplayWildcardItemStack.buildIcon(wildcardItemStacks.first(), itemRepository)
-                    .toBuilder()
-                    .setDescription(
-                            String.format(
-                                    "Wildcard Item Group (%d keys, %d item stacks)",
-                                    wildcardItemStacks.size(), size))
+            String description =
+                    String.format(
+                            "Wildcard Item Group (%d keys, %d item stacks)",
+                            wildcardItemStacks.size(), size);
+            Icon innerIcon =
+                    DisplayWildcardItemStack.buildIcon(wildcardItemStacks.first(), itemRepository);
+            if (wildcardItemStacks.size() == 1) {
+                description = String.format("Wildcard Item Group (%s)", innerIcon.getDescription());
+            }
+
+            icon = innerIcon.toBuilder()
+                    .setDescription(description)
                     .setUrl(url)
                     .build();
         } else {

@@ -72,26 +72,35 @@ public abstract class DisplayRecipe implements Comparable<DisplayRecipe> {
         String description = displayRecipeType.getDescription();
         String url = UrlBuilder.buildRecipeUrl(recipe);
         Icon icon;
-        if (numItemOutputs > 0 && numFluidOutputs > 0) {
-            description += String.format(" (%d items, %d fluids)", numItemOutputs, numFluidOutputs);
+        if (numItemOutputs > 0) {
+            Icon innerIcon =
+                    DisplayItemStackWithProbability.buildIcon(recipe.getItemOutputs().get(0));
+            if (numItemOutputs == 1) {
+                description += String.format(" (%s)", innerIcon.getDescription());
+            } else if (numFluidOutputs > 0) {
+                description +=
+                        String.format(" (%d items, %d fluids)", numItemOutputs, numFluidOutputs);
+            } else {
+                description += String.format(" (%d items)", numItemOutputs);
+            }
 
-            icon = DisplayItemStackWithProbability.buildIcon(recipe.getItemOutputs().get(0))
-                    .toBuilder()
+            icon = innerIcon.toBuilder()
                     .setDescription(description)
                     .setUrl(url)
                     .build();
-        } else if (numItemOutputs > 0) {
-            description += String.format(" (%d items)", numItemOutputs);
-
-            Icon itemIcon =
-                    DisplayItemStackWithProbability.buildIcon(recipe.getItemOutputs().get(0));
-            icon = itemIcon.toBuilder().setDescription(description).setUrl(url).build();
         } else if (numFluidOutputs > 0) {
-            description += String.format(" (%d fluids)", numFluidOutputs);
-
-            Icon fluidIcon =
+            Icon innerIcon =
                     DisplayFluidStackWithProbability.buildIcon(recipe.getFluidOutputs().get(0));
-            icon = fluidIcon.toBuilder().setDescription(description).setUrl(url).build();
+            if (numFluidOutputs == 1) {
+                description += String.format(" (%s)", innerIcon.getDescription());
+            } else {
+                description += String.format(" (%d fluids)", numFluidOutputs);
+            }
+
+            icon = innerIcon.toBuilder()
+                    .setDescription(description)
+                    .setUrl(url)
+                    .build();
         } else {
             icon = Icon.builder()
                     .setDescription(description + " (empty)")
