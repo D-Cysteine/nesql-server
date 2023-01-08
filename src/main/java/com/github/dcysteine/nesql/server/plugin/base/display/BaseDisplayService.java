@@ -11,7 +11,6 @@ import com.github.dcysteine.nesql.server.plugin.base.display.item.DisplayItemSta
 import com.github.dcysteine.nesql.server.plugin.base.display.item.DisplayItemStackWithProbability;
 import com.github.dcysteine.nesql.server.plugin.base.display.item.DisplayWildcardItemStack;
 import com.github.dcysteine.nesql.server.plugin.base.display.recipe.DisplayRecipe;
-import com.github.dcysteine.nesql.server.plugin.base.display.recipe.DisplayRecipeType;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidGroup;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidGroupRepository;
 import com.github.dcysteine.nesql.sql.base.fluid.Fluid;
@@ -26,7 +25,6 @@ import com.github.dcysteine.nesql.sql.base.item.ItemStack;
 import com.github.dcysteine.nesql.sql.base.item.ItemStackWithProbability;
 import com.github.dcysteine.nesql.sql.base.item.WildcardItemStack;
 import com.github.dcysteine.nesql.sql.base.recipe.Recipe;
-import com.github.dcysteine.nesql.sql.base.recipe.RecipeType;
 import com.github.dcysteine.nesql.sql.base.recipe.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -134,9 +132,5 @@ public class BaseDisplayService {
 
     public Icon buildDisplayRecipeIcon(Recipe recipe) {
         return DisplayRecipe.buildIcon(recipe);
-    }
-
-    public DisplayRecipeType buildDisplayRecipeType(RecipeType recipe) {
-        return DisplayRecipeType.create(recipe);
     }
 }

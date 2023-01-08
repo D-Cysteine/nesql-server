@@ -51,22 +51,22 @@
     <div class="tab-content" id="recipe-relations-tabContent">
       <div class="tab-pane fade show active" id="item-inputs" role="tabpanel" tabindex="0"
            aria-labelledby="recipe-relations-item-inputs-tab">
-        <div th:replace="~{fragment::recipeGridTable(${displayRecipe.itemInputs},${displayRecipe.displayRecipeType.itemInputGrid})}">
+        <div th:replace="~{fragment::recipeGridTable(${displayRecipe.itemInputs},${recipe.recipeType.itemInputDimension})}">
         </div>
       </div>
       <div class="tab-pane fade" id="fluid-inputs" role="tabpanel" tabindex="0"
            aria-labelledby="recipe-relations-fluid-inputs-tab">
-        <div th:replace="~{fragment::recipeGridTable(${displayRecipe.fluidInputs},${displayRecipe.displayRecipeType.fluidInputGrid})}">
+        <div th:replace="~{fragment::recipeGridTable(${displayRecipe.fluidInputs},${recipe.recipeType.fluidInputDimension})}">
         </div>
       </div>
       <div class="tab-pane fade" id="item-outputs" role="tabpanel" tabindex="0"
            aria-labelledby="recipe-relations-item-outputs-tab">
-        <div th:replace="~{fragment::recipeGridTable(${displayRecipe.itemOutputs},${displayRecipe.displayRecipeType.itemOutputGrid})}">
+        <div th:replace="~{fragment::recipeGridTable(${displayRecipe.itemOutputs},${recipe.recipeType.itemOutputDimension})}">
         </div>
       </div>
       <div class="tab-pane fade" id="fluid-outputs" role="tabpanel" tabindex="0"
            aria-labelledby="recipe-relations-fluid-outputs-tab">
-        <div th:replace="~{fragment::recipeGridTable(${displayRecipe.fluidOutputs},${displayRecipe.displayRecipeType.fluidOutputGrid})}">
+        <div th:replace="~{fragment::recipeGridTable(${displayRecipe.fluidOutputs},${recipe.recipeType.fluidOutputDimension})}">
         </div>
       </div>
     </div>

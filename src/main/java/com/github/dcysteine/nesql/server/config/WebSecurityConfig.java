@@ -20,7 +20,6 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // TODO restrict requests to same-IP only? At least by default
         http.headers().contentSecurityPolicy(CONTENT_SECURITY_POLICY);
 
         if (!externalConfig.areExternalUsersAllowed()) {
