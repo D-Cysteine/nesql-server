@@ -2,6 +2,7 @@ package com.github.dcysteine.nesql.server.plugin.base.display.item;
 
 import com.github.dcysteine.nesql.server.display.Icon;
 import com.github.dcysteine.nesql.server.plugin.base.display.recipe.DisplayRecipe;
+import com.github.dcysteine.nesql.server.util.StringUtil;
 import com.github.dcysteine.nesql.server.util.UrlBuilder;
 import com.github.dcysteine.nesql.sql.base.item.Item;
 import com.github.dcysteine.nesql.sql.base.item.ItemGroupRepository;
@@ -54,7 +55,7 @@ public abstract class DisplayItem implements Comparable<DisplayItem> {
         return Icon.builder()
                 .setDescription(item.getLocalizedName())
                 .setUrl(UrlBuilder.buildItemUrl(item))
-                .setImageFilePath(item.getImageFilePath())
+                .setImageFilePath(StringUtil.formatFilePath(item.getImageFilePath()))
                 .build();
     }
 

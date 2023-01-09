@@ -7,6 +7,7 @@ import com.github.dcysteine.nesql.server.plugin.base.display.item.DisplayItemGro
 import com.github.dcysteine.nesql.server.plugin.base.display.item.DisplayItemStackWithProbability;
 import com.github.dcysteine.nesql.server.util.Constants;
 import com.github.dcysteine.nesql.server.Main;
+import com.github.dcysteine.nesql.server.util.NumberUtil;
 import com.github.dcysteine.nesql.server.util.UrlBuilder;
 import com.github.dcysteine.nesql.sql.base.item.ItemRepository;
 import com.github.dcysteine.nesql.sql.base.recipe.Dimension;
@@ -77,9 +78,13 @@ public abstract class DisplayRecipe implements Comparable<DisplayRecipe> {
                 description += String.format(" (%s)", innerIcon.getDescription());
             } else if (numFluidOutputs > 0) {
                 description +=
-                        String.format(" (%d items, %d fluids)", numItemOutputs, numFluidOutputs);
+                        String.format(
+                                " (%s items, %s fluids)",
+                                NumberUtil.formatInteger(numItemOutputs),
+                                NumberUtil.formatInteger(numFluidOutputs));
             } else {
-                description += String.format(" (%d items)", numItemOutputs);
+                description +=
+                        String.format(" (%s items)", NumberUtil.formatInteger(numItemOutputs));
             }
 
             icon = innerIcon.toBuilder()
@@ -92,7 +97,8 @@ public abstract class DisplayRecipe implements Comparable<DisplayRecipe> {
             if (numFluidOutputs == 1) {
                 description += String.format(" (%s)", innerIcon.getDescription());
             } else {
-                description += String.format(" (%d fluids)", numFluidOutputs);
+                description +=
+                        String.format(" (%s fluids)", NumberUtil.formatInteger(numFluidOutputs));
             }
 
             icon = innerIcon.toBuilder()

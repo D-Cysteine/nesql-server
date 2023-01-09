@@ -3,6 +3,7 @@ package com.github.dcysteine.nesql.server.plugin.base.display.fluid;
 import com.github.dcysteine.nesql.server.display.Icon;
 import com.github.dcysteine.nesql.server.plugin.base.display.recipe.DisplayRecipe;
 import com.github.dcysteine.nesql.server.util.Constants;
+import com.github.dcysteine.nesql.server.util.NumberUtil;
 import com.github.dcysteine.nesql.server.util.UrlBuilder;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidGroup;
 import com.google.auto.value.AutoValue;
@@ -30,7 +31,8 @@ public abstract class DisplayFluidGroup implements Comparable<DisplayFluidGroup>
         Icon icon;
         if (!fluidGroup.getFluidStacks().isEmpty()) {
             int size = fluidGroup.getFluidStacks().size();
-            String description = String.format("Fluid Group (%d fluid stacks)", size);
+            String description =
+                    String.format("Fluid Group (%s fluid stacks)", NumberUtil.formatInteger(size));
             Icon innerIcon = DisplayFluidStack.buildIcon(fluidGroup.getFluidStacks().first());
             if (size == 1) {
                 description = String.format("Fluid Group (%s)", innerIcon.getDescription());

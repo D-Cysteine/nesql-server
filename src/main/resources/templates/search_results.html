@@ -4,6 +4,7 @@
 <body>
 <ul th:replace="~{fragment::navBar('index')}"></ul>
 <div th:replace="~{fragment::paginatedTable(${page}, ${baseUri})}"></div>
-<script th:replace="~{fragment::initializeTooltips}"></script>
+
+<th:block th:replace="~{fragment::footer}"></th:block>
 </body>
 </html>

@@ -2,6 +2,7 @@ package com.github.dcysteine.nesql.server.plugin.base.display.item;
 
 import com.github.dcysteine.nesql.server.Main;
 import com.github.dcysteine.nesql.server.display.Icon;
+import com.github.dcysteine.nesql.server.util.Constants;
 import com.github.dcysteine.nesql.server.util.UrlBuilder;
 import com.github.dcysteine.nesql.sql.base.item.Item;
 import com.github.dcysteine.nesql.sql.base.item.ItemRepository;
@@ -29,9 +30,10 @@ public abstract class DisplayWildcardItemStack implements Comparable<DisplayWild
             icon = Icon.builder()
                     .setDescription(
                             String.format(
-                                    "Wildcard Item Stack (%d)", wildcardItemStack.getItemId()))
+                                    "Wildcard Item Stack (#%d)", wildcardItemStack.getItemId()))
                     .setUrl(UrlBuilder.getMissingUrl())
-                    .setTopLeft(Integer.toString(wildcardItemStack.getItemId()))
+                    .setImageFilePath(Constants.MISSING_IMAGE)
+                    .setTopLeft(String.format("#%d", wildcardItemStack.getItemId()))
                     .setBottomRight(Integer.toString(wildcardItemStack.getStackSize()))
                     .build();
         } else {
@@ -39,7 +41,7 @@ public abstract class DisplayWildcardItemStack implements Comparable<DisplayWild
             icon = itemIcon.toBuilder()
                     .setDescription(
                             String.format("Wildcard Item Stack (%s)", itemIcon.getDescription()))
-                    .setTopLeft(Integer.toString(wildcardItemStack.getItemId()))
+                    .setTopLeft(String.format("#%d", wildcardItemStack.getItemId()))
                     .setBottomRight(Integer.toString(wildcardItemStack.getStackSize()))
                     .build();
         }

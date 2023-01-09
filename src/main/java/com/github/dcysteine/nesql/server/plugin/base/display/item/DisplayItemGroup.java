@@ -3,6 +3,7 @@ package com.github.dcysteine.nesql.server.plugin.base.display.item;
 import com.github.dcysteine.nesql.server.display.Icon;
 import com.github.dcysteine.nesql.server.plugin.base.display.recipe.DisplayRecipe;
 import com.github.dcysteine.nesql.server.util.Constants;
+import com.github.dcysteine.nesql.server.util.NumberUtil;
 import com.github.dcysteine.nesql.server.util.UrlBuilder;
 import com.github.dcysteine.nesql.sql.base.item.ItemGroup;
 import com.github.dcysteine.nesql.sql.base.item.ItemRepository;
@@ -64,7 +65,8 @@ public abstract class DisplayItemGroup implements Comparable<DisplayItemGroup> {
         String url = UrlBuilder.buildItemGroupUrl(itemGroup);
         Icon icon;
         if (!itemStacks.isEmpty()) {
-            String description = String.format("Item Group (%d item stacks)", size);
+            String description =
+                    String.format("Item Group (%s item stacks)", NumberUtil.formatInteger(size));
             Icon innerIcon = DisplayItemStack.buildIcon(itemStacks.first());
             if (size == 1) {
                 description = String.format("Item Group (%s)", innerIcon.getDescription());
@@ -77,8 +79,9 @@ public abstract class DisplayItemGroup implements Comparable<DisplayItemGroup> {
         } else if (!wildcardItemStacks.isEmpty()) {
             String description =
                     String.format(
-                            "Wildcard Item Group (%d keys, %d item stacks)",
-                            wildcardItemStacks.size(), size);
+                            "Wildcard Item Group (%s keys, %s item stacks)",
+                            NumberUtil.formatInteger(wildcardItemStacks.size()),
+                            NumberUtil.formatInteger(size));
             Icon innerIcon =
                     DisplayWildcardItemStack.buildIcon(wildcardItemStacks.first(), itemRepository);
             if (wildcardItemStacks.size() == 1) {

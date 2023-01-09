@@ -2,6 +2,7 @@ package com.github.dcysteine.nesql.server.plugin.base.display.fluid;
 
 import com.github.dcysteine.nesql.server.display.Icon;
 import com.github.dcysteine.nesql.server.plugin.base.display.recipe.DisplayRecipe;
+import com.github.dcysteine.nesql.server.util.StringUtil;
 import com.github.dcysteine.nesql.server.util.UrlBuilder;
 import com.github.dcysteine.nesql.sql.base.fluid.Fluid;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidGroupRepository;
@@ -41,7 +42,7 @@ public abstract class DisplayFluid implements Comparable<DisplayFluid> {
         return Icon.builder()
                 .setDescription(fluid.getLocalizedName())
                 .setUrl(UrlBuilder.buildFluidUrl(fluid))
-                .setImageFilePath(fluid.getImageFilePath())
+                .setImageFilePath(StringUtil.formatFilePath(fluid.getImageFilePath()))
                 .build();
     }
 

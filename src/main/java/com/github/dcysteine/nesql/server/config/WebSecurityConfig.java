@@ -12,11 +12,9 @@ public class WebSecurityConfig {
     @Autowired
     ExternalConfig externalConfig;
 
-    private static final String CONTENT_SECURITY_POLICY = Joiner.on("; ").join(
-            "default-src 'self'",
-            // This is the hash of our image onerror handler:
-            // this.src='/image/missing.png';this.onerror='';
-            "script-src 'self' 'sha256-KrWF/SaFRimyTg5FZWV3gqZlxM6hGYkkM1k3ePvN71w=' 'unsafe-hashes'");
+    private static final String CONTENT_SECURITY_POLICY =
+            Joiner.on("; ").join(
+                    new String[]{"default-src 'self'"});
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
