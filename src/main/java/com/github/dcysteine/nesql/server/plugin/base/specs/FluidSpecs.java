@@ -11,14 +11,24 @@ public class FluidSpecs {
     /** Matches by regex. */
     public static Specification<Fluid> buildLocalizedNameSpec(String localizedName) {
         return (root, query, builder) -> {
-            return builder.like(root.get(Fluid_.LOCALIZED_NAME), localizedName);
+            return builder.isTrue(
+                    builder.function(
+                            "regexp_like",
+                            Boolean.class,
+                            root.get(Fluid_.LOCALIZED_NAME),
+                            builder.literal(localizedName)));
         };
     }
 
     /** Matches by regex. */
     public static Specification<Fluid> buildInternalNameSpec(String internalName) {
         return (root, query, builder) -> {
-            return builder.like(root.get(Fluid_.INTERNAL_NAME), internalName);
+            return builder.isTrue(
+                    builder.function(
+                            "regexp_like",
+                            Boolean.class,
+                            root.get(Fluid_.INTERNAL_NAME),
+                            builder.literal(internalName)));
         };
     }
 

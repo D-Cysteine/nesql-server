@@ -11,14 +11,24 @@ public class ItemSpecs {
     /** Matches by regex. */
     public static Specification<Item> buildLocalizedNameSpec(String localizedName) {
         return (root, query, builder) -> {
-            return builder.like(root.get(Item_.LOCALIZED_NAME), localizedName);
+            return builder.isTrue(
+                    builder.function(
+                            "regexp_like",
+                            Boolean.class,
+                            root.get(Item_.LOCALIZED_NAME),
+                            builder.literal(localizedName)));
         };
     }
 
     /** Matches by regex. */
     public static Specification<Item> buildInternalNameSpec(String internalName) {
         return (root, query, builder) -> {
-            return builder.like(root.get(Item_.INTERNAL_NAME), internalName);
+            return builder.isTrue(
+                    builder.function(
+                            "regexp_like",
+                            Boolean.class,
+                            root.get(Item_.INTERNAL_NAME),
+                            builder.literal(internalName)));
         };
     }
 
