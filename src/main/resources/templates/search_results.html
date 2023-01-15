@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragment::header('Search Results')}"></head>
+<html th:replace="~{fragment/template::template(~{::title}, ~{::content})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Search Results</title>
+</head>
 <body>
-<ul th:replace="~{fragment::navBar('index')}"></ul>
-<div th:replace="~{fragment::paginatedTable(${page}, ${baseUri})}"></div>
 
-<th:block th:replace="~{fragment::footer}"></th:block>
+<th:block th:fragment="content">
+    <div th:replace="~{fragment/table::paginatedTable(${page}, ${baseUri})}"></div>
+</th:block>
+
 </body>
 </html>

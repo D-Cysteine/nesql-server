@@ -31,7 +31,7 @@ public class FluidController {
     @Autowired
     private SearchService searchService;
 
-    @GetMapping(path = "/{fluid_id}")
+    @GetMapping(path = "/view/{fluid_id}")
     public String view(@PathVariable(name = "fluid_id") String id, Model model) {
         Optional<Fluid> fluidOptional = fluidRepository.findById(id);
         if (fluidOptional.isEmpty()) {
@@ -42,7 +42,7 @@ public class FluidController {
 
         model.addAttribute("fluid", fluid);
         model.addAttribute("displayFluid", displayFluid);
-        return "plugin/base/fluid/fluid";
+        return "plugin/base/fluid/view";
     }
 
     @GetMapping(path = "/search")
@@ -53,7 +53,8 @@ public class FluidController {
     @GetMapping(path = "/all")
     public String all(@RequestParam(defaultValue = "1") int page, Model model) {
         return searchService.handleGetAll(
-                page, model, fluidRepository, baseDisplayService::buildDisplayFluid);
+                page, model, fluidRepository,
+                FluidSpecs.DEFAULT_SORT, baseDisplayService::buildDisplayFluid);
     }
 
     @GetMapping(path = "/searchresults")
@@ -82,6 +83,7 @@ public class FluidController {
         Specification<Fluid> spec =
                 Specification.allOf(localizedNameSpec, internalNameSpec, fluidIdSpec);
         return searchService.handleSearch(
-                page, model, fluidRepository, spec, baseDisplayService::buildDisplayFluidIcon);
+                page, model, fluidRepository,
+                spec, FluidSpecs.DEFAULT_SORT, baseDisplayService::buildDisplayFluidIcon);
     }
 }

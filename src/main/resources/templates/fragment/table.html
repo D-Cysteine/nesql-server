@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="paginatedTable(page, baseUri)" class="container">
+    <div th:replace="~{fragment/table::paginationControls(${page}, ${baseUri})}"></div>
+    <div class="row">
+        <table class="table table-striped border">
+            <tr th:each="row : ${page.content}">
+                <td>
+                    <a th:replace="~{fragment/icon::linkOverlayIconRow(${row})}"></a>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(page.content)}">
+                <td>
+                    No rows in table
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div th:replace="~{fragment/table::paginationControls(${page}, ${baseUri})}"></div>
+</div>
+
+<div th:fragment="paginationControls(page, baseUri)"
+     th:with="pageNumber=${page.number} + 1"
+     class="row d-flex justify-content-end align-items-baseline">
+    <div class="col justify-content-center">
+        Page [[${pageNumber}]] of [[${page.totalPages}]] | [[${page.totalElements}]] total results
+    </div>
+    <div class="col-auto">
+        <nav aria-label="Table pagination controls">
+            <ul class="pagination">
+                <li class="page-item"
+                    th:classappend="!${page.hasPrevious}? 'disabled'"
+                    th:tabindex="!${page.hasPrevious}? '-1'">
+                    <a class="page-link" aria-label="Previous"
+                       th:href="@{${baseUri}(page=${pageNumber} - 1)}">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item disabled" tab-index="-1">
+                    <a class="page-link" href="#">
+                        <span aria-hidden="true">[[${pageNumber}]]</span>
+                    </a>
+                </li>
+                <li class="page-item"
+                    th:classappend="!${page.hasNext}? 'disabled'"
+                    th:tabindex="!${page.hasNext}? '-1'">
+                    <a class="page-link" href="#" aria-label="Next"
+                       th:href="@{${baseUri}(page=${pageNumber} + 1)}">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+</body>
+</html>

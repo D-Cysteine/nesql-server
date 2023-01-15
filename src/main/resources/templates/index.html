@@ -1,17 +1,23 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragment::header('Index')}"></head>
+<html th:replace="~{fragment/template::template(~{::title}, ~{::content})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Index</title>
+</head>
 <body>
-<ul th:replace="~{fragment::navBar('index')}"></ul>
-<div class="container">
-  <div class="row">
-    <h1 class="display-1 text-center">
-      Welcome to NESQL!
-    </h1>
-  </div>
-  <div class="row justify-content-center">
-    Loaded [[${itemCount}]] items, [[${fluidCount}]] fluids, [[${recipeCount}]] recipes.
-  </div>
-</div>
+
+<th:block th:fragment="content">
+    <div class="container">
+        <div class="row">
+            <h1 class="display-1 text-center">
+                Welcome to NESQL!
+            </h1>
+        </div>
+        <div class="row justify-content-center">
+            Loaded [[${itemCount}]] items, [[${fluidCount}]] fluids, [[${recipeCount}]] recipes.
+        </div>
+    </div>
+</th:block>
+
 </body>
 </html>

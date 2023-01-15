@@ -27,7 +27,7 @@ public class FluidGroupController {
     @Autowired
     private SearchService searchService;
 
-    @GetMapping(path = "/{fluid_group_id}")
+    @GetMapping(path = "/view/{fluid_group_id}")
     public String view(@PathVariable(name = "fluid_group_id") String id, Model model) {
         Optional<FluidGroup> fluidGroupOptional = fluidGroupRepository.findById(id);
         if (fluidGroupOptional.isEmpty()) {
@@ -38,7 +38,7 @@ public class FluidGroupController {
 
         model.addAttribute("fluidGroup", fluidGroup);
         model.addAttribute("displayFluidGroup", displayFluidGroup);
-        return "plugin/base/fluidgroup/fluid_group";
+        return "plugin/base/fluidgroup/view";
     }
 
     @GetMapping(path = "/search")

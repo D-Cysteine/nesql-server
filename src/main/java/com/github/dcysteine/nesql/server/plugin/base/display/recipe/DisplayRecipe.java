@@ -90,6 +90,7 @@ public abstract class DisplayRecipe implements Comparable<DisplayRecipe> {
             icon = innerIcon.toBuilder()
                     .setDescription(description)
                     .setUrl(url)
+                    .setBottomLeftImage(recipe.getRecipeType().getIcon().getImageFilePath())
                     .build();
         } else if (numFluidOutputs > 0) {
             Icon innerIcon =
@@ -104,12 +105,14 @@ public abstract class DisplayRecipe implements Comparable<DisplayRecipe> {
             icon = innerIcon.toBuilder()
                     .setDescription(description)
                     .setUrl(url)
+                    .setBottomLeftImage(recipe.getRecipeType().getIcon().getImageFilePath())
                     .build();
         } else {
             icon = Icon.builder()
                     .setDescription(description + " (empty)")
                     .setUrl(url)
-                    .setImageFilePath(Constants.MISSING_IMAGE)
+                    .setImage(Constants.MISSING_IMAGE)
+                    .setBottomLeftImage(recipe.getRecipeType().getIcon().getImageFilePath())
                     .build();
         }
         return icon;

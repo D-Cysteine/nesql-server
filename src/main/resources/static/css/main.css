@@ -24,12 +24,29 @@ span.icon-overlay {
     text-shadow: 1px 1px 2px black;
 }
 
-span.icon-overlay.top-left {
+/* An even tinier image, shown as an overlay over an icon. */
+img.icon-overlay {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+}
+
+.icon-overlay.top-left {
     top: 0;
     left: 0;
 }
 
-span.icon-overlay.bottom-right {
+.icon-overlay.top-right {
+    top: 0;
+    right: 0;
+}
+
+.icon-overlay.bottom-left {
+    bottom: 0;
+    left: 0;
+}
+
+.icon-overlay.bottom-right {
     bottom: 0;
     right: 0;
 }

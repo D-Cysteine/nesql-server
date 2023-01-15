@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<a th:fragment="linkOverlayIcon(icon)" th:href="@{${icon.url}}" class="text-decoration-none">
+    <div th:replace="~{fragment/icon::overlayIcon(${icon})}"></div>
+</a>
+
+<div th:fragment="overlayIcon(icon)" class="icon-container">
+    <img th:attr="src=|/image/${icon.image}|" class="icon img-thumbnail"
+         data-bs-toggle="tooltip" th:data-bs-title="${icon.description}"/>
+
+    <span th:if="${icon.topLeft}" class="icon-overlay top-left">
+        [[${icon.topLeft}]]
+      </span>
+
+    <span th:if="${icon.bottomRight}" class="icon-overlay bottom-right">
+        [[${icon.bottomRight}]]
+      </span>
+
+    <img th:if="${icon.bottomLeftImage}" th:attr="src=|/image/${icon.bottomLeftImage}|"
+         class="icon-overlay bottom-left"/>
+</div>
+
+<a th:fragment="linkOverlayIconRow(icon)" th:href="@{${icon.url}}" class="text-decoration-none">
+    <div th:replace="~{fragment/icon::overlayIconRow(${icon})}"></div>
+</a>
+
+<div th:fragment="overlayIconRow(icon)"
+     class="row d-flex align-items-center">
+    <div class="col-auto">
+        <img th:replace="~{fragment/icon::overlayIcon(${icon})}"/>
+    </div>
+    <div class="col">
+        <h1 class="display-6">[[${icon.description}]]</h1>
+    </div>
+</div>
+
+<div th:fragment="overlayIconRowCentered(icon)"
+     class="row d-flex justify-content-center align-items-center">
+    <div class="col-auto">
+        <img th:replace="~{fragment/icon::overlayIcon(${icon})}"/>
+    </div>
+    <div class="col-auto">
+        <h1 class="display-6">[[${icon.description}]]</h1>
+    </div>
+</div>
+
+<table th:fragment="overlayIconTable(rows)" class="table table-striped border">
+    <tr th:each="row : ${rows}">
+        <td>
+            <a th:replace="~{fragment/icon::linkOverlayIconRow(${row})}"></a>
+        </td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(rows)}">
+        <td>
+            No rows in table
+        </td>
+    </tr>
+</table>
+</body>
+</html>

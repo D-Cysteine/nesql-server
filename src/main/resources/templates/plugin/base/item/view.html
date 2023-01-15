@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html th:replace="~{fragment/template::template(~{::title}, ~{::content})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Item: [[${displayItem.icon.description}]]</title>
+</head>
+<body>
+
+<th:block th:fragment="content">
+    <div class="container">
+        <div class="row justify-content-center mb-3">
+            <div th:replace="~{fragment/icon::overlayIconRowCentered(${displayItem.icon})}"></div>
+        </div>
+
+        <div class="row mb-5">
+            <div class="col">
+                <table class="table table-striped border">
+                    <tr>
+                        <th scope="row">ID</th>
+                        <td class="text-truncate">[[${item.id}]]</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Mod</th>
+                        <td>[[${item.modId}]]</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Internal Name</th>
+                        <td>[[${item.internalName}]]</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Unlocalized Name</th>
+                        <td>[[${item.unlocalizedName}]]</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Localized Name</th>
+                        <td>[[${item.localizedName}]]</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col">
+                <table class="table table-striped border">
+                    <tr>
+                        <th scope="row">Item ID</th>
+                        <td>[[${item.itemId}]]</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Item Damage</th>
+                        <td>[[${item.itemDamage}]]</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">NBT</th>
+                        <td class="text-truncate">[[${displayItem.nbt}]]</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Tooltip</th>
+                        <td class="text-truncate">[[${item.tooltip}]]</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <nav>
+                <div class="nav nav-tabs justify-content-center" id="item-relations-tab" role="tablist">
+                    <button class="nav-link active" id="item-relations-recipes-with-input-tab"
+                            data-bs-toggle="tab" data-bs-target="#recipes-with-input"
+                            type="button" role="tab"
+                            aria-controls="recipes-with-input" aria-selected="true">
+                        Recipes with input
+                    </button>
+                    <button class="nav-link" id="item-relations-recipes-with-wildcard-input-tab"
+                            data-bs-toggle="tab" data-bs-target="#recipes-with-wildcard-input"
+                            type="button" role="tab"
+                            aria-controls="recipes-with-wildcard-input" aria-selected="true">
+                        Recipes with wildcard input
+                    </button>
+                    <button class="nav-link" id="item-relations-recipes-with-output-tab"
+                            data-bs-toggle="tab" data-bs-target="#recipes-with-output"
+                            type="button" role="tab"
+                            aria-controls="recipes-with-output" aria-selected="true">
+                        Recipes with output
+                    </button>
+                    <button class="nav-link" id="item-relations-item-groups-containing-tab"
+                            data-bs-toggle="tab" data-bs-target="#item-groups-containing"
+                            type="button" role="tab"
+                            aria-controls="item-groups-containing" aria-selected="true">
+                        Item groups containing
+                    </button>
+                    <button class="nav-link" id="item-relations-item-groups-containing-wildcard-tab"
+                            data-bs-toggle="tab" data-bs-target="#item-groups-containing-wildcard"
+                            type="button" role="tab"
+                            aria-controls="item-groups-containing-wildcard" aria-selected="true">
+                        Item groups containing wildcard
+                    </button>
+                </div>
+            </nav>
+            <div class="tab-content" id="item-relations-tabContent">
+                <div class="tab-pane fade show active" id="recipes-with-input" role="tabpanel" tabindex="0"
+                     aria-labelledby="item-relations-recipes-with-input-tab">
+                    <table th:replace="~{fragment/icon::overlayIconTable(${displayItem.recipesWithInput})}">
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="recipes-with-wildcard-input" role="tabpanel" tabindex="0"
+                     aria-labelledby="item-relations-recipes-with-wildcard-input-tab">
+                    <table th:replace="~{fragment/icon::overlayIconTable(${displayItem.recipesWithWildcardInput})}">
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="recipes-with-output" role="tabpanel" tabindex="0"
+                     aria-labelledby="item-relations-recipes-with-output-tab">
+                    <table th:replace="~{fragment/icon::overlayIconTable(${displayItem.recipesWithOutput})}">
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="item-groups-containing" role="tabpanel" tabindex="0"
+                     aria-labelledby="item-relations-item-groups-containing-tab">
+                    <table th:replace="~{fragment/icon::overlayIconTable(${displayItem.itemGroupsContaining})}">
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="item-groups-containing-wildcard" role="tabpanel" tabindex="0"
+                     aria-labelledby="item-relations-item-groups-containing-wildcard-tab">
+                    <table th:replace="~{fragment/icon::overlayIconTable(${displayItem.itemGroupsContainingWildcard})}">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+</body>
+</html>

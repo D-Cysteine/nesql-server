@@ -17,22 +17,22 @@ public class UrlBuilder {
     }
 
     public static String buildItemUrl(Item item) {
-        return "~/item/" + item.getId();
+        return "~/item/view/" + item.getId();
     }
 
     public static String buildItemGroupUrl(ItemGroup itemGroup) {
-        return "~/itemgroup/" + itemGroup.getId();
+        return "~/itemgroup/view/" + itemGroup.getId();
     }
 
     public static String buildFluidUrl(Fluid fluid) {
-        return "~/fluid/" + fluid.getId();
+        return "~/fluid/view/" + fluid.getId();
     }
 
     public static String buildFluidGroupUrl(FluidGroup fluidGroup) {
-        return "~/fluidgroup/" + fluidGroup.getId();
+        return "~/fluidgroup/view/" + fluidGroup.getId();
     }
 
     public static String buildRecipeUrl(Recipe recipe) {
-        return "~/recipe/" + recipe.getId();
+        return "~/recipe/view/" + recipe.getId();
     }
 }

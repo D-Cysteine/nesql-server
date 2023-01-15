@@ -75,6 +75,7 @@ public abstract class DisplayItemGroup implements Comparable<DisplayItemGroup> {
             icon = innerIcon.toBuilder()
                     .setDescription(description)
                     .setUrl(url)
+                    .setTopLeft(NumberUtil.formatInteger(size))
                     .build();
         } else if (!wildcardItemStacks.isEmpty()) {
             String description =
@@ -91,12 +92,14 @@ public abstract class DisplayItemGroup implements Comparable<DisplayItemGroup> {
             icon = innerIcon.toBuilder()
                     .setDescription(description)
                     .setUrl(url)
+                    .setTopLeft(NumberUtil.formatInteger(size))
                     .build();
         } else {
             icon = Icon.builder()
                     .setDescription("Item Group (empty)")
                     .setUrl(url)
-                    .setImageFilePath(Constants.MISSING_IMAGE)
+                    .setImage(Constants.MISSING_IMAGE)
+                    .setTopLeft("0")
                     .build();
         }
         return icon;

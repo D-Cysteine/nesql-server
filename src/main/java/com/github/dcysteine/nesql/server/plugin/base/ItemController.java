@@ -32,7 +32,7 @@ public class ItemController {
     @Autowired
     private SearchService searchService;
 
-    @GetMapping(path = "/{item_id}")
+    @GetMapping(path = "/view/{item_id}")
     public String view(@PathVariable(name = "item_id") String id, Model model) {
         Optional<Item> itemOptional = itemRepository.findById(id);
         if (itemOptional.isEmpty()) {
@@ -43,7 +43,7 @@ public class ItemController {
 
         model.addAttribute("item", item);
         model.addAttribute("displayItem", displayItem);
-        return "plugin/base/item/item";
+        return "plugin/base/item/view";
     }
 
     @GetMapping(path = "/search")
@@ -54,7 +54,8 @@ public class ItemController {
     @GetMapping(path = "/all")
     public String all(@RequestParam(defaultValue = "1") int page, Model model) {
         return searchService.handleGetAll(
-                page, model, itemRepository, baseDisplayService::buildDisplayItem);
+                page, model, itemRepository,
+                ItemSpecs.DEFAULT_SORT, baseDisplayService::buildDisplayItem);
     }
 
     @GetMapping(path = "/searchresults")
@@ -89,6 +90,7 @@ public class ItemController {
                 Specification.allOf(
                         localizedNameSpec, internalNameSpec, itemIdSpec, itemDamageSpec);
         return searchService.handleSearch(
-                page, model, itemRepository, spec, baseDisplayService::buildDisplayItemIcon);
+                page, model, itemRepository,
+                spec, ItemSpecs.DEFAULT_SORT, baseDisplayService::buildDisplayItemIcon);
     }
 }

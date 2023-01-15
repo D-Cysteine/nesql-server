@@ -32,7 +32,7 @@ public abstract class DisplayWildcardItemStack implements Comparable<DisplayWild
                             String.format(
                                     "Wildcard Item Stack (#%d)", wildcardItemStack.getItemId()))
                     .setUrl(UrlBuilder.getMissingUrl())
-                    .setImageFilePath(Constants.MISSING_IMAGE)
+                    .setImage(Constants.MISSING_IMAGE)
                     .setTopLeft(String.format("#%d", wildcardItemStack.getItemId()))
                     .setBottomRight(Integer.toString(wildcardItemStack.getStackSize()))
                     .build();

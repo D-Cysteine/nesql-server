@@ -45,8 +45,14 @@ public abstract class DisplayItem implements Comparable<DisplayItem> {
                         .map(itemGroup -> DisplayItemGroup.buildIcon(itemGroup, itemRepository))
                         .collect(ImmutableList.toImmutableList());
 
+        ImmutableList<String> nbt = ImmutableList.of();
+        if (item.hasNbt()) {
+            nbt = ImmutableList.copyOf(StringUtil.prettyPrintNbt(item.getNbt()).split("\n"));
+        }
+
         return new AutoValue_DisplayItem(
                 item, buildIcon(item),
+                nbt, ImmutableList.copyOf(item.getTooltip().split("\n")),
                 recipesWithInput, recipesWithWildcardInput, recipesWithOutput,
                 itemGroupsContaining, itemGroupsContainingWildcard);
     }
@@ -55,12 +61,14 @@ public abstract class DisplayItem implements Comparable<DisplayItem> {
         return Icon.builder()
                 .setDescription(item.getLocalizedName())
                 .setUrl(UrlBuilder.buildItemUrl(item))
-                .setImageFilePath(StringUtil.formatFilePath(item.getImageFilePath()))
+                .setImage(item.getImageFilePath())
                 .build();
     }
 
     public abstract Item getItem();
     public abstract Icon getIcon();
+    public abstract ImmutableList<String> getNbt();
+    public abstract ImmutableList<String> getTooltip();
     public abstract ImmutableList<Icon> getRecipesWithInput();
     public abstract ImmutableList<Icon> getRecipesWithWildcardInput();
     public abstract ImmutableList<Icon> getRecipesWithOutput();

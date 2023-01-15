@@ -42,7 +42,7 @@ public abstract class DisplayFluid implements Comparable<DisplayFluid> {
         return Icon.builder()
                 .setDescription(fluid.getLocalizedName())
                 .setUrl(UrlBuilder.buildFluidUrl(fluid))
-                .setImageFilePath(StringUtil.formatFilePath(fluid.getImageFilePath()))
+                .setImage(fluid.getImageFilePath())
                 .build();
     }
 

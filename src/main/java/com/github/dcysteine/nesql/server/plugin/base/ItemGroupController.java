@@ -27,7 +27,7 @@ public class ItemGroupController {
     @Autowired
     private SearchService searchService;
 
-    @GetMapping(path = "/{item_group_id}")
+    @GetMapping(path = "/view/{item_group_id}")
     public String view(@PathVariable(name = "item_group_id") String id, Model model) {
         Optional<ItemGroup> itemGroupOptional = itemGroupRepository.findById(id);
         if (itemGroupOptional.isEmpty()) {
@@ -38,7 +38,7 @@ public class ItemGroupController {
 
         model.addAttribute("itemGroup", itemGroup);
         model.addAttribute("displayItemGroup", displayItemGroup);
-        return "plugin/base/itemgroup/item_group";
+        return "plugin/base/itemgroup/view";
     }
 
     @GetMapping(path = "/search")

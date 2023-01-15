@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html th:replace="~{fragment/template::template(~{::title}, ~{::content})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Fluid: [[${displayFluid.icon.description}]]</title>
+</head>
+<body>
+
+<th:block th:fragment="content">
+    <div class="container">
+        <div class="row justify-content-center mb-3">
+            <div th:replace="~{fragment/icon::overlayIconRowCentered(${displayFluid.icon})}"></div>
+        </div>
+
+        <div class="row mb-5">
+            <div class="col">
+                <table class="table table-striped border">
+                    <tr>
+                        <th scope="row">ID</th>
+                        <td class="text-truncate">[[${fluid.id}]]</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Internal Name</th>
+                        <td>[[${fluid.internalName}]]</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Unlocalized Name</th>
+                        <td>[[${fluid.unlocalizedName}]]</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Localized Name</th>
+                        <td>[[${fluid.localizedName}]]</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col">
+                <table class="table table-striped border">
+                    <tr>
+                        <th scope="row">Fluid ID</th>
+                        <td>[[${fluid.fluidId}]]</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">NBT</th>
+                        <td class="text-truncate">[[${fluid.nbt}]]</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="row">
+            <nav>
+                <div class="nav nav-tabs justify-content-center" id="fluid-relations-tab" role="tablist">
+                    <button class="nav-link active" id="fluid-relations-recipes-with-input-tab"
+                            data-bs-toggle="tab" data-bs-target="#recipes-with-input"
+                            type="button" role="tab"
+                            aria-controls="recipes-with-input" aria-selected="true">
+                        Recipes with input
+                    </button>
+                    <button class="nav-link" id="fluid-relations-recipes-with-output-tab"
+                            data-bs-toggle="tab" data-bs-target="#recipes-with-output"
+                            type="button" role="tab"
+                            aria-controls="recipes-with-output" aria-selected="true">
+                        Recipes with output
+                    </button>
+                    <button class="nav-link" id="fluid-relations-fluid-groups-containing-tab"
+                            data-bs-toggle="tab" data-bs-target="#fluid-groups-containing"
+                            type="button" role="tab"
+                            aria-controls="fluid-groups-containing" aria-selected="true">
+                        Fluid groups containing
+                    </button>
+                </div>
+            </nav>
+            <div class="tab-content" id="fluid-relations-tabContent">
+                <div class="tab-pane fade show active" id="recipes-with-input" role="tabpanel" tabindex="0"
+                     aria-labelledby="fluid-relations-recipes-with-input-tab">
+                    <table th:replace="~{fragment/icon::overlayIconTable(${displayFluid.recipesWithInput})}">
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="recipes-with-output" role="tabpanel" tabindex="0"
+                     aria-labelledby="fluid-relations-recipes-with-output-tab">
+                    <table th:replace="~{fragment/icon::overlayIconTable(${displayFluid.recipesWithOutput})}">
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="fluid-groups-containing" role="tabpanel" tabindex="0"
+                     aria-labelledby="fluid-relations-fluid-groups-containing-tab">
+                    <table th:replace="~{fragment/icon::overlayIconTable(${displayFluid.fluidGroupsContaining})}">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+</body>
+</html>

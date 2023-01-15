@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="recipeGridTable(table, dimension)" class="d-flex justify-content-center my-5">
+    <th:block th:if="${dimension.height} > 0">
+        <table class="recipe-grid-table">
+            <tr th:each="r,rStat: ${#numbers.sequence(1, dimension.height)}">
+                <td th:each="c,cStat: ${#numbers.sequence(1, dimension.width)}"
+                    th:class="${rStat.odd} == ${cStat.odd}? 'recipe-grid-shaded'">
+                    <th:block th:if="${table.contains(r - 1, c - 1)}">
+                        <a th:replace="~{fragment/icon::linkOverlayIcon(${table.get(r - 1, c - 1)})}">
+                        </a>
+                    </th:block>
+                </td>
+            </tr>
+        </table>
+    </th:block>
+    <span th:if="${dimension.height} == 0" class="text-center">
+        No rows in table
+    </span>
+</div>
+</body>
+</html>

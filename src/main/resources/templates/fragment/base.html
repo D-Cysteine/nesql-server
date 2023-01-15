@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="header(title)">
+    <!-- Apparently, needed to allow Bootstrap to support mobile devices. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title th:replace="${title}"></title>
+
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script type="text/javascript" src="/htmx/htmx.min.js"></script>
+
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+</head>
+<body>
+<nav th:fragment="navBar"
+     class="navbar navbar-expand-lg justify-content-center bg-body-secondary mb-3">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{~/index}">
+                Index
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{~/item/search}">
+                Items
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{~/fluid/search}">
+                Fluids
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{~/itemgroup/search}">
+                Item Groups
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{~/fluidgroup/search}">
+                Fluid Groups
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{~/recipe/search}">
+                Recipes
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<th:block th:fragment="offcanvas">
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasStart"
+         aria-labelledby="offcanvasStartTitle">
+        <div class="offcanvas-header">
+            <h5 id="offcanvasStartTitle" class="offcanvas-title"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="close">
+            </button>
+        </div>
+        <div id="offcanvasStartBody" class="offcanvas-body"></div>
+    </div>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEnd"
+         aria-labelledby="offcanvasEndTitle">
+        <div class="offcanvas-header">
+            <h5 id="offcanvasEndTitle" class="offcanvas-title"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="close">
+            </button>
+        </div>
+        <div id="offcanvasEndBody" class="offcanvas-body"></div>
+    </div>
+</th:block>
+
+<script th:fragment="includeJs(fileName)" type="text/javascript" th:src="|/js/${fileName}.js|">
+</script>
+
+<th:block th:fragment="footer">
+    <script th:replace="~{fragment/base::includeJs('image_error_handler')}"></script>
+    <script th:replace="~{fragment/base::includeJs('initialize_tooltips')}"></script>
+    <script th:replace="~{fragment/base::includeJs('initialize_popovers')}"></script>
+    <script th:replace="~{fragment/base::includeJs('initialize_offcanvas')}"></script>
+</th:block>
+</body>
+</html>

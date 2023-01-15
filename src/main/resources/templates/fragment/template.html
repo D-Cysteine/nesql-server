@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html th:fragment="template(title, content)" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragment/base::header(${title})}">
+<body>
+<nav th:replace="~{fragment/base::navBar}"></nav>
+
+<th:block th:replace="${content}"></th:block>
+
+<th:block th:replace="~{fragment/base::footer}"></th:block>
+</body>
+</html>

@@ -3,9 +3,9 @@ package com.github.dcysteine.nesql.server.service;
 import com.github.dcysteine.nesql.server.config.ExternalConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -23,15 +23,22 @@ public class SearchService {
 
     public <T extends JpaSpecificationExecutor<R>, R, D> String handleGetAll(
             int page, Model model, T repository, Function<R, D> buildDisplay) {
-        return handleSearch(page, model, repository, Specification.allOf(), buildDisplay);
+        return handleGetAll(
+                page, model, repository, Sort.by("id"), buildDisplay);
+    }
+
+    public <T extends JpaSpecificationExecutor<R>, R, D> String handleGetAll(
+            int page, Model model, T repository, Sort sort, Function<R, D> buildDisplay) {
+        return handleSearch(
+                page, model, repository, Specification.allOf(), sort, buildDisplay);
     }
 
     public <T extends JpaSpecificationExecutor<R>, R, D> String handleSearch(
-            int page, Model model,
-            T repository, Specification<R> spec, Function<R, D> buildDisplay) {
-        // Pageable uses 0-index page, but we want 1-indexed.
-        Pageable pageable = Pageable.ofSize(externalConfig.getPageSize()).withPage(page - 1);
-        Page<D> results = repository.findAll(spec, pageable).map(buildDisplay);
+            int page, Model model, T repository,
+            Specification<R> spec, Sort sort, Function<R, D> buildDisplay) {
+        // PageRequest uses 0-index page, but we want 1-indexed.
+        PageRequest pageRequest = PageRequest.of(page - 1, externalConfig.getPageSize(), sort);
+        Page<D> results = repository.findAll(spec, pageRequest).map(buildDisplay);
 
         String baseUri =
                 ServletUriComponentsBuilder.fromCurrentRequest()

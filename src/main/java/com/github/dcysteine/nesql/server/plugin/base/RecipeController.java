@@ -27,7 +27,7 @@ public class RecipeController {
     @Autowired
     private SearchService searchService;
 
-    @GetMapping(path = "/{recipe_id}")
+    @GetMapping(path = "/view/{recipe_id}")
     public String view(@PathVariable(name = "recipe_id") String id, Model model) {
         Optional<Recipe> recipeOptional = recipeRepository.findById(id);
         if (recipeOptional.isEmpty()) {
@@ -38,7 +38,7 @@ public class RecipeController {
 
         model.addAttribute("recipe", recipe);
         model.addAttribute("displayRecipe", displayRecipe);
-        return "plugin/base/recipe/recipe";
+        return "plugin/base/recipe/view";
     }
 
     @GetMapping(path = "/search")

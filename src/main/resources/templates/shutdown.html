@@ -1,11 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragment::header('Shutting Down')}"></head>
+<html th:replace="~{fragment/template::template(~{::title}, ~{::content})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Shutting Down</title>
+</head>
 <body>
-<!-- The styling here doesn't actually work,
-     because the server shuts down before it can serve the CSS. Oh well. -->
-<div class="alert alert-danger" role="alert">
-  Server is shutting down now!
-</div>
+
+<th:block th:fragment="content">
+    <!-- The styling here doesn't actually work,
+         because the server shuts down before it can serve the CSS. Oh well. -->
+    <div class="alert alert-danger" role="alert">
+        Server is shutting down now!
+    </div>
+</th:block>
+
 </body>
 </html>

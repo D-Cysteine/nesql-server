@@ -1,6 +1,7 @@
 package com.github.dcysteine.nesql.server.plugin.base.display.item;
 
 import com.github.dcysteine.nesql.server.display.Icon;
+import com.github.dcysteine.nesql.server.util.NumberUtil;
 import com.github.dcysteine.nesql.sql.base.item.ItemStack;
 import com.google.auto.value.AutoValue;
 
@@ -12,7 +13,7 @@ public abstract class DisplayItemStack implements Comparable<DisplayItemStack> {
 
     public static Icon buildIcon(ItemStack itemStack) {
         return DisplayItem.buildIcon(itemStack.getItem()).toBuilder()
-                .setBottomRight(Integer.toString(itemStack.getStackSize()))
+                .setBottomRight(NumberUtil.formatInteger(itemStack.getStackSize()))
                 .build();
     }
 
