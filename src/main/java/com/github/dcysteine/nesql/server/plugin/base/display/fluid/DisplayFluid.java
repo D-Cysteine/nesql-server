@@ -1,8 +1,8 @@
 package com.github.dcysteine.nesql.server.plugin.base.display.fluid;
 
 import com.github.dcysteine.nesql.server.display.Icon;
+import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayDeps;
 import com.github.dcysteine.nesql.server.plugin.base.display.recipe.DisplayRecipe;
-import com.github.dcysteine.nesql.server.util.StringUtil;
 import com.github.dcysteine.nesql.server.util.UrlBuilder;
 import com.github.dcysteine.nesql.sql.base.fluid.Fluid;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidGroupRepository;
@@ -12,33 +12,33 @@ import com.google.common.collect.ImmutableList;
 
 @AutoValue
 public abstract class DisplayFluid implements Comparable<DisplayFluid> {
-    public static DisplayFluid create(
-            Fluid fluid,
-            FluidGroupRepository fluidGroupRepository,
-            RecipeRepository recipeRepository) {
+    public static DisplayFluid create(Fluid fluid, BaseDisplayDeps deps) {
+        FluidGroupRepository fluidGroupRepository = deps.getFluidGroupRepository();
+        RecipeRepository recipeRepository = deps.getRecipeRepository();
+
         ImmutableList<Icon> recipesWithInput =
                 recipeRepository.findByFluidInput(fluid.getId()).stream()
                         .sorted()
-                        .map(DisplayRecipe::buildIcon)
+                        .map(recipe -> DisplayRecipe.buildIcon(recipe, deps))
                         .collect(ImmutableList.toImmutableList());
         ImmutableList<Icon> recipesWithOutput =
                 recipeRepository.findByFluidInput(fluid.getId()).stream()
                         .sorted()
-                        .map(DisplayRecipe::buildIcon)
+                        .map(recipe -> DisplayRecipe.buildIcon(recipe, deps))
                         .collect(ImmutableList.toImmutableList());
 
         ImmutableList<Icon> fluidGroupsContaining =
                 fluidGroupRepository.findByFluid(fluid.getId()).stream()
                         .sorted()
-                        .map(DisplayFluidGroup::buildIcon)
+                        .map(fluidGroup -> DisplayFluidGroup.buildIcon(fluidGroup, deps))
                         .collect(ImmutableList.toImmutableList());
 
         return new AutoValue_DisplayFluid(
-                fluid, buildIcon(fluid),
+                fluid, buildIcon(fluid, deps),
                 recipesWithInput, recipesWithOutput, fluidGroupsContaining);
     }
 
-    public static Icon buildIcon(Fluid fluid) {
+    public static Icon buildIcon(Fluid fluid, BaseDisplayDeps deps) {
         return Icon.builder()
                 .setDescription(fluid.getLocalizedName())
                 .setUrl(UrlBuilder.buildFluidUrl(fluid))

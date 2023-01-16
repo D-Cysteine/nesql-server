@@ -1,6 +1,7 @@
 package com.github.dcysteine.nesql.server.plugin.base.display.recipe;
 
 import com.github.dcysteine.nesql.server.display.Icon;
+import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayDeps;
 import com.github.dcysteine.nesql.server.plugin.base.display.fluid.DisplayFluidGroup;
 import com.github.dcysteine.nesql.server.plugin.base.display.fluid.DisplayFluidStackWithProbability;
 import com.github.dcysteine.nesql.server.plugin.base.display.item.DisplayItemGroup;
@@ -27,43 +28,48 @@ import java.util.Map;
  */
 @AutoValue
 public abstract class DisplayRecipe implements Comparable<DisplayRecipe> {
-    public static DisplayRecipe create(Recipe recipe, ItemRepository itemRepository) {
+    public static DisplayRecipe create(Recipe recipe, BaseDisplayDeps deps) {
+        ItemRepository itemRepository = deps.getItemRepository();
+
         RecipeType recipeType = recipe.getRecipeType();
 
         Map<Integer, Icon> displayItemInputs =
                 Maps.transformValues(
                         recipe.getItemInputs(),
-                        itemGroup -> DisplayItemGroup.buildIcon(itemGroup, itemRepository));
+                        itemGroup -> DisplayItemGroup.buildIcon(itemGroup, deps));
         ImmutableTable<Integer, Integer, Icon> itemInputs =
                 buildIngredientsGrid(
                         recipeType.getItemInputDimension(), displayItemInputs, recipe);
 
         Map<Integer, Icon> displayFluidInputs =
-                Maps.transformValues(recipe.getFluidInputs(), DisplayFluidGroup::buildIcon);
+                Maps.transformValues(
+                        recipe.getFluidInputs(),
+                        fluidGroup -> DisplayFluidGroup.buildIcon(fluidGroup, deps));
         ImmutableTable<Integer, Integer, Icon> fluidInputs =
                 buildIngredientsGrid(
                         recipeType.getFluidInputDimension(), displayFluidInputs, recipe);
 
         Map<Integer, Icon> displayItemOutputs =
                 Maps.transformValues(
-                        recipe.getItemOutputs(), DisplayItemStackWithProbability::buildIcon);
+                        recipe.getItemOutputs(),
+                        itemStack -> DisplayItemStackWithProbability.buildIcon(itemStack, deps));
         ImmutableTable<Integer, Integer, Icon> itemOutputs =
                 buildIngredientsGrid(
                         recipeType.getItemOutputDimension(), displayItemOutputs, recipe);
 
         Map<Integer, Icon> displayFluidOutputs =
                 Maps.transformValues(
-                        recipe.getFluidOutputs(), DisplayFluidStackWithProbability::buildIcon);
+                        recipe.getFluidOutputs(),
+                        fluidStack -> DisplayFluidStackWithProbability.buildIcon(fluidStack, deps));
         ImmutableTable<Integer, Integer, Icon> fluidOutputs =
                 buildIngredientsGrid(
                         recipeType.getFluidOutputDimension(), displayFluidOutputs, recipe);
 
         return new AutoValue_DisplayRecipe(
-                recipe, buildIcon(recipe), itemInputs, fluidInputs, itemOutputs, fluidOutputs);
+                recipe, buildIcon(recipe, deps), itemInputs, fluidInputs, itemOutputs, fluidOutputs);
     }
 
-    // TODO maybe expand Icon definition to include a bottom-right image path, and set that here
-    public static Icon buildIcon(Recipe recipe) {
+    public static Icon buildIcon(Recipe recipe, BaseDisplayDeps deps) {
         RecipeType recipeType = recipe.getRecipeType();
         int numItemOutputs = recipe.getItemOutputs().size();
         int numFluidOutputs = recipe.getFluidOutputs().size();
@@ -73,7 +79,7 @@ public abstract class DisplayRecipe implements Comparable<DisplayRecipe> {
         Icon icon;
         if (numItemOutputs > 0) {
             Icon innerIcon =
-                    DisplayItemStackWithProbability.buildIcon(recipe.getItemOutputs().get(0));
+                    DisplayItemStackWithProbability.buildIcon(recipe.getItemOutputs().get(0), deps);
             if (numItemOutputs == 1) {
                 description += String.format(" (%s)", innerIcon.getDescription());
             } else if (numFluidOutputs > 0) {
@@ -94,7 +100,8 @@ public abstract class DisplayRecipe implements Comparable<DisplayRecipe> {
                     .build();
         } else if (numFluidOutputs > 0) {
             Icon innerIcon =
-                    DisplayFluidStackWithProbability.buildIcon(recipe.getFluidOutputs().get(0));
+                    DisplayFluidStackWithProbability.buildIcon(
+                            recipe.getFluidOutputs().get(0), deps);
             if (numFluidOutputs == 1) {
                 description += String.format(" (%s)", innerIcon.getDescription());
             } else {

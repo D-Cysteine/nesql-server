@@ -29,108 +29,95 @@ import com.github.dcysteine.nesql.sql.base.recipe.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-// TODO I should probably refactor this... somehow
-/** Makes life easier for us by taking care of all required dependencies for display objects. */
+/** Service providing convenient methods for building display objects. */
 @Service
 public class BaseDisplayService {
     @Autowired
-    private ItemRepository itemRepository;
-
-    @Autowired
-    private ItemGroupRepository itemGroupRepository;
-
-    @Autowired
-    private FluidRepository fluidRepository;
-
-    @Autowired
-    private FluidGroupRepository fluidGroupRepository;
-
-    @Autowired
-    private RecipeRepository recipeRepository;
+    private BaseDisplayDeps deps;
 
     public DisplayItem buildDisplayItem(Item item) {
-        return DisplayItem.create(item, itemRepository, itemGroupRepository, recipeRepository);
+        return DisplayItem.create(item, deps);
     }
 
     public Icon buildDisplayItemIcon(Item item) {
-        return DisplayItem.buildIcon(item);
+        return DisplayItem.buildIcon(item, deps);
     }
 
     public DisplayItemStack buildDisplayItemStack(ItemStack itemStack) {
-        return DisplayItemStack.create(itemStack);
+        return DisplayItemStack.create(itemStack, deps);
     }
 
     public Icon buildDisplayItemStackIcon(ItemStack itemStack) {
-        return DisplayItemStack.buildIcon(itemStack);
+        return DisplayItemStack.buildIcon(itemStack, deps);
     }
 
     public DisplayItemStackWithProbability buildDisplayItemStackWithProbability(
             ItemStackWithProbability itemStack) {
-        return DisplayItemStackWithProbability.create(itemStack);
+        return DisplayItemStackWithProbability.create(itemStack, deps);
     }
 
     public Icon buildDisplayItemStackWithProbabilityIcon(
             ItemStackWithProbability itemStack) {
-        return DisplayItemStackWithProbability.buildIcon(itemStack);
+        return DisplayItemStackWithProbability.buildIcon(itemStack, deps);
     }
 
     public DisplayWildcardItemStack buildDisplayWildcardItemStack(
             WildcardItemStack wildcardItemStack) {
-        return DisplayWildcardItemStack.create(wildcardItemStack, itemRepository);
+        return DisplayWildcardItemStack.create(wildcardItemStack, deps);
     }
 
     public Icon buildDisplayWildcardItemStackIcon(
             WildcardItemStack wildcardItemStack) {
-        return DisplayWildcardItemStack.buildIcon(wildcardItemStack, itemRepository);
+        return DisplayWildcardItemStack.buildIcon(wildcardItemStack, deps);
     }
 
     public DisplayItemGroup buildDisplayItemGroup(ItemGroup itemGroup) {
-        return DisplayItemGroup.create(itemGroup, itemRepository);
+        return DisplayItemGroup.create(itemGroup, deps);
     }
 
     public Icon buildDisplayItemGroupIcon(ItemGroup itemGroup) {
-        return DisplayItemGroup.buildIcon(itemGroup, itemRepository);
+        return DisplayItemGroup.buildIcon(itemGroup, deps);
     }
 
     public DisplayFluid buildDisplayFluid(Fluid fluid) {
-        return DisplayFluid.create(fluid, fluidGroupRepository, recipeRepository);
+        return DisplayFluid.create(fluid, deps);
     }
 
     public Icon buildDisplayFluidIcon(Fluid fluid) {
-        return DisplayFluid.buildIcon(fluid);
+        return DisplayFluid.buildIcon(fluid, deps);
     }
 
     public DisplayFluidStack buildDisplayFluidStack(FluidStack fluidStack) {
-        return DisplayFluidStack.create(fluidStack);
+        return DisplayFluidStack.create(fluidStack, deps);
     }
 
     public Icon buildDisplayFluidStackIcon(FluidStack fluidStack) {
-        return DisplayFluidStack.buildIcon(fluidStack);
+        return DisplayFluidStack.buildIcon(fluidStack, deps);
     }
 
     public DisplayFluidStackWithProbability buildDisplayFluidStackWithProbability(
             FluidStackWithProbability fluidStack) {
-        return DisplayFluidStackWithProbability.create(fluidStack);
+        return DisplayFluidStackWithProbability.create(fluidStack, deps);
     }
 
     public Icon buildDisplayFluidStackWithProbabilityIcon(
             FluidStackWithProbability fluidStack) {
-        return DisplayFluidStackWithProbability.buildIcon(fluidStack);
+        return DisplayFluidStackWithProbability.buildIcon(fluidStack, deps);
     }
 
     public DisplayFluidGroup buildDisplayFluidGroup(FluidGroup fluidGroup) {
-        return DisplayFluidGroup.create(fluidGroup);
+        return DisplayFluidGroup.create(fluidGroup, deps);
     }
 
     public Icon buildDisplayFluidGroupIcon(FluidGroup fluidGroup) {
-        return DisplayFluidGroup.buildIcon(fluidGroup);
+        return DisplayFluidGroup.buildIcon(fluidGroup, deps);
     }
 
     public DisplayRecipe buildDisplayRecipe(Recipe recipe) {
-        return DisplayRecipe.create(recipe, itemRepository);
+        return DisplayRecipe.create(recipe, deps);
     }
 
     public Icon buildDisplayRecipeIcon(Recipe recipe) {
-        return DisplayRecipe.buildIcon(recipe);
+        return DisplayRecipe.buildIcon(recipe, deps);
     }
 }

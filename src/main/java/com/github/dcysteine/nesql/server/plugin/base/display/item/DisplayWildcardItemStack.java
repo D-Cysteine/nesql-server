@@ -2,6 +2,7 @@ package com.github.dcysteine.nesql.server.plugin.base.display.item;
 
 import com.github.dcysteine.nesql.server.Main;
 import com.github.dcysteine.nesql.server.display.Icon;
+import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayDeps;
 import com.github.dcysteine.nesql.server.util.Constants;
 import com.github.dcysteine.nesql.server.util.UrlBuilder;
 import com.github.dcysteine.nesql.sql.base.item.Item;
@@ -14,13 +15,14 @@ import java.util.List;
 @AutoValue
 public abstract class DisplayWildcardItemStack implements Comparable<DisplayWildcardItemStack> {
     public static DisplayWildcardItemStack create(
-            WildcardItemStack wildcardItemStack, ItemRepository itemRepository) {
+            WildcardItemStack wildcardItemStack, BaseDisplayDeps deps) {
         return new AutoValue_DisplayWildcardItemStack(
-                wildcardItemStack, buildIcon(wildcardItemStack, itemRepository));
+                wildcardItemStack, buildIcon(wildcardItemStack, deps));
     }
 
-    public static Icon buildIcon(
-            WildcardItemStack wildcardItemStack, ItemRepository itemRepository) {
+    public static Icon buildIcon(WildcardItemStack wildcardItemStack, BaseDisplayDeps deps) {
+        ItemRepository itemRepository = deps.getItemRepository();
+
         List<Item> items = itemRepository.findBaseItemByItemId(wildcardItemStack.getItemId());
         Icon icon;
         if (items.isEmpty()) {
@@ -37,7 +39,7 @@ public abstract class DisplayWildcardItemStack implements Comparable<DisplayWild
                     .setBottomRight(Integer.toString(wildcardItemStack.getStackSize()))
                     .build();
         } else {
-            Icon itemIcon = DisplayItem.buildIcon(items.get(0));
+            Icon itemIcon = DisplayItem.buildIcon(items.get(0), deps);
             icon = itemIcon.toBuilder()
                     .setDescription(
                             String.format("Wildcard Item Stack (%s)", itemIcon.getDescription()))
