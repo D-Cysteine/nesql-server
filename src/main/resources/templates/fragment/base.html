@@ -77,10 +77,12 @@
 </script>
 
 <th:block th:fragment="footer">
-    <script th:replace="~{fragment/base::includeJs('image_error_handler')}"></script>
     <script th:replace="~{fragment/base::includeJs('initialize_tooltips')}"></script>
     <script th:replace="~{fragment/base::includeJs('initialize_popovers')}"></script>
     <script th:replace="~{fragment/base::includeJs('initialize_offcanvas')}"></script>
+
+    <script th:replace="~{fragment/base::includeJs('image_error_handler')}"></script>
+    <script th:replace="~{fragment/base::includeJs('copy_button')}"></script>
 </th:block>
 </body>
 </html>

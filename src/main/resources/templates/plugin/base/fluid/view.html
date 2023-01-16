@@ -17,7 +17,10 @@
                 <table class="table table-striped border">
                     <tr>
                         <th scope="row">ID</th>
-                        <td class="text-truncate">[[${fluid.id}]]</td>
+                        <td class="text-truncate">
+                            <button th:replace="~{fragment/copy::copyButton(${fluid.id})}"></button>
+                            [[${fluid.id}]]
+                        </td>
                     </tr>
                     <tr>
                         <th scope="row">Internal Name</th>
