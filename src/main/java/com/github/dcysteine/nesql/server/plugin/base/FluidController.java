@@ -1,7 +1,7 @@
 package com.github.dcysteine.nesql.server.plugin.base;
 
 import com.github.dcysteine.nesql.server.plugin.base.display.fluid.DisplayFluid;
-import com.github.dcysteine.nesql.server.plugin.base.specs.FluidSpecs;
+import com.github.dcysteine.nesql.server.plugin.base.spec.FluidSpec;
 import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayService;
 import com.github.dcysteine.nesql.server.service.SearchService;
 import com.github.dcysteine.nesql.sql.base.fluid.Fluid;
@@ -54,7 +54,7 @@ public class FluidController {
     public String all(@RequestParam(defaultValue = "1") int page, Model model) {
         return searchService.handleGetAll(
                 page, model, fluidRepository,
-                FluidSpecs.DEFAULT_SORT, baseDisplayService::buildDisplayFluid);
+                FluidSpec.DEFAULT_SORT, baseDisplayService::buildDisplayFluidIcon);
     }
 
     @GetMapping(path = "/searchresults")
@@ -68,22 +68,22 @@ public class FluidController {
         Specification<Fluid> localizedNameSpec =
                 localizedName
                         .filter(Predicate.not(String::isEmpty))
-                        .map(FluidSpecs::buildLocalizedNameSpec).orElse(null);
+                        .map(FluidSpec::buildLocalizedNameSpec).orElse(null);
 
         @Nullable
         Specification<Fluid> internalNameSpec =
                 internalName
                         .filter(Predicate.not(String::isEmpty))
-                        .map(FluidSpecs::buildInternalNameSpec).orElse(null);
+                        .map(FluidSpec::buildInternalNameSpec).orElse(null);
 
         @Nullable
         Specification<Fluid> fluidIdSpec =
-                fluidId.map(FluidSpecs::buildFluidIdSpec).orElse(null);
+                fluidId.map(FluidSpec::buildFluidIdSpec).orElse(null);
 
         Specification<Fluid> spec =
                 Specification.allOf(localizedNameSpec, internalNameSpec, fluidIdSpec);
         return searchService.handleSearch(
                 page, model, fluidRepository,
-                spec, FluidSpecs.DEFAULT_SORT, baseDisplayService::buildDisplayFluidIcon);
+                spec, FluidSpec.DEFAULT_SORT, baseDisplayService::buildDisplayFluidIcon);
     }
 }

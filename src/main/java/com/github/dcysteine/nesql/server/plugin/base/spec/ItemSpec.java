@@ -1,13 +1,13 @@
-package com.github.dcysteine.nesql.server.plugin.base.specs;
+package com.github.dcysteine.nesql.server.plugin.base.spec;
 
 import com.github.dcysteine.nesql.sql.base.item.Item;
 import com.github.dcysteine.nesql.sql.base.item.Item_;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
-public class ItemSpecs {
+public class ItemSpec {
     // Static class.
-    private ItemSpecs() {}
+    private ItemSpec() {}
 
     public static Sort DEFAULT_SORT =
             Sort.by(Item_.ITEM_ID, Item_.ITEM_DAMAGE, Item_.NBT, Item_.ID);

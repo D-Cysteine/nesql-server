@@ -1,12 +1,11 @@
 package com.github.dcysteine.nesql.server.plugin.base;
 
 import com.github.dcysteine.nesql.server.plugin.base.display.item.DisplayItem;
-import com.github.dcysteine.nesql.server.plugin.base.specs.ItemSpecs;
+import com.github.dcysteine.nesql.server.plugin.base.spec.ItemSpec;
 import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayService;
 import com.github.dcysteine.nesql.server.service.SearchService;
 import com.github.dcysteine.nesql.sql.base.item.Item;
 import com.github.dcysteine.nesql.sql.base.item.ItemRepository;
-import com.google.common.base.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
@@ -55,7 +54,7 @@ public class ItemController {
     public String all(@RequestParam(defaultValue = "1") int page, Model model) {
         return searchService.handleGetAll(
                 page, model, itemRepository,
-                ItemSpecs.DEFAULT_SORT, baseDisplayService::buildDisplayItem);
+                ItemSpec.DEFAULT_SORT, baseDisplayService::buildDisplayItemIcon);
     }
 
     @GetMapping(path = "/searchresults")
@@ -70,27 +69,27 @@ public class ItemController {
         Specification<Item> localizedNameSpec =
                 localizedName
                         .filter(Predicate.not(String::isEmpty))
-                        .map(ItemSpecs::buildLocalizedNameSpec).orElse(null);
+                        .map(ItemSpec::buildLocalizedNameSpec).orElse(null);
 
         @Nullable
         Specification<Item> internalNameSpec =
                 internalName
                         .filter(Predicate.not(String::isEmpty))
-                        .map(ItemSpecs::buildInternalNameSpec).orElse(null);
+                        .map(ItemSpec::buildInternalNameSpec).orElse(null);
 
         @Nullable
         Specification<Item> itemIdSpec =
-                itemId.map(ItemSpecs::buildItemIdSpec).orElse(null);
+                itemId.map(ItemSpec::buildItemIdSpec).orElse(null);
 
         @Nullable
         Specification<Item> itemDamageSpec =
-                itemDamage.map(ItemSpecs::buildItemDamageSpec).orElse(null);
+                itemDamage.map(ItemSpec::buildItemDamageSpec).orElse(null);
 
         Specification<Item> spec =
                 Specification.allOf(
                         localizedNameSpec, internalNameSpec, itemIdSpec, itemDamageSpec);
         return searchService.handleSearch(
                 page, model, itemRepository,
-                spec, ItemSpecs.DEFAULT_SORT, baseDisplayService::buildDisplayItemIcon);
+                spec, ItemSpec.DEFAULT_SORT, baseDisplayService::buildDisplayItemIcon);
     }
 }

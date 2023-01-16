@@ -1,13 +1,13 @@
-package com.github.dcysteine.nesql.server.plugin.base.specs;
+package com.github.dcysteine.nesql.server.plugin.base.spec;
 
 import com.github.dcysteine.nesql.sql.base.fluid.Fluid;
 import com.github.dcysteine.nesql.sql.base.fluid.Fluid_;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
-public class FluidSpecs {
+public class FluidSpec {
     // Static class.
-    private FluidSpecs() {}
+    private FluidSpec() {}
 
     public static Sort DEFAULT_SORT = Sort.by(Fluid_.FLUID_ID, Fluid_.NBT, Fluid_.ID);
 
@@ -35,7 +35,7 @@ public class FluidSpecs {
         };
     }
 
-    /** Matches by Minecraft item ID. */
+    /** Matches by Forge fluid ID. */
     public static Specification<Fluid> buildFluidIdSpec(int fluidId) {
         return (root, query, builder) -> {
             return builder.equal(root.get(Fluid_.FLUID_ID), fluidId);

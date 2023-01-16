@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="formatInteger(number)">
+    [[${T(com.github.dcysteine.nesql.server.util.NumberUtil).formatInteger(number)}]]
+</th:block>
+</body>
+</html>
