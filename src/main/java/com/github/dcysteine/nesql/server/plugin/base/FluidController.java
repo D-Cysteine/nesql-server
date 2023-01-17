@@ -46,19 +46,7 @@ public class FluidController {
     }
 
     @GetMapping(path = "/search")
-    public String search() {
-        return "plugin/base/fluid/search";
-    }
-
-    @GetMapping(path = "/all")
-    public String all(@RequestParam(defaultValue = "1") int page, Model model) {
-        return searchService.handleGetAll(
-                page, model, fluidRepository,
-                FluidSpec.DEFAULT_SORT, baseDisplayService::buildDisplayFluidIcon);
-    }
-
-    @GetMapping(path = "/searchresults")
-    public String searchResults(
+    public String search(
             @RequestParam(required = false) Optional<String> localizedName,
             @RequestParam(required = false) Optional<String> internalName,
             @RequestParam(required = false) Optional<Integer> fluidId,
@@ -82,8 +70,9 @@ public class FluidController {
 
         Specification<Fluid> spec =
                 Specification.allOf(localizedNameSpec, internalNameSpec, fluidIdSpec);
-        return searchService.handleSearch(
+        searchService.handleSearch(
                 page, model, fluidRepository,
                 spec, FluidSpec.DEFAULT_SORT, baseDisplayService::buildDisplayFluidIcon);
+        return "plugin/base/fluid/search";
     }
 }

@@ -15,18 +15,17 @@
         </div>
         <div class="row mb-5">
         <span class="text-center">
-            Query fields will be joined with AND. Leave all fields blank to query all items.
+            Query fields will be joined with AND. Leave all fields blank to retrieve all recipes.
         </span>
         </div>
 
         <div class="row justify-content-center">
-            <form action="searchresults" method="get">
+            <form method="get">
                 <div class="container"></div>
                 <div class="row mb-3">
                     <div class="col">
-                        <label for="inputItemId" class="form-label">Input item ID</label>
-                        <input id="inputItemId" name="inputItemId" type="text"
-                               class="form-control">
+                        <th:block th:replace="~{fragment/search::searchField(inputItemId, 'Input item ID', 'text')}">
+                        </th:block>
                     </div>
                 </div>
                 <div class="row justify-content-center">
@@ -35,6 +34,15 @@
                     </div>
                 </div>
             </form>
+        </div>
+
+        <div class="row my-5">
+            <h1 class="display-3 text-center">
+                Search Results
+            </h1>
+        </div>
+        <div class="row">
+            <div th:replace="~{fragment/search::paginatedTable(${page}, ${baseUri})}"></div>
         </div>
     </div>
 </th:block>

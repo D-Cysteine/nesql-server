@@ -4,7 +4,7 @@
 <th:block th:fragment="searchField(name, label, type)">
     <label th:for="${name}" class="form-label">[[${label}]]</label>
     <input th:id="${name}" th:name="${name}" th:type="${type}" class="form-control"
-           th:value="${#request.getParameter(name)}">
+           th:value="${request.getParameter(name)}">
 </th:block>
 
 <div th:fragment="paginatedTable(page, baseUri)" class="container">

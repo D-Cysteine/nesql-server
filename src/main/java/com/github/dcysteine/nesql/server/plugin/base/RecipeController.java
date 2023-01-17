@@ -46,18 +46,7 @@ public class RecipeController {
     }
 
     @GetMapping(path = "/search")
-    public String search() {
-        return "plugin/base/recipe/search";
-    }
-
-    @GetMapping(path = "/all")
-    public String all(@RequestParam(defaultValue = "1") int page, Model model) {
-        return searchService.handleGetAll(
-                page, model, recipeRepository, baseDisplayService::buildDisplayRecipeIcon);
-    }
-
-    @GetMapping(path = "/searchresults")
-    public String searchResults(
+    public String search(
             @RequestParam(required = false) Optional<String> inputItemId,
             @RequestParam(defaultValue = "1") int page,
             Model model) {
@@ -68,8 +57,9 @@ public class RecipeController {
                         .map(RecipeSpec::buildInputItemSpec).orElse(null);
 
         Specification<Recipe> spec = Specification.allOf(inputItemIdSpec);
-        return searchService.handleSearch(
+        searchService.handleSearch(
                 page, model, recipeRepository,
                 spec, baseDisplayService::buildDisplayRecipeIcon);
+        return "plugin/base/recipe/search";
     }
 }

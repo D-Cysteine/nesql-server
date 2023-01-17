@@ -20,22 +20,19 @@
         </div>
 
         <div class="row justify-content-center">
-            <form action="searchresults" method="get">
+            <form method="get">
                 <div class="container">
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="localizedName" class="form-label">Localized name (Regexp)
-                            </label>
-                            <input id="localizedName" name="localizedName" type="text"
-                                   class="form-control">
+                            <th:block th:replace="~{fragment/search::searchField(localizedName, 'Localized name (regex)', 'text')}">
+                            </th:block>
 
-                            <label for="internalName" class="form-label">Internal name (Regexp)</label>
-                            <input id="internalName" name="internalName" type="text"
-                                   class="form-control">
+                            <th:block th:replace="~{fragment/search::searchField(internalName, 'Internal name (regex)', 'text')}">
+                            </th:block>
                         </div>
                         <div class="col">
-                            <label for="fluidId" class="form-label">Forge fluid ID</label>
-                            <input id="fluidId" name="fluidId" type="number" class="form-control">
+                            <th:block th:replace="~{fragment/search::searchField(fluidId, 'Forge fluid ID', 'number')}">
+                            </th:block>
                         </div>
                     </div>
                     <div class="row justify-content-center">
@@ -45,6 +42,15 @@
                     </div>
                 </div>
             </form>
+        </div>
+
+        <div class="row my-5">
+            <h1 class="display-3 text-center">
+                Search Results
+            </h1>
+        </div>
+        <div class="row">
+            <div th:replace="~{fragment/search::paginatedTable(${page}, ${baseUri})}"></div>
         </div>
     </div>
 </th:block>

@@ -46,19 +46,7 @@ public class ItemController {
     }
 
     @GetMapping(path = "/search")
-    public String search() {
-        return "plugin/base/item/search";
-    }
-
-    @GetMapping(path = "/all")
-    public String all(@RequestParam(defaultValue = "1") int page, Model model) {
-        return searchService.handleGetAll(
-                page, model, itemRepository,
-                ItemSpec.DEFAULT_SORT, baseDisplayService::buildDisplayItemIcon);
-    }
-
-    @GetMapping(path = "/searchresults")
-    public String searchResults(
+    public String search(
             @RequestParam(required = false) Optional<String> localizedName,
             @RequestParam(required = false) Optional<String> internalName,
             @RequestParam(required = false) Optional<Integer> itemId,
@@ -88,8 +76,9 @@ public class ItemController {
         Specification<Item> spec =
                 Specification.allOf(
                         localizedNameSpec, internalNameSpec, itemIdSpec, itemDamageSpec);
-        return searchService.handleSearch(
+        searchService.handleSearch(
                 page, model, itemRepository,
                 spec, ItemSpec.DEFAULT_SORT, baseDisplayService::buildDisplayItemIcon);
+        return "plugin/base/item/search";
     }
 }
