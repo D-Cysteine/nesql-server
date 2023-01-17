@@ -24,14 +24,14 @@
                 <div class="container"></div>
                 <div class="row mb-3">
                     <div class="col">
-                        <th:block th:replace="~{fragment/search::searchFieldFragment(inputItemName, ~{::inputItemNameLabel}, 'text')}">
+                        <th:block th:replace="~{fragment/search::searchFieldFragment(inputItemName, ~{::inputItemNameLabel}, 'search')}">
                             <th:block th:fragment="inputItemNameLabel">
                                 Input item name (regex)
                                 <i th:replace="~{fragment/info::danger('Be careful! Restrict this field or you\'ll get never-ending queries!')}"></i>
                             </th:block>
                         </th:block>
 
-                        <th:block th:replace="~{fragment/search::searchField(inputItemId, 'Input item ID', 'text')}">
+                        <th:block th:replace="~{fragment/search::searchField(inputItemId, 'Input item ID', 'search')}">
                         </th:block>
                     </div>
                 </div>
