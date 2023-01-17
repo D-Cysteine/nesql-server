@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html th:fragment="template(title, content)" xmlns:th="http://www.thymeleaf.org">
+<html th:fragment="template(title, content)" xmlns:th="http://www.thymeleaf.org"
+      data-bs-theme="dark">
 <head th:replace="~{fragment/base::header(${title})}">
 <body>
 <nav th:replace="~{fragment/base::navBar}"></nav>

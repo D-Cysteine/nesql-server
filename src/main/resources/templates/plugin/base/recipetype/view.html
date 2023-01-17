@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html th:replace="~{fragment/template::template(~{::title}, ~{::content})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Recipe Type: [[${displayRecipeType.icon.description}]]</title>
+</head>
+<body>
+
+<th:block th:fragment="content">
+    <div class="container">
+        <div class="row justify-content-center mb-3">
+            <div th:replace="~{fragment/icon::overlayIconRowCentered(${displayRecipeType.icon})}">
+            </div>
+        </div>
+
+        <div class="row mb-5">
+            <div class="col">
+                <table class="table table-striped border">
+                    <tr>
+                        <th scope="row">ID</th>
+                        <td class="text-truncate">
+                            <button th:replace="~{fragment/copy::copyButton(${recipeType.id})}">
+                            </button>
+                            [[${recipeType.id}]]
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Category</th>
+                        <td>[[${recipeType.category}]]</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Type</th>
+                        <td>[[${recipeType.type}]]</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Shapeless</th>
+                        <td>
+                            <th:block th:replace="~{fragment/format::formatBoolean(${recipeType.shapeless})}">
+                            </th:block>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col">
+                <table class="table table-striped border">
+                    <tr>
+                        <th scope="row">Item input grid</th>
+                        <td>[[${displayRecipeType.itemInputDimension}]]</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Fluid input grid</th>
+                        <td>[[${displayRecipeType.fluidInputDimension}]]</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Item output grid</th>
+                        <td>[[${displayRecipeType.itemOutputDimension}]]</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Fluid output grid</th>
+                        <td>[[${displayRecipeType.fluidOutputDimension}]]</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

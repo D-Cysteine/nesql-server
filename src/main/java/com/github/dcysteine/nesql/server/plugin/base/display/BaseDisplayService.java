@@ -11,21 +11,18 @@ import com.github.dcysteine.nesql.server.plugin.base.display.item.DisplayItemSta
 import com.github.dcysteine.nesql.server.plugin.base.display.item.DisplayItemStackWithProbability;
 import com.github.dcysteine.nesql.server.plugin.base.display.item.DisplayWildcardItemStack;
 import com.github.dcysteine.nesql.server.plugin.base.display.recipe.DisplayRecipe;
+import com.github.dcysteine.nesql.server.plugin.base.display.recipe.DisplayRecipeType;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidGroup;
-import com.github.dcysteine.nesql.sql.base.fluid.FluidGroupRepository;
 import com.github.dcysteine.nesql.sql.base.fluid.Fluid;
-import com.github.dcysteine.nesql.sql.base.fluid.FluidRepository;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidStack;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidStackWithProbability;
 import com.github.dcysteine.nesql.sql.base.item.ItemGroup;
-import com.github.dcysteine.nesql.sql.base.item.ItemGroupRepository;
 import com.github.dcysteine.nesql.sql.base.item.Item;
-import com.github.dcysteine.nesql.sql.base.item.ItemRepository;
 import com.github.dcysteine.nesql.sql.base.item.ItemStack;
 import com.github.dcysteine.nesql.sql.base.item.ItemStackWithProbability;
 import com.github.dcysteine.nesql.sql.base.item.WildcardItemStack;
 import com.github.dcysteine.nesql.sql.base.recipe.Recipe;
-import com.github.dcysteine.nesql.sql.base.recipe.RecipeRepository;
+import com.github.dcysteine.nesql.sql.base.recipe.RecipeType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -119,5 +116,13 @@ public class BaseDisplayService {
 
     public Icon buildDisplayRecipeIcon(Recipe recipe) {
         return DisplayRecipe.buildIcon(recipe, deps);
+    }
+
+    public DisplayRecipeType buildDisplayRecipeType(RecipeType recipeType) {
+        return DisplayRecipeType.create(recipeType, deps);
+    }
+
+    public Icon buildDisplayRecipeTypeIcon(RecipeType recipeType) {
+        return DisplayRecipeType.buildIcon(recipeType, deps);
     }
 }

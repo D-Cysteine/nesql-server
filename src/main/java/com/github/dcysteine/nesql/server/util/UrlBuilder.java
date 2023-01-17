@@ -5,6 +5,7 @@ import com.github.dcysteine.nesql.sql.base.fluid.FluidGroup;
 import com.github.dcysteine.nesql.sql.base.item.Item;
 import com.github.dcysteine.nesql.sql.base.item.ItemGroup;
 import com.github.dcysteine.nesql.sql.base.recipe.Recipe;
+import com.github.dcysteine.nesql.sql.base.recipe.RecipeType;
 
 /** Helper class containing methods for building URLs. */
 public class UrlBuilder {
@@ -34,5 +35,9 @@ public class UrlBuilder {
 
     public static String buildRecipeUrl(Recipe recipe) {
         return "~/recipe/view/" + recipe.getId();
+    }
+
+    public static String buildRecipeTypeUrl(RecipeType recipeType) {
+        return "~/recipetype/view/" + recipeType.getId();
     }
 }

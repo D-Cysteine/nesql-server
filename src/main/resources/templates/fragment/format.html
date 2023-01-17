@@ -4,5 +4,10 @@
 <th:block th:fragment="formatInteger(number)">
     [[${T(com.github.dcysteine.nesql.server.util.NumberUtil).formatInteger(number)}]]
 </th:block>
+
+<th:block th:fragment="formatBoolean(bool)">
+    <i th:if="${bool}" class="bi-check-square"></i>
+    <i th:if="${!bool}" class="bi-x-square"></i>
+</th:block>
 </body>
 </html>
