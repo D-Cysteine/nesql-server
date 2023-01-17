@@ -1,6 +1,7 @@
 package com.github.dcysteine.nesql.server;
 
 import com.github.dcysteine.nesql.server.config.ExternalConfig;
+import com.github.dcysteine.nesql.server.service.IdSearchService;
 import com.github.dcysteine.nesql.server.util.NumberUtil;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidRepository;
 import com.github.dcysteine.nesql.sql.base.item.ItemRepository;
@@ -11,6 +12,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Optional;
 
 /** Serves root-level endpoints. */
 @Controller
@@ -20,6 +24,9 @@ public class RootController {
 
     @Autowired
     private ApplicationContext context;
+
+    @Autowired
+    private IdSearchService idSearchService;
 
     @Autowired
     private ItemRepository itemRepository;
@@ -39,6 +46,11 @@ public class RootController {
         model.addAttribute(
                 "recipeCount", NumberUtil.formatInteger(recipeRepository.count()));
         return "index";
+    }
+
+    @GetMapping("/idsearch")
+    public String idSearch(@RequestParam String id) {
+        return idSearchService.handleIdSearch(id);
     }
 
     @GetMapping("/notfound")

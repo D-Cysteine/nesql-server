@@ -16,45 +16,62 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
 </head>
 <body>
-<nav th:fragment="navBar"
-     class="navbar navbar-expand-lg justify-content-center bg-body-secondary mb-3">
-    <ul class="navbar-nav">
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{~/index}">
-                Index
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{~/item/search}">
-                Items
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{~/fluid/search}">
-                Fluids
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{~/itemgroup/search}">
-                Item Groups
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{~/fluidgroup/search}">
-                Fluid Groups
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{~/recipe/search}">
-                Recipes
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{~/recipetype/search}">
-                Recipe Types
-            </a>
-        </li>
-    </ul>
+<nav th:fragment="navBar" class="navbar navbar-expand-lg bg-body-secondary mb-3">
+    <div class="container-fluid">
+        <div class="row w-100 justify-content-around">
+            <div class="col-3"><!-- Left-justified content goes here! --></div>
+            <div class="col-auto">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{~/index}">
+                            Index
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{~/item/search}">
+                            Items
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{~/fluid/search}">
+                            Fluids
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{~/itemgroup/search}">
+                            Item Groups
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{~/fluidgroup/search}">
+                            Fluid Groups
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{~/recipe/search}">
+                            Recipes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{~/recipetype/search}">
+                            Recipe Types
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-3">
+                <form action="/idsearch" method="get">
+                    <div class="input-group">
+                        <span class="input-group-text">Any ID</span>
+                        <input name="id" type="text" class="form-control">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </nav>
 
 <th:block th:fragment="offcanvas">

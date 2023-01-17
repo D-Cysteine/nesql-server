@@ -47,16 +47,23 @@ public class RecipeController {
 
     @GetMapping(path = "/search")
     public String search(
+            @RequestParam(required = false) Optional<String> inputItemName,
             @RequestParam(required = false) Optional<String> inputItemId,
             @RequestParam(defaultValue = "1") int page,
             Model model) {
         @Nullable
+        Specification<Recipe> inputItemNameSpec =
+                inputItemName
+                        .filter(Predicate.not(String::isEmpty))
+                        .map(RecipeSpec::buildInputItemNameSpec).orElse(null);
+
+        @Nullable
         Specification<Recipe> inputItemIdSpec =
                 inputItemId
                         .filter(Predicate.not(String::isEmpty))
-                        .map(RecipeSpec::buildInputItemSpec).orElse(null);
+                        .map(RecipeSpec::buildInputItemIdSpec).orElse(null);
 
-        Specification<Recipe> spec = Specification.allOf(inputItemIdSpec);
+        Specification<Recipe> spec = Specification.allOf(inputItemNameSpec, inputItemIdSpec);
         searchService.handleSearch(
                 page, model, recipeRepository,
                 spec, baseDisplayService::buildDisplayRecipeIcon);

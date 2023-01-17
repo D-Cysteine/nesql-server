@@ -7,6 +7,14 @@
            th:value="${request.getParameter(name)}">
 </th:block>
 
+<th:block th:fragment="searchFieldFragment(name, label, type)">
+    <label th:for="${name}" class="form-label">
+        <th:block th:replace="${label}"></th:block>
+    </label>
+    <input th:id="${name}" th:name="${name}" th:type="${type}" class="form-control"
+           th:value="${request.getParameter(name)}">
+</th:block>
+
 <div th:fragment="paginatedTable(page, baseUri)" class="container">
     <div th:replace="~{fragment/search::paginationControls(${page}, ${baseUri})}"></div>
     <div class="row">
