@@ -1,8 +1,8 @@
 package com.github.dcysteine.nesql.server.plugin.base.display.item;
 
-import com.github.dcysteine.nesql.server.display.Icon;
-import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayDeps;
-import com.github.dcysteine.nesql.server.util.NumberUtil;
+import com.github.dcysteine.nesql.server.common.display.Icon;
+import com.github.dcysteine.nesql.server.common.util.NumberUtil;
+import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayService;
 import com.github.dcysteine.nesql.sql.base.item.ItemStackWithProbability;
 import com.google.auto.value.AutoValue;
 
@@ -10,12 +10,12 @@ import com.google.auto.value.AutoValue;
 public abstract class DisplayItemStackWithProbability
         implements Comparable<DisplayItemStackWithProbability> {
     public static DisplayItemStackWithProbability create(
-            ItemStackWithProbability itemStack, BaseDisplayDeps deps) {
-        return new AutoValue_DisplayItemStackWithProbability(itemStack, buildIcon(itemStack, deps));
+            ItemStackWithProbability itemStack, BaseDisplayService service) {
+        return new AutoValue_DisplayItemStackWithProbability(itemStack, buildIcon(itemStack, service));
     }
 
-    public static Icon buildIcon(ItemStackWithProbability itemStack, BaseDisplayDeps deps) {
-        Icon icon = DisplayItemStack.buildIcon(itemStack.withoutProbability(), deps);
+    public static Icon buildIcon(ItemStackWithProbability itemStack, BaseDisplayService service) {
+        Icon icon = DisplayItemStack.buildIcon(itemStack.withoutProbability(), service);
         if (NumberUtil.fuzzyEquals(itemStack.getProbability(), 1.0d)) {
             return icon;
         } else {

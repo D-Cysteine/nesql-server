@@ -27,34 +27,9 @@
                             Index
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{~/item/search}">
-                            Items
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{~/fluid/search}">
-                            Fluids
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{~/itemgroup/search}">
-                            Item Groups
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{~/fluidgroup/search}">
-                            Fluid Groups
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{~/recipe/search}">
-                            Recipes
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{~/recipetype/search}">
-                            Recipe Types
+                    <li th:each="table : ${@attributeService.navBarTables}" class="nav-item">
+                        <a class="nav-link" th:href="@{${table.searchUrl}}">
+                            [[${table.name}]]
                         </a>
                     </li>
                 </ul>
@@ -63,7 +38,7 @@
                 <form action="/idsearch" method="get">
                     <div class="input-group">
                         <span class="input-group-text">Any ID</span>
-                        <input name="id" type="text" class="form-control">
+                        <input name="id" type="search" class="form-control">
                         <button type="submit" class="btn btn-primary">
                             <i class="bi-search"></i>
                         </button>

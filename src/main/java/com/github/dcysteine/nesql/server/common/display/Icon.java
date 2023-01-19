@@ -1,4 +1,4 @@
-package com.github.dcysteine.nesql.server.display;
+package com.github.dcysteine.nesql.server.common.display;
 
 import com.google.auto.value.AutoValue;
 

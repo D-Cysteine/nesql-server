@@ -1,4 +1,4 @@
-package com.github.dcysteine.nesql.server.util;
+package com.github.dcysteine.nesql.server.common.util;
 
 import com.github.dcysteine.nesql.sql.base.recipe.Dimension;
 

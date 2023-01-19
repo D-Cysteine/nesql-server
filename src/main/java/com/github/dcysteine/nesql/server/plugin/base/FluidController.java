@@ -2,7 +2,7 @@ package com.github.dcysteine.nesql.server.plugin.base;
 
 import com.github.dcysteine.nesql.server.plugin.base.display.fluid.DisplayFluid;
 import com.github.dcysteine.nesql.server.plugin.base.spec.FluidSpec;
-import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayService;
+import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayFactory;
 import com.github.dcysteine.nesql.server.service.SearchService;
 import com.github.dcysteine.nesql.sql.base.fluid.Fluid;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidRepository;
@@ -26,7 +26,7 @@ public class FluidController {
     private FluidRepository fluidRepository;
 
     @Autowired
-    private BaseDisplayService baseDisplayService;
+    private BaseDisplayFactory baseDisplayFactory;
 
     @Autowired
     private SearchService searchService;
@@ -38,7 +38,7 @@ public class FluidController {
             return "not_found";
         }
         Fluid fluid = fluidOptional.get();
-        DisplayFluid displayFluid = baseDisplayService.buildDisplayFluid(fluid);
+        DisplayFluid displayFluid = baseDisplayFactory.buildDisplayFluid(fluid);
 
         model.addAttribute("fluid", fluid);
         model.addAttribute("displayFluid", displayFluid);
@@ -72,7 +72,7 @@ public class FluidController {
                 Specification.allOf(localizedNameSpec, internalNameSpec, fluidIdSpec);
         searchService.handleSearch(
                 page, model, fluidRepository,
-                spec, FluidSpec.DEFAULT_SORT, baseDisplayService::buildDisplayFluidIcon);
+                spec, FluidSpec.DEFAULT_SORT, baseDisplayFactory::buildDisplayFluidIcon);
         return "plugin/base/fluid/search";
     }
 }

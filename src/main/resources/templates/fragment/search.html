@@ -7,7 +7,8 @@
            th:value="${@attributeService.request.getParameter(name)}">
 </th:block>
 
-<th:block th:fragment="searchFieldFragment(name, label, type)">
+<!-- TODO can we consolidate this with the above method somehow? -->
+<th:block th:fragment="searchFieldCustomLabel(name, label, type)">
     <label th:for="${name}" class="form-label">
         <th:block th:replace="${label}"></th:block>
     </label>

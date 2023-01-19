@@ -1,7 +1,7 @@
 package com.github.dcysteine.nesql.server.plugin.base;
 
 import com.github.dcysteine.nesql.server.plugin.base.display.item.DisplayItemGroup;
-import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayService;
+import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayFactory;
 import com.github.dcysteine.nesql.server.service.SearchService;
 import com.github.dcysteine.nesql.sql.base.item.ItemGroup;
 import com.github.dcysteine.nesql.sql.base.item.ItemGroupRepository;
@@ -22,7 +22,7 @@ public class ItemGroupController {
     private ItemGroupRepository itemGroupRepository;
 
     @Autowired
-    private BaseDisplayService baseDisplayService;
+    private BaseDisplayFactory baseDisplayFactory;
 
     @Autowired
     private SearchService searchService;
@@ -34,7 +34,7 @@ public class ItemGroupController {
             return "not_found";
         }
         ItemGroup itemGroup = itemGroupOptional.get();
-        DisplayItemGroup displayItemGroup = baseDisplayService.buildDisplayItemGroup(itemGroup);
+        DisplayItemGroup displayItemGroup = baseDisplayFactory.buildDisplayItemGroup(itemGroup);
 
         model.addAttribute("itemGroup", itemGroup);
         model.addAttribute("displayItemGroup", displayItemGroup);
@@ -50,6 +50,6 @@ public class ItemGroupController {
     @GetMapping(path = "/all")
     public String all(@RequestParam(defaultValue = "1") int page, Model model) {
         return searchService.handleGetAll(
-                page, model, itemGroupRepository, baseDisplayService::buildDisplayItemGroupIcon);
+                page, model, itemGroupRepository, baseDisplayFactory::buildDisplayItemGroupIcon);
     }
 }

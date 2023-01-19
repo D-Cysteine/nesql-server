@@ -1,7 +1,7 @@
 package com.github.dcysteine.nesql.server.plugin.base;
 
 import com.github.dcysteine.nesql.server.plugin.base.display.fluid.DisplayFluidGroup;
-import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayService;
+import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayFactory;
 import com.github.dcysteine.nesql.server.service.SearchService;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidGroup;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidGroupRepository;
@@ -22,7 +22,7 @@ public class FluidGroupController {
     private FluidGroupRepository fluidGroupRepository;
 
     @Autowired
-    private BaseDisplayService baseDisplayService;
+    private BaseDisplayFactory baseDisplayFactory;
 
     @Autowired
     private SearchService searchService;
@@ -34,7 +34,7 @@ public class FluidGroupController {
             return "not_found";
         }
         FluidGroup fluidGroup = fluidGroupOptional.get();
-        DisplayFluidGroup displayFluidGroup = baseDisplayService.buildDisplayFluidGroup(fluidGroup);
+        DisplayFluidGroup displayFluidGroup = baseDisplayFactory.buildDisplayFluidGroup(fluidGroup);
 
         model.addAttribute("fluidGroup", fluidGroup);
         model.addAttribute("displayFluidGroup", displayFluidGroup);
@@ -50,6 +50,6 @@ public class FluidGroupController {
     @GetMapping(path = "/all")
     public String all(@RequestParam(defaultValue = "1") int page, Model model) {
         return searchService.handleGetAll(
-                page, model, fluidGroupRepository, baseDisplayService::buildDisplayFluidGroupIcon);
+                page, model, fluidGroupRepository, baseDisplayFactory::buildDisplayFluidGroupIcon);
     }
 }

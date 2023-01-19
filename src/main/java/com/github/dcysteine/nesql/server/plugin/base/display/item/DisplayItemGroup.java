@@ -1,57 +1,30 @@
 package com.github.dcysteine.nesql.server.plugin.base.display.item;
 
-import com.github.dcysteine.nesql.server.display.Icon;
-import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayDeps;
+import com.github.dcysteine.nesql.server.common.Constants;
+import com.github.dcysteine.nesql.server.common.Table;
+import com.github.dcysteine.nesql.server.common.display.Icon;
+import com.github.dcysteine.nesql.server.common.display.InfoPanel;
+import com.github.dcysteine.nesql.server.common.util.NumberUtil;
+import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayService;
 import com.github.dcysteine.nesql.server.plugin.base.spec.ItemSpec;
-import com.github.dcysteine.nesql.server.util.Constants;
-import com.github.dcysteine.nesql.server.util.NumberUtil;
-import com.github.dcysteine.nesql.server.util.UrlBuilder;
 import com.github.dcysteine.nesql.sql.base.item.ItemGroup;
 import com.github.dcysteine.nesql.sql.base.item.ItemRepository;
 import com.github.dcysteine.nesql.sql.base.item.ItemStack;
 import com.github.dcysteine.nesql.sql.base.item.WildcardItemStack;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableListMultimap;
 
 import java.util.SortedSet;
 
 @AutoValue
 public abstract class DisplayItemGroup implements Comparable<DisplayItemGroup> {
-    public static DisplayItemGroup create(ItemGroup itemGroup, BaseDisplayDeps deps) {
-        ItemRepository itemRepository = deps.getItemRepository();
-
-        ImmutableList<Icon> recipesWithInput = ImmutableList.of();
-
-        ImmutableList<Icon> itemStacks =
-                itemGroup.getItemStacks().stream()
-                        .map(itemStack -> DisplayItemStack.buildIcon(itemStack, deps))
-                        .collect(ImmutableList.toImmutableList());
-        ImmutableList<Icon> wildcardItemStacks =
-                itemGroup.getWildcardItemStacks().stream()
-                        .map(wildcardItemStack ->
-                                DisplayWildcardItemStack.buildIcon(wildcardItemStack, deps))
-                        .collect(ImmutableList.toImmutableList());
-
-        ImmutableListMultimap.Builder<Integer, Icon> builder =
-                ImmutableListMultimap.builder();
-        for (WildcardItemStack wildcardItemStack : itemGroup.getWildcardItemStacks()) {
-            int itemId = wildcardItemStack.getItemId();
-            itemRepository.findAll(ItemSpec.buildItemIdSpec(itemId)).stream()
-                    .sorted()
-                    .map(item -> new ItemStack(item, wildcardItemStack.getStackSize()))
-                    .map(itemStack -> DisplayItemStack.buildIcon(itemStack, deps))
-                    .forEach(itemStack -> builder.put(itemId, itemStack));
-        }
-        ImmutableListMultimap<Integer, Icon> resolvedWildcardItemStacks = builder.build();
-
+    public static DisplayItemGroup create(ItemGroup itemGroup, BaseDisplayService service) {
         return new AutoValue_DisplayItemGroup(
-                itemGroup, buildIcon(itemGroup, deps),
-                recipesWithInput, itemStacks, wildcardItemStacks, resolvedWildcardItemStacks);
+                itemGroup, buildIcon(itemGroup, service), service.getAdditionalInfo(itemGroup));
     }
 
-    public static Icon buildIcon(ItemGroup itemGroup, BaseDisplayDeps deps) {
-        ItemRepository itemRepository = deps.getItemRepository();
+    public static Icon buildIcon(ItemGroup itemGroup, BaseDisplayService service) {
+        ItemRepository itemRepository = service.getItemRepository();
 
         SortedSet<ItemStack> itemStacks = itemGroup.getItemStacks();
         SortedSet<WildcardItemStack> wildcardItemStacks = itemGroup.getWildcardItemStacks();
@@ -62,12 +35,12 @@ public abstract class DisplayItemGroup implements Comparable<DisplayItemGroup> {
             size += itemRepository.findAll(ItemSpec.buildItemIdSpec(itemId)).size();
         }
 
-        String url = UrlBuilder.buildItemGroupUrl(itemGroup);
+        String url = Table.ITEM_GROUP.getViewUrl(itemGroup);
         Icon icon;
         if (!itemStacks.isEmpty()) {
             String description =
                     String.format("Item Group (%s item stacks)", NumberUtil.formatInteger(size));
-            Icon innerIcon = DisplayItemStack.buildIcon(itemStacks.first(), deps);
+            Icon innerIcon = DisplayItemStack.buildIcon(itemStacks.first(), service);
             if (size == 1) {
                 description = String.format("Item Group (%s)", innerIcon.getDescription());
             }
@@ -83,7 +56,7 @@ public abstract class DisplayItemGroup implements Comparable<DisplayItemGroup> {
                             "Wildcard Item Group (%s keys, %s item stacks)",
                             NumberUtil.formatInteger(wildcardItemStacks.size()),
                             NumberUtil.formatInteger(size));
-            Icon innerIcon = DisplayWildcardItemStack.buildIcon(wildcardItemStacks.first(), deps);
+            Icon innerIcon = DisplayWildcardItemStack.buildIcon(wildcardItemStacks.first(), service);
             if (wildcardItemStacks.size() == 1) {
                 description = String.format("Wildcard Item Group (%s)", innerIcon.getDescription());
             }
@@ -106,10 +79,7 @@ public abstract class DisplayItemGroup implements Comparable<DisplayItemGroup> {
 
     public abstract ItemGroup getItemGroup();
     public abstract Icon getIcon();
-    public abstract ImmutableList<Icon> getRecipesWithInput();
-    public abstract ImmutableList<Icon> getItemStacks();
-    public abstract ImmutableList<Icon> getWildcardItemStacks();
-    public abstract ImmutableListMultimap<Integer, Icon> getResolvedWildcardItemStacks();
+    public abstract ImmutableList<InfoPanel> getAdditionalInfo();
 
     @Override
     public int compareTo(DisplayItemGroup other) {

@@ -1,36 +1,30 @@
 package com.github.dcysteine.nesql.server.plugin.base.display.fluid;
 
-import com.github.dcysteine.nesql.server.display.Icon;
-import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayDeps;
-import com.github.dcysteine.nesql.server.util.Constants;
-import com.github.dcysteine.nesql.server.util.NumberUtil;
-import com.github.dcysteine.nesql.server.util.UrlBuilder;
+import com.github.dcysteine.nesql.server.common.Constants;
+import com.github.dcysteine.nesql.server.common.Table;
+import com.github.dcysteine.nesql.server.common.display.Icon;
+import com.github.dcysteine.nesql.server.common.display.InfoPanel;
+import com.github.dcysteine.nesql.server.common.util.NumberUtil;
+import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayService;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidGroup;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 
 @AutoValue
 public abstract class DisplayFluidGroup implements Comparable<DisplayFluidGroup> {
-    public static DisplayFluidGroup create(FluidGroup fluidGroup, BaseDisplayDeps deps) {
-        ImmutableList<Icon> recipesWithInput = ImmutableList.of();
-
-        ImmutableList<Icon> fluidStacks =
-                fluidGroup.getFluidStacks().stream()
-                        .map(fluidStack -> DisplayFluidStack.buildIcon(fluidStack, deps))
-                        .collect(ImmutableList.toImmutableList());
-
+    public static DisplayFluidGroup create(FluidGroup fluidGroup, BaseDisplayService service) {
         return new AutoValue_DisplayFluidGroup(
-                fluidGroup, buildIcon(fluidGroup, deps), recipesWithInput, fluidStacks);
+                fluidGroup, buildIcon(fluidGroup, service), service.getAdditionalInfo(fluidGroup));
     }
 
-    public static Icon buildIcon(FluidGroup fluidGroup, BaseDisplayDeps deps) {
-        String url = UrlBuilder.buildFluidGroupUrl(fluidGroup);
+    public static Icon buildIcon(FluidGroup fluidGroup, BaseDisplayService service) {
+        String url = Table.FLUID_GROUP.getViewUrl(fluidGroup);
         Icon icon;
         if (!fluidGroup.getFluidStacks().isEmpty()) {
             int size = fluidGroup.getFluidStacks().size();
             String description =
                     String.format("Fluid Group (%s fluid stacks)", NumberUtil.formatInteger(size));
-            Icon innerIcon = DisplayFluidStack.buildIcon(fluidGroup.getFluidStacks().first(), deps);
+            Icon innerIcon = DisplayFluidStack.buildIcon(fluidGroup.getFluidStacks().first(), service);
             if (size == 1) {
                 description = String.format("Fluid Group (%s)", innerIcon.getDescription());
             }
@@ -53,8 +47,7 @@ public abstract class DisplayFluidGroup implements Comparable<DisplayFluidGroup>
 
     public abstract FluidGroup getFluidGroup();
     public abstract Icon getIcon();
-    public abstract ImmutableList<Icon> getRecipesWithInput();
-    public abstract ImmutableList<Icon> getFluidStacks();
+    public abstract ImmutableList<InfoPanel> getAdditionalInfo();
 
     @Override
     public int compareTo(DisplayFluidGroup other) {

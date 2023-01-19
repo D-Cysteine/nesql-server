@@ -1,6 +1,7 @@
 package com.github.dcysteine.nesql.server.service;
 
-import com.github.dcysteine.nesql.server.util.UrlBuilder;
+import com.github.dcysteine.nesql.server.common.Table;
+import com.github.dcysteine.nesql.sql.Identifiable;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidGroupRepository;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidRepository;
 import com.github.dcysteine.nesql.sql.base.item.ItemGroupRepository;
@@ -14,7 +15,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.function.Function;
 
 /** Handles one-box searching by any ID. */
 @Service
@@ -41,8 +41,7 @@ public class IdSearchService {
         for (RepositoryIdSearch<?> search : getSearches()) {
             Optional<String> result = search.search(id);
             if (result.isPresent()) {
-                // Trim off the leading "~" returned from UrlBuilder
-                return "redirect:" + result.get().substring(1);
+                return "redirect:" + result.get();
             }
         }
         return "not_found";
@@ -50,31 +49,27 @@ public class IdSearchService {
 
     private ImmutableList<RepositoryIdSearch<?>> getSearches() {
         return ImmutableList.<RepositoryIdSearch<?>>builder()
-                .add(RepositoryIdSearch.create(itemRepository, UrlBuilder::buildItemUrl))
-                .add(RepositoryIdSearch.create(fluidRepository, UrlBuilder::buildFluidUrl))
-                .add(RepositoryIdSearch.create(itemGroupRepository, UrlBuilder::buildItemGroupUrl))
-                .add(
-                        RepositoryIdSearch.create(
-                                fluidGroupRepository, UrlBuilder::buildFluidGroupUrl))
-                .add(RepositoryIdSearch.create(recipeRepository, UrlBuilder::buildRecipeUrl))
-                .add(
-                        RepositoryIdSearch.create(
-                                recipeTypeRepository, UrlBuilder::buildRecipeTypeUrl))
+                .add(RepositoryIdSearch.create(itemRepository, Table.ITEM))
+                .add(RepositoryIdSearch.create(fluidRepository, Table.FLUID))
+                .add(RepositoryIdSearch.create(itemGroupRepository, Table.ITEM_GROUP))
+                .add(RepositoryIdSearch.create(fluidGroupRepository, Table.FLUID_GROUP))
+                .add(RepositoryIdSearch.create(recipeRepository, Table.RECIPE))
+                .add(RepositoryIdSearch.create(recipeTypeRepository, Table.RECIPE_TYPE))
                 .build();
     }
 
     @AutoValue
     protected abstract static class RepositoryIdSearch<T> {
-        public static <T> RepositoryIdSearch<T> create(
-                JpaRepository<T, String> repository, Function<T, String> urlFunction) {
-            return new AutoValue_IdSearchService_RepositoryIdSearch<>(repository, urlFunction);
+        public static RepositoryIdSearch create(
+                JpaRepository<? extends Identifiable<String>, String> repository, Table table) {
+            return new AutoValue_IdSearchService_RepositoryIdSearch<>(repository, table);
         }
 
         public Optional<String> search(String id) {
-            return getRepository().findById(id).map(getUrlFunction());
+            return getRepository().findById(id).map(getTable()::getViewUrlNoPrefix);
         }
 
-        public abstract JpaRepository<T, String> getRepository();
-        public abstract Function<T, String> getUrlFunction();
+        public abstract JpaRepository<? extends Identifiable<String>, String> getRepository();
+        public abstract Table getTable();
     }
 }

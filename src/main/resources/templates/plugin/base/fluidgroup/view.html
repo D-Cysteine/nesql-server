@@ -19,34 +19,7 @@
         </div>
 
         <div class="row">
-            <nav>
-                <div class="nav nav-tabs justify-content-center" id="fluid-group-relations-tab" role="tablist">
-                    <button class="nav-link active" id="fluid-group-relations-recipes-with-input-tab"
-                            data-bs-toggle="tab" data-bs-target="#recipes-with-input"
-                            type="button" role="tab"
-                            aria-controls="recipes-with-input" aria-selected="true">
-                        Recipes with input
-                    </button>
-                    <button class="nav-link" id="fluid-group-relations-fluid-stacks-tab"
-                            data-bs-toggle="tab" data-bs-target="#fluid-stacks"
-                            type="button" role="tab"
-                            aria-controls="fluid-stacks" aria-selected="true">
-                        Fluid stacks
-                    </button>
-                </div>
-            </nav>
-            <div class="tab-content" id="fluid-group-relations-tabContent">
-                <div class="tab-pane fade show active" id="recipes-with-input" role="tabpanel" tabindex="0"
-                     aria-labelledby="fluid-group-relations-recipes-with-input-tab">
-                    <table th:replace="~{fragment/icon::overlayIconTable(${displayFluidGroup.recipesWithInput})}">
-                    </table>
-                </div>
-                <div class="tab-pane fade" id="fluid-stacks" role="tabpanel" tabindex="0"
-                     aria-labelledby="fluid-group-relations-fluid-stacks-tab">
-                    <table th:replace="~{fragment/icon::overlayIconTable(${displayFluidGroup.fluidStacks})}">
-                    </table>
-                </div>
-            </div>
+            <!-- TODO render additional info here -->
         </div>
     </div>
 </th:block>

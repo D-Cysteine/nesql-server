@@ -1,37 +1,31 @@
 package com.github.dcysteine.nesql.server.plugin.base.display.fluid;
 
-import com.github.dcysteine.nesql.server.display.Icon;
-import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayDeps;
-import com.github.dcysteine.nesql.server.util.UrlBuilder;
+import com.github.dcysteine.nesql.server.common.Table;
+import com.github.dcysteine.nesql.server.common.display.Icon;
+import com.github.dcysteine.nesql.server.common.display.InfoPanel;
+import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayService;
 import com.github.dcysteine.nesql.sql.base.fluid.Fluid;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 
 @AutoValue
 public abstract class DisplayFluid implements Comparable<DisplayFluid> {
-    public static DisplayFluid create(Fluid fluid, BaseDisplayDeps deps) {
-        ImmutableList<Icon> recipesWithInput = ImmutableList.of();
-        ImmutableList<Icon> recipesWithOutput = ImmutableList.of();
-        ImmutableList<Icon> fluidGroupsContaining = ImmutableList.of();
-
+    public static DisplayFluid create(Fluid fluid, BaseDisplayService service) {
         return new AutoValue_DisplayFluid(
-                fluid, buildIcon(fluid, deps),
-                recipesWithInput, recipesWithOutput, fluidGroupsContaining);
+                fluid, buildIcon(fluid, service), service.getAdditionalInfo(fluid));
     }
 
-    public static Icon buildIcon(Fluid fluid, BaseDisplayDeps deps) {
+    public static Icon buildIcon(Fluid fluid, BaseDisplayService service) {
         return Icon.builder()
                 .setDescription(fluid.getLocalizedName())
-                .setUrl(UrlBuilder.buildFluidUrl(fluid))
+                .setUrl(Table.FLUID.getViewUrl(fluid))
                 .setImage(fluid.getImageFilePath())
                 .build();
     }
 
     public abstract Fluid getFluid();
     public abstract Icon getIcon();
-    public abstract ImmutableList<Icon> getFluidGroupsContaining();
-    public abstract ImmutableList<Icon> getRecipesWithInput();
-    public abstract ImmutableList<Icon> getRecipesWithOutput();
+    public abstract ImmutableList<InfoPanel> getAdditionalInfo();
 
     @Override
     public int compareTo(DisplayFluid other) {

@@ -1,6 +1,6 @@
 package com.github.dcysteine.nesql.server.plugin.base;
 
-import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayService;
+import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayFactory;
 import com.github.dcysteine.nesql.server.plugin.base.display.recipe.DisplayRecipeType;
 import com.github.dcysteine.nesql.server.service.SearchService;
 import com.github.dcysteine.nesql.sql.base.recipe.RecipeType;
@@ -22,7 +22,7 @@ public class RecipeTypeController {
     private RecipeTypeRepository recipeTypeRepository;
 
     @Autowired
-    private BaseDisplayService baseDisplayService;
+    private BaseDisplayFactory baseDisplayFactory;
 
     @Autowired
     private SearchService searchService;
@@ -34,7 +34,7 @@ public class RecipeTypeController {
             return "not_found";
         }
         RecipeType recipeType = recipeTypeOptional.get();
-        DisplayRecipeType displayRecipeType = baseDisplayService.buildDisplayRecipeType(recipeType);
+        DisplayRecipeType displayRecipeType = baseDisplayFactory.buildDisplayRecipeType(recipeType);
 
         model.addAttribute("recipeType", recipeType);
         model.addAttribute("displayRecipeType", displayRecipeType);
@@ -50,6 +50,6 @@ public class RecipeTypeController {
     @GetMapping(path = "/all")
     public String all(@RequestParam(defaultValue = "1") int page, Model model) {
         return searchService.handleGetAll(
-                page, model, recipeTypeRepository, baseDisplayService::buildDisplayRecipeTypeIcon);
+                page, model, recipeTypeRepository, baseDisplayFactory::buildDisplayRecipeTypeIcon);
     }
 }

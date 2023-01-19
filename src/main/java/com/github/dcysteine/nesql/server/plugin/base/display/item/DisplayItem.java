@@ -1,38 +1,32 @@
 package com.github.dcysteine.nesql.server.plugin.base.display.item;
 
-import com.github.dcysteine.nesql.server.display.Icon;
-import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayDeps;
-import com.github.dcysteine.nesql.server.util.StringUtil;
-import com.github.dcysteine.nesql.server.util.UrlBuilder;
+import com.github.dcysteine.nesql.server.common.Table;
+import com.github.dcysteine.nesql.server.common.display.Icon;
+import com.github.dcysteine.nesql.server.common.display.InfoPanel;
+import com.github.dcysteine.nesql.server.common.util.StringUtil;
+import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayService;
 import com.github.dcysteine.nesql.sql.base.item.Item;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 
 @AutoValue
 public abstract class DisplayItem implements Comparable<DisplayItem> {
-    public static DisplayItem create(Item item, BaseDisplayDeps deps) {
-        ImmutableList<Icon> recipesWithInput = ImmutableList.of();
-        ImmutableList<Icon> recipesWithWildcardInput = ImmutableList.of();
-        ImmutableList<Icon> recipesWithOutput = ImmutableList.of();
-        ImmutableList<Icon> itemGroupsContaining = ImmutableList.of();
-        ImmutableList<Icon> itemGroupsContainingWildcard = ImmutableList.of();
-
+    public static DisplayItem create(Item item, BaseDisplayService service) {
         ImmutableList<String> nbt = ImmutableList.of();
         if (item.hasNbt()) {
             nbt = ImmutableList.copyOf(StringUtil.prettyPrintNbt(item.getNbt()).split("\n"));
         }
 
         return new AutoValue_DisplayItem(
-                item, buildIcon(item, deps),
+                item, buildIcon(item, service),
                 nbt, ImmutableList.copyOf(item.getTooltip().split("\n")),
-                recipesWithInput, recipesWithWildcardInput, recipesWithOutput,
-                itemGroupsContaining, itemGroupsContainingWildcard);
+                service.getAdditionalInfo(item));
     }
 
-    public static Icon buildIcon(Item item, BaseDisplayDeps deps) {
+    public static Icon buildIcon(Item item, BaseDisplayService service) {
         return Icon.builder()
                 .setDescription(item.getLocalizedName())
-                .setUrl(UrlBuilder.buildItemUrl(item))
+                .setUrl(Table.ITEM.getViewUrl(item))
                 .setImage(item.getImageFilePath())
                 .build();
     }
@@ -41,11 +35,7 @@ public abstract class DisplayItem implements Comparable<DisplayItem> {
     public abstract Icon getIcon();
     public abstract ImmutableList<String> getNbt();
     public abstract ImmutableList<String> getTooltip();
-    public abstract ImmutableList<Icon> getRecipesWithInput();
-    public abstract ImmutableList<Icon> getRecipesWithWildcardInput();
-    public abstract ImmutableList<Icon> getRecipesWithOutput();
-    public abstract ImmutableList<Icon> getItemGroupsContaining();
-    public abstract ImmutableList<Icon> getItemGroupsContainingWildcard();
+    public abstract ImmutableList<InfoPanel> getAdditionalInfo();
 
     @Override
     public int compareTo(DisplayItem other) {

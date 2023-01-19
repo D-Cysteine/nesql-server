@@ -2,7 +2,7 @@ package com.github.dcysteine.nesql.server.plugin.base;
 
 import com.github.dcysteine.nesql.server.plugin.base.display.item.DisplayItem;
 import com.github.dcysteine.nesql.server.plugin.base.spec.ItemSpec;
-import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayService;
+import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayFactory;
 import com.github.dcysteine.nesql.server.service.SearchService;
 import com.github.dcysteine.nesql.sql.base.item.Item;
 import com.github.dcysteine.nesql.sql.base.item.ItemRepository;
@@ -26,7 +26,7 @@ public class ItemController {
     private ItemRepository itemRepository;
 
     @Autowired
-    private BaseDisplayService baseDisplayService;
+    private BaseDisplayFactory baseDisplayFactory;
 
     @Autowired
     private SearchService searchService;
@@ -38,7 +38,7 @@ public class ItemController {
             return "not_found";
         }
         Item item = itemOptional.get();
-        DisplayItem displayItem = baseDisplayService.buildDisplayItem(item);
+        DisplayItem displayItem = baseDisplayFactory.buildDisplayItem(item);
 
         model.addAttribute("item", item);
         model.addAttribute("displayItem", displayItem);
@@ -78,7 +78,7 @@ public class ItemController {
                         localizedNameSpec, internalNameSpec, itemIdSpec, itemDamageSpec);
         searchService.handleSearch(
                 page, model, itemRepository,
-                spec, ItemSpec.DEFAULT_SORT, baseDisplayService::buildDisplayItemIcon);
+                spec, ItemSpec.DEFAULT_SORT, baseDisplayFactory::buildDisplayItemIcon);
         return "plugin/base/item/search";
     }
 }

@@ -2,7 +2,7 @@ package com.github.dcysteine.nesql.server;
 
 import com.github.dcysteine.nesql.server.config.ExternalConfig;
 import com.github.dcysteine.nesql.server.service.IdSearchService;
-import com.github.dcysteine.nesql.server.util.NumberUtil;
+import com.github.dcysteine.nesql.server.common.util.NumberUtil;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidRepository;
 import com.github.dcysteine.nesql.sql.base.item.ItemRepository;
 import com.github.dcysteine.nesql.sql.base.recipe.RecipeRepository;
@@ -13,8 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.Optional;
 
 /** Serves root-level endpoints. */
 @Controller

@@ -24,7 +24,7 @@
                 <div class="container"></div>
                 <div class="row mb-3">
                     <div class="col">
-                        <th:block th:replace="~{fragment/search::searchFieldFragment(inputItemName, ~{::inputItemNameLabel}, 'search')}">
+                        <th:block th:replace="~{fragment/search::searchFieldCustomLabel(inputItemName, ~{::inputItemNameLabel}, 'search')}">
                             <th:block th:fragment="inputItemNameLabel">
                                 Input item name (regex)
                                 <i th:replace="~{fragment/info::danger('Be careful! Restrict this field or you\'ll get never-ending queries!')}"></i>
