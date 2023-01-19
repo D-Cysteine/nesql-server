@@ -13,7 +13,7 @@ idea {
 }
 
 group = "com.github.dcysteine.nesql.server"
-version = "0.2.1"
+version = "0.3.0"
 
 repositories {
     mavenCentral()
@@ -35,4 +35,12 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
     runtimeOnly("com.h2database:h2:2.1.214")
+}
+
+tasks.withType<Jar> {
+    filesMatching("application.properties") {
+        expand(
+            mapOf("version" to project.version)
+        )
+    }
 }

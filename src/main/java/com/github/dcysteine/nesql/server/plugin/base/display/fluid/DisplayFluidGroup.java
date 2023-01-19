@@ -2,7 +2,6 @@ package com.github.dcysteine.nesql.server.plugin.base.display.fluid;
 
 import com.github.dcysteine.nesql.server.display.Icon;
 import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayDeps;
-import com.github.dcysteine.nesql.server.plugin.base.display.recipe.DisplayRecipe;
 import com.github.dcysteine.nesql.server.util.Constants;
 import com.github.dcysteine.nesql.server.util.NumberUtil;
 import com.github.dcysteine.nesql.server.util.UrlBuilder;
@@ -13,10 +12,7 @@ import com.google.common.collect.ImmutableList;
 @AutoValue
 public abstract class DisplayFluidGroup implements Comparable<DisplayFluidGroup> {
     public static DisplayFluidGroup create(FluidGroup fluidGroup, BaseDisplayDeps deps) {
-        ImmutableList<Icon> recipesWithInput =
-                fluidGroup.getRecipesWithInput().stream()
-                        .map(recipe -> DisplayRecipe.buildIcon(recipe, deps))
-                        .collect(ImmutableList.toImmutableList());
+        ImmutableList<Icon> recipesWithInput = ImmutableList.of();
 
         ImmutableList<Icon> fluidStacks =
                 fluidGroup.getFluidStacks().stream()

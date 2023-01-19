@@ -3,6 +3,7 @@ package com.github.dcysteine.nesql.server.plugin.base.display.item;
 import com.github.dcysteine.nesql.server.Main;
 import com.github.dcysteine.nesql.server.display.Icon;
 import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayDeps;
+import com.github.dcysteine.nesql.server.plugin.base.spec.ItemSpec;
 import com.github.dcysteine.nesql.server.util.Constants;
 import com.github.dcysteine.nesql.server.util.UrlBuilder;
 import com.github.dcysteine.nesql.sql.base.item.Item;
@@ -23,7 +24,9 @@ public abstract class DisplayWildcardItemStack implements Comparable<DisplayWild
     public static Icon buildIcon(WildcardItemStack wildcardItemStack, BaseDisplayDeps deps) {
         ItemRepository itemRepository = deps.getItemRepository();
 
-        List<Item> items = itemRepository.findBaseItemByItemId(wildcardItemStack.getItemId());
+        int itemId = wildcardItemStack.getItemId();
+        List<Item> items =
+                itemRepository.findAll(ItemSpec.buildItemIdSpec(itemId), ItemSpec.DEFAULT_SORT);
         Icon icon;
         if (items.isEmpty()) {
             Main.Logger.error(

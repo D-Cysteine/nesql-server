@@ -17,6 +17,7 @@ public class WebSecurityConfig {
                     new String[]{"default-src 'self'"});
 
     @Bean
+    @SuppressWarnings("deprecation")
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.headers().contentSecurityPolicy(CONTENT_SECURITY_POLICY);
 

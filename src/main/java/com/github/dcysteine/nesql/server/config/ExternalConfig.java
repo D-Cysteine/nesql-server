@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ExternalConfig {
+    @Value("${nesql.server.version}")
+    private String version;
+
     @Value("${nesql.server.repository-name}")
     private String repositoryName;
 
@@ -20,6 +23,10 @@ public class ExternalConfig {
 
     @Value("${nesql.server.allow-external-users}")
     private boolean externalUsersAllowed;
+
+    public String getVersion() {
+        return version;
+    }
 
     public String getRepositoryName() {
         return repositoryName;

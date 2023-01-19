@@ -2,7 +2,7 @@ package com.github.dcysteine.nesql.server.plugin.base.display.item;
 
 import com.github.dcysteine.nesql.server.display.Icon;
 import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayDeps;
-import com.github.dcysteine.nesql.server.plugin.base.display.recipe.DisplayRecipe;
+import com.github.dcysteine.nesql.server.plugin.base.spec.ItemSpec;
 import com.github.dcysteine.nesql.server.util.Constants;
 import com.github.dcysteine.nesql.server.util.NumberUtil;
 import com.github.dcysteine.nesql.server.util.UrlBuilder;
@@ -21,11 +21,7 @@ public abstract class DisplayItemGroup implements Comparable<DisplayItemGroup> {
     public static DisplayItemGroup create(ItemGroup itemGroup, BaseDisplayDeps deps) {
         ItemRepository itemRepository = deps.getItemRepository();
 
-        ImmutableList<Icon> recipesWithInput =
-                itemGroup.getRecipesWithInput().stream()
-                        .sorted()
-                        .map(recipe -> DisplayRecipe.buildIcon(recipe, deps))
-                        .collect(ImmutableList.toImmutableList());
+        ImmutableList<Icon> recipesWithInput = ImmutableList.of();
 
         ImmutableList<Icon> itemStacks =
                 itemGroup.getItemStacks().stream()
@@ -41,7 +37,7 @@ public abstract class DisplayItemGroup implements Comparable<DisplayItemGroup> {
                 ImmutableListMultimap.builder();
         for (WildcardItemStack wildcardItemStack : itemGroup.getWildcardItemStacks()) {
             int itemId = wildcardItemStack.getItemId();
-            itemRepository.findByItemId(itemId).stream()
+            itemRepository.findAll(ItemSpec.buildItemIdSpec(itemId)).stream()
                     .sorted()
                     .map(item -> new ItemStack(item, wildcardItemStack.getStackSize()))
                     .map(itemStack -> DisplayItemStack.buildIcon(itemStack, deps))
@@ -63,7 +59,7 @@ public abstract class DisplayItemGroup implements Comparable<DisplayItemGroup> {
         int size = itemStacks.size();
         for (WildcardItemStack wildcardItemStack : wildcardItemStacks) {
             int itemId = wildcardItemStack.getItemId();
-            size += itemRepository.findByItemId(itemId).size();
+            size += itemRepository.findAll(ItemSpec.buildItemIdSpec(itemId)).size();
         }
 
         String url = UrlBuilder.buildItemGroupUrl(itemGroup);

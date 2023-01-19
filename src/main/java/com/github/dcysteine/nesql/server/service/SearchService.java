@@ -1,7 +1,6 @@
 package com.github.dcysteine.nesql.server.service;
 
 import com.github.dcysteine.nesql.server.config.ExternalConfig;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,9 +20,6 @@ import java.util.function.Function;
 public class SearchService {
     @Autowired
     private ExternalConfig externalConfig;
-
-    @Autowired
-    private HttpServletRequest request;
 
     /** Fallback sort, for any entities that don't have a more meaningful sort. */
     public static final Sort ID_SORT = Sort.by("id");
@@ -58,7 +54,6 @@ public class SearchService {
                         .toUriString();
         baseUri = URLDecoder.decode(baseUri, StandardCharsets.UTF_8);
 
-        model.addAttribute("request", request);
         model.addAttribute("page", results);
         model.addAttribute("baseUri", baseUri);
         return "search_results";

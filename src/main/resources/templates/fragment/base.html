@@ -18,8 +18,8 @@
 <body>
 <nav th:fragment="navBar" class="navbar navbar-expand-lg bg-body-secondary mb-3">
     <div class="container-fluid">
-        <div class="row w-100 justify-content-around">
-            <div class="col-3"><!-- Left-justified content goes here! --></div>
+        <div class="row w-100 justify-content-around align-items-center">
+            <div class="col-3">v[[${@externalConfig.version}]]</div>
             <div class="col-auto">
                 <ul class="navbar-nav">
                     <li class="nav-item">

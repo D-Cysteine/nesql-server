@@ -2,36 +2,17 @@ package com.github.dcysteine.nesql.server.plugin.base.display.fluid;
 
 import com.github.dcysteine.nesql.server.display.Icon;
 import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayDeps;
-import com.github.dcysteine.nesql.server.plugin.base.display.recipe.DisplayRecipe;
 import com.github.dcysteine.nesql.server.util.UrlBuilder;
 import com.github.dcysteine.nesql.sql.base.fluid.Fluid;
-import com.github.dcysteine.nesql.sql.base.fluid.FluidGroupRepository;
-import com.github.dcysteine.nesql.sql.base.recipe.RecipeRepository;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 
 @AutoValue
 public abstract class DisplayFluid implements Comparable<DisplayFluid> {
     public static DisplayFluid create(Fluid fluid, BaseDisplayDeps deps) {
-        FluidGroupRepository fluidGroupRepository = deps.getFluidGroupRepository();
-        RecipeRepository recipeRepository = deps.getRecipeRepository();
-
-        ImmutableList<Icon> recipesWithInput =
-                recipeRepository.findByFluidInput(fluid.getId()).stream()
-                        .sorted()
-                        .map(recipe -> DisplayRecipe.buildIcon(recipe, deps))
-                        .collect(ImmutableList.toImmutableList());
-        ImmutableList<Icon> recipesWithOutput =
-                recipeRepository.findByFluidInput(fluid.getId()).stream()
-                        .sorted()
-                        .map(recipe -> DisplayRecipe.buildIcon(recipe, deps))
-                        .collect(ImmutableList.toImmutableList());
-
-        ImmutableList<Icon> fluidGroupsContaining =
-                fluidGroupRepository.findByFluid(fluid.getId()).stream()
-                        .sorted()
-                        .map(fluidGroup -> DisplayFluidGroup.buildIcon(fluidGroup, deps))
-                        .collect(ImmutableList.toImmutableList());
+        ImmutableList<Icon> recipesWithInput = ImmutableList.of();
+        ImmutableList<Icon> recipesWithOutput = ImmutableList.of();
+        ImmutableList<Icon> fluidGroupsContaining = ImmutableList.of();
 
         return new AutoValue_DisplayFluid(
                 fluid, buildIcon(fluid, deps),

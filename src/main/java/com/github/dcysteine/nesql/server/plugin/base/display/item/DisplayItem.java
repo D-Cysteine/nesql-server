@@ -2,47 +2,20 @@ package com.github.dcysteine.nesql.server.plugin.base.display.item;
 
 import com.github.dcysteine.nesql.server.display.Icon;
 import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayDeps;
-import com.github.dcysteine.nesql.server.plugin.base.display.recipe.DisplayRecipe;
 import com.github.dcysteine.nesql.server.util.StringUtil;
 import com.github.dcysteine.nesql.server.util.UrlBuilder;
 import com.github.dcysteine.nesql.sql.base.item.Item;
-import com.github.dcysteine.nesql.sql.base.item.ItemGroupRepository;
-import com.github.dcysteine.nesql.sql.base.recipe.RecipeRepository;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 
 @AutoValue
 public abstract class DisplayItem implements Comparable<DisplayItem> {
     public static DisplayItem create(Item item, BaseDisplayDeps deps) {
-        ItemGroupRepository itemGroupRepository = deps.getItemGroupRepository();
-        RecipeRepository recipeRepository = deps.getRecipeRepository();
-
-        ImmutableList<Icon> recipesWithInput =
-                recipeRepository.findByItemInput(item.getId()).stream()
-                        .sorted()
-                        .map(recipe -> DisplayRecipe.buildIcon(recipe, deps))
-                        .collect(ImmutableList.toImmutableList());
-        ImmutableList<Icon> recipesWithWildcardInput =
-                recipeRepository.findByWildcardItemInput(item.getItemId()).stream()
-                        .sorted()
-                        .map(recipe -> DisplayRecipe.buildIcon(recipe, deps))
-                        .collect(ImmutableList.toImmutableList());
-        ImmutableList<Icon> recipesWithOutput =
-                recipeRepository.findByItemOutput(item.getId()).stream()
-                        .sorted()
-                        .map(recipe -> DisplayRecipe.buildIcon(recipe, deps))
-                        .collect(ImmutableList.toImmutableList());
-
-        ImmutableList<Icon> itemGroupsContaining =
-                itemGroupRepository.findByItem(item.getId()).stream()
-                        .sorted()
-                        .map(itemGroup -> DisplayItemGroup.buildIcon(itemGroup, deps))
-                        .collect(ImmutableList.toImmutableList());
-        ImmutableList<Icon> itemGroupsContainingWildcard =
-                itemGroupRepository.findByWildcardItemId(item.getItemId()).stream()
-                        .sorted()
-                        .map(itemGroup -> DisplayItemGroup.buildIcon(itemGroup, deps))
-                        .collect(ImmutableList.toImmutableList());
+        ImmutableList<Icon> recipesWithInput = ImmutableList.of();
+        ImmutableList<Icon> recipesWithWildcardInput = ImmutableList.of();
+        ImmutableList<Icon> recipesWithOutput = ImmutableList.of();
+        ImmutableList<Icon> itemGroupsContaining = ImmutableList.of();
+        ImmutableList<Icon> itemGroupsContainingWildcard = ImmutableList.of();
 
         ImmutableList<String> nbt = ImmutableList.of();
         if (item.hasNbt()) {
