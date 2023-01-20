@@ -1,5 +1,6 @@
 package com.github.dcysteine.nesql.server.plugin.base;
 
+import com.github.dcysteine.nesql.server.common.util.ParamUtil;
 import com.github.dcysteine.nesql.server.plugin.base.display.fluid.DisplayFluid;
 import com.github.dcysteine.nesql.server.plugin.base.spec.FluidSpec;
 import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayFactory;
@@ -15,9 +16,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 @Controller
 @RequestMapping(path = "/fluid")
@@ -52,27 +53,15 @@ public class FluidController {
             @RequestParam(required = false) Optional<Integer> fluidId,
             @RequestParam(defaultValue = "1") int page,
             Model model) {
-        @Nullable
-        Specification<Fluid> localizedNameSpec =
-                localizedName
-                        .filter(Predicate.not(String::isEmpty))
-                        .map(FluidSpec::buildLocalizedNameSpec).orElse(null);
+        List<Specification<Fluid>> specs = new ArrayList<>();
+        specs.add(ParamUtil.buildStringSpec(localizedName, FluidSpec::buildLocalizedNameSpec));
+        specs.add(ParamUtil.buildStringSpec(internalName, FluidSpec::buildInternalNameSpec));
+        specs.add(ParamUtil.buildSpec(fluidId, FluidSpec::buildFluidIdSpec));
 
-        @Nullable
-        Specification<Fluid> internalNameSpec =
-                internalName
-                        .filter(Predicate.not(String::isEmpty))
-                        .map(FluidSpec::buildInternalNameSpec).orElse(null);
-
-        @Nullable
-        Specification<Fluid> fluidIdSpec =
-                fluidId.map(FluidSpec::buildFluidIdSpec).orElse(null);
-
-        Specification<Fluid> spec =
-                Specification.allOf(localizedNameSpec, internalNameSpec, fluidIdSpec);
         searchService.handleSearch(
                 page, model, fluidRepository,
-                spec, FluidSpec.DEFAULT_SORT, baseDisplayFactory::buildDisplayFluidIcon);
+                Specification.allOf(specs), FluidSpec.DEFAULT_SORT,
+                baseDisplayFactory::buildDisplayFluidIcon);
         return "plugin/base/fluid/search";
     }
 }

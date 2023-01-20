@@ -24,18 +24,45 @@
                 <div class="container">
                     <div class="row mb-3">
                         <div class="col">
-                            <th:block th:replace="~{fragment/search::searchField(localizedName, 'Localized name (regex)', 'search')}">
-                            </th:block>
+                            <div class="mb-2">
+                                <th:block th:replace="~{fragment/search::searchFieldRegex(localizedName, 'Localized name')}">
+                                </th:block>
+                            </div>
 
-                            <th:block th:replace="~{fragment/search::searchField(internalName, 'Internal name (regex)', 'search')}">
-                            </th:block>
+                            <div class="mb-2">
+                                <th:block th:replace="~{fragment/search::searchFieldRegex(internalName, 'Internal name')}">
+                                </th:block>
+                            </div>
+
+                            <div class="mb-2">
+                                <th:block th:replace="~{fragment/search::searchFieldRegex(modId, 'Mod ID')}">
+                                </th:block>
+                            </div>
                         </div>
                         <div class="col">
-                            <th:block th:replace="~{fragment/search::searchField(itemId, 'Minecraft item ID', 'number')}">
-                            </th:block>
+                            <div class="mb-2">
+                                <th:block th:replace="~{fragment/search::searchField(itemId, 'Minecraft item ID', 'number')}">
+                                </th:block>
+                            </div>
 
-                            <th:block th:replace="~{fragment/search::searchField(itemDamage, 'itemDamage', 'number')}">
-                            </th:block>
+                            <div class="mb-2">
+                                <th:block th:replace="~{fragment/search::searchField(itemDamage, 'Item damage', 'number')}">
+                                </th:block>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="mb-2">
+                                <th:block th:replace="~{fragment/search::searchFieldRegex(tooltip, 'Tooltip')}">
+                                </th:block>
+                            </div>
+
+                            <div class="mb-2">
+                                <th:block th:replace="~{fragment/search::searchFieldRegex(nbt, 'NBT')}">
+                                </th:block>
+                                <div class="form-text">
+                                    Search for "^$" to find items with no NBT.
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row justify-content-center">

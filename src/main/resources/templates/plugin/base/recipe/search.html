@@ -24,15 +24,19 @@
                 <div class="container"></div>
                 <div class="row mb-3">
                     <div class="col">
-                        <th:block th:replace="~{fragment/search::searchFieldCustomLabel(inputItemName, ~{::inputItemNameLabel}, 'search')}">
-                            <th:block th:fragment="inputItemNameLabel">
-                                Input item name (regex)
-                                <i th:replace="~{fragment/info::danger('Be careful! Restrict this field or you\'ll get never-ending queries!')}"></i>
+                        <div class="mb-2">
+                            <th:block th:replace="~{fragment/search::searchFieldRegex(inputItemName, 'Input item name')}">
                             </th:block>
-                        </th:block>
+                            <div class="form-text text-danger">
+                                Be careful with this field!
+                                Restrict your query or it'll never complete!
+                            </div>
+                        </div>
 
-                        <th:block th:replace="~{fragment/search::searchField(inputItemId, 'Input item ID', 'search')}">
-                        </th:block>
+                        <div class="mb-2">
+                            <th:block th:replace="~{fragment/search::searchField(inputItemId, 'Input item ID', 'search')}">
+                            </th:block>
+                        </div>
                     </div>
                 </div>
                 <div class="row justify-content-center">

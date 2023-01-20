@@ -1,5 +1,6 @@
 package com.github.dcysteine.nesql.server.plugin.base;
 
+import com.github.dcysteine.nesql.server.common.util.ParamUtil;
 import com.github.dcysteine.nesql.server.plugin.base.display.recipe.DisplayRecipe;
 import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayFactory;
 import com.github.dcysteine.nesql.server.plugin.base.spec.RecipeSpec;
@@ -15,9 +16,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 @Controller
 @RequestMapping(path = "/recipe")
@@ -51,22 +52,13 @@ public class RecipeController {
             @RequestParam(required = false) Optional<String> inputItemId,
             @RequestParam(defaultValue = "1") int page,
             Model model) {
-        @Nullable
-        Specification<Recipe> inputItemNameSpec =
-                inputItemName
-                        .filter(Predicate.not(String::isEmpty))
-                        .map(RecipeSpec::buildInputItemNameSpec).orElse(null);
+        List<Specification<Recipe>> specs = new ArrayList<>();
+        specs.add(ParamUtil.buildStringSpec(inputItemName, RecipeSpec::buildInputItemNameSpec));
+        specs.add(ParamUtil.buildStringSpec(inputItemId, RecipeSpec::buildInputItemIdSpec));
 
-        @Nullable
-        Specification<Recipe> inputItemIdSpec =
-                inputItemId
-                        .filter(Predicate.not(String::isEmpty))
-                        .map(RecipeSpec::buildInputItemIdSpec).orElse(null);
-
-        Specification<Recipe> spec = Specification.allOf(inputItemNameSpec, inputItemIdSpec);
         searchService.handleSearch(
                 page, model, recipeRepository,
-                spec, baseDisplayFactory::buildDisplayRecipeIcon);
+                Specification.allOf(specs), baseDisplayFactory::buildDisplayRecipeIcon);
         return "plugin/base/recipe/search";
     }
 }

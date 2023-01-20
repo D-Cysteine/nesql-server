@@ -17,32 +17,44 @@
             <div th:replace="~{fragment/icon::overlayIconRowCentered(${displayItem.icon})}"></div>
         </div>
 
-        <!-- TODO apply format::truncateText as needed -->
         <div class="row mb-5">
             <div class="col">
                 <table class="table table-striped border">
                     <tr>
                         <th scope="row">ID</th>
-                        <td class="text-truncate">
+                        <td class="text-truncate"
+                            data-bs-toggle="tooltip" th:data-bs-title="${item.id}">
                             <button th:replace="~{fragment/copy::copyButton(${item.id})}"></button>
                             [[${item.id}]]
                         </td>
                     </tr>
                     <tr>
                         <th scope="row">Mod</th>
-                        <td>[[${item.modId}]]</td>
+                        <td class="text-truncate"
+                            data-bs-toggle="tooltip" th:data-bs-title="${item.modId}">
+                            [[${item.modId}]]
+                        </td>
                     </tr>
                     <tr>
-                        <th scope="row">Internal Name</th>
-                        <td>[[${item.internalName}]]</td>
+                        <th scope="row">Internal name</th>
+                        <td class="text-truncate"
+                            data-bs-toggle="tooltip" th:data-bs-title="${item.internalName}">
+                            [[${item.internalName}]]
+                        </td>
                     </tr>
                     <tr>
-                        <th scope="row">Unlocalized Name</th>
-                        <td>[[${item.unlocalizedName}]]</td>
+                        <th scope="row">Localized name</th>
+                        <td class="text-truncate"
+                            data-bs-toggle="tooltip" th:data-bs-title="${item.localizedName}">
+                            [[${item.localizedName}]]
+                        </td>
                     </tr>
                     <tr>
-                        <th scope="row">Localized Name</th>
-                        <td>[[${item.localizedName}]]</td>
+                        <th scope="row">Unlocalized name</th>
+                        <td class="text-truncate"
+                            data-bs-toggle="tooltip" th:data-bs-title="${item.unlocalizedName}">
+                            [[${item.unlocalizedName}]]
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -53,18 +65,80 @@
                         <td>[[${item.itemId}]]</td>
                     </tr>
                     <tr>
-                        <th scope="row">Item Damage</th>
+                        <th scope="row">Item damage</th>
                         <td>[[${item.itemDamage}]]</td>
                     </tr>
                     <tr>
-                        <th scope="row">NBT</th>
-                        <td class="text-truncate">[[${displayItem.nbt}]]</td>
+                        <th scope="row">Max stack size</th>
+                        <td>[[${item.maxStackSize}]]</td>
                     </tr>
                     <tr>
-                        <th scope="row">Tooltip</th>
-                        <td class="text-truncate">[[${item.tooltip}]]</td>
+                        <th scope="row">Max damage</th>
+                        <td>[[${item.maxDamage}]]</td>
                     </tr>
                 </table>
+            </div>
+            <div class="col" th:if="${displayItem.tooltip.size + displayItem.nbt.size + item.toolClasses.size} > 0">
+                <div id="infoAccordion" class="accordion">
+                    <div class="accordion-item" th:if="${displayItem.tooltip.size > 0}">
+                        <h2 id="tooltipLabel" class="accordion-header">
+                            <button class="accordion-button" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#tooltipCollapse"
+                                    aria-expanded="true" aria-controls="tooltipCollapse">
+                                Tooltip
+                            </button>
+                        </h2>
+                        <div id="tooltipCollapse" class="accordion-collapse collapse show"
+                             data-bs-parent="#infoAccordion" aria-labelledby="tooltipLabel">
+                            <table class="table table-striped mb-0">
+                                <tr th:each="line : ${displayItem.tooltip}">
+                                    <td class="text-truncate"
+                                        data-bs-toggle="tooltip" th:data-bs-title="${line}">
+                                        [[${line}]]
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="accordion-item" th:if="${displayItem.nbt.size > 0}">
+                        <h2 id="nbtLabel" class="accordion-header">
+                            <button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#nbtCollapse"
+                                    aria-expanded="false" aria-controls="nbtCollapse">
+                                NBT
+                            </button>
+                        </h2>
+                        <div id="nbtCollapse" class="accordion-collapse collapse"
+                             data-bs-parent="#infoAccordion" aria-labelledby="nbtLabel">
+                            <table class="table table-striped mb-0">
+                                <tr th:each="line : ${displayItem.nbt}">
+                                    <td class="text-truncate"
+                                        data-bs-toggle="tooltip" th:data-bs-title="${line}">
+                                        [[${line}]]
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="accordion-item" th:if="${item.toolClasses.size > 0}">
+                        <h2 id="toolClassesLabel" class="accordion-header">
+                            <button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#toolClassesCollapse"
+                                    aria-expanded="false" aria-controls="toolClassesCollapse">
+                                Tool classes
+                            </button>
+                        </h2>
+                        <div id="toolClassesCollapse" class="accordion-collapse collapse"
+                             data-bs-parent="#infoAccordion" aria-labelledby="toolClassesLabel">
+                            <table class="table table-striped mb-0">
+                                <tr th:each="entry : ${item.toolClasses.entrySet()}">
+                                    <th scope="row">[[${entry.key}]]</th>
+                                    <td>[[${entry.value}]]</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 

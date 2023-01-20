@@ -62,24 +62,6 @@ public class ItemSpec {
     }
 
     /** Matches by regex. */
-    public static Specification<Item> buildNbtSpec(String nbt) {
-        return (root, query, builder) -> {
-            return builder.isTrue(
-                    builder.function(
-                            "regexp_like",
-                            Boolean.class,
-                            root.get(Item_.NBT),
-                            builder.literal(nbt)));
-        };
-    }
-
-    public static Specification<Item> buildNullNbtSpec() {
-        return (root, query, builder) -> {
-            return builder.isNull(root.get(Item_.NBT));
-        };
-    }
-
-    /** Matches by regex. */
     public static Specification<Item> buildTooltipSpec(String tooltip) {
         return (root, query, builder) -> {
             return builder.isTrue(
@@ -88,6 +70,18 @@ public class ItemSpec {
                             Boolean.class,
                             root.get(Item_.TOOLTIP),
                             builder.literal(tooltip)));
+        };
+    }
+
+    /** Matches by regex. */
+    public static Specification<Item> buildNbtSpec(String nbt) {
+        return (root, query, builder) -> {
+            return builder.isTrue(
+                    builder.function(
+                            "regexp_like",
+                            Boolean.class,
+                            root.get(Item_.NBT),
+                            builder.literal(nbt)));
         };
     }
 }

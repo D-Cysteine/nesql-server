@@ -24,15 +24,21 @@
                 <div class="container">
                     <div class="row mb-3">
                         <div class="col">
-                            <th:block th:replace="~{fragment/search::searchField(localizedName, 'Localized name (regex)', 'search')}">
-                            </th:block>
+                            <div class="mb-2">
+                                <th:block th:replace="~{fragment/search::searchFieldRegex(localizedName, 'Localized name')}">
+                                </th:block>
+                            </div>
 
-                            <th:block th:replace="~{fragment/search::searchField(internalName, 'Internal name (regex)', 'search')}">
-                            </th:block>
+                            <div class="mb-2">
+                                <th:block th:replace="~{fragment/search::searchFieldRegex(internalName, 'Internal name')}">
+                                </th:block>
+                            </div>
                         </div>
                         <div class="col">
-                            <th:block th:replace="~{fragment/search::searchField(fluidId, 'Forge fluid ID', 'number')}">
-                            </th:block>
+                            <div class="mb-2">
+                                <th:block th:replace="~{fragment/search::searchField(fluidId, 'Forge fluid ID', 'number')}">
+                                </th:block>
+                            </div>
                         </div>
                     </div>
                     <div class="row justify-content-center">

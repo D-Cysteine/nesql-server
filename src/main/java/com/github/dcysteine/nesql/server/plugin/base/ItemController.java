@@ -1,5 +1,6 @@
 package com.github.dcysteine.nesql.server.plugin.base;
 
+import com.github.dcysteine.nesql.server.common.util.ParamUtil;
 import com.github.dcysteine.nesql.server.plugin.base.display.item.DisplayItem;
 import com.github.dcysteine.nesql.server.plugin.base.spec.ItemSpec;
 import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayFactory;
@@ -15,9 +16,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 @Controller
 @RequestMapping(path = "/item")
@@ -49,36 +50,26 @@ public class ItemController {
     public String search(
             @RequestParam(required = false) Optional<String> localizedName,
             @RequestParam(required = false) Optional<String> internalName,
+            @RequestParam(required = false) Optional<String> modId,
             @RequestParam(required = false) Optional<Integer> itemId,
             @RequestParam(required = false) Optional<Integer> itemDamage,
+            @RequestParam(required = false) Optional<String> tooltip,
+            @RequestParam(required = false) Optional<String> nbt,
             @RequestParam(defaultValue = "1") int page,
             Model model) {
-        @Nullable
-        Specification<Item> localizedNameSpec =
-                localizedName
-                        .filter(Predicate.not(String::isEmpty))
-                        .map(ItemSpec::buildLocalizedNameSpec).orElse(null);
+        List<Specification<Item>> specs = new ArrayList<>();
+        specs.add(ParamUtil.buildStringSpec(localizedName, ItemSpec::buildLocalizedNameSpec));
+        specs.add(ParamUtil.buildStringSpec(internalName, ItemSpec::buildInternalNameSpec));
+        specs.add(ParamUtil.buildStringSpec(modId, ItemSpec::buildModIdSpec));
+        specs.add(ParamUtil.buildSpec(itemId, ItemSpec::buildItemIdSpec));
+        specs.add(ParamUtil.buildSpec(itemDamage, ItemSpec::buildItemDamageSpec));
+        specs.add(ParamUtil.buildStringSpec(tooltip, ItemSpec::buildTooltipSpec));
+        specs.add(ParamUtil.buildStringSpec(nbt, ItemSpec::buildNbtSpec));
 
-        @Nullable
-        Specification<Item> internalNameSpec =
-                internalName
-                        .filter(Predicate.not(String::isEmpty))
-                        .map(ItemSpec::buildInternalNameSpec).orElse(null);
-
-        @Nullable
-        Specification<Item> itemIdSpec =
-                itemId.map(ItemSpec::buildItemIdSpec).orElse(null);
-
-        @Nullable
-        Specification<Item> itemDamageSpec =
-                itemDamage.map(ItemSpec::buildItemDamageSpec).orElse(null);
-
-        Specification<Item> spec =
-                Specification.allOf(
-                        localizedNameSpec, internalNameSpec, itemIdSpec, itemDamageSpec);
         searchService.handleSearch(
                 page, model, itemRepository,
-                spec, ItemSpec.DEFAULT_SORT, baseDisplayFactory::buildDisplayItemIcon);
+                Specification.allOf(specs), ItemSpec.DEFAULT_SORT,
+                baseDisplayFactory::buildDisplayItemIcon);
         return "plugin/base/item/search";
     }
 }
