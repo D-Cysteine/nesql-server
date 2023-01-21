@@ -27,33 +27,41 @@
                             <div class="mb-2">
                                 <th:block th:replace="~{fragment/search::searchFieldRegex(localizedName, 'Localized name')}">
                                 </th:block>
-                            </div>
-
-                            <div class="mb-2">
-                                <th:block th:replace="~{fragment/search::searchFieldRegex(internalName, 'Internal name')}">
-                                </th:block>
+                                <div class="form-text">&nbsp;</div>
                             </div>
 
                             <div class="mb-2">
                                 <th:block th:replace="~{fragment/search::searchFieldRegex(modId, 'Mod ID')}">
                                 </th:block>
+                                <div class="form-text">&nbsp;</div>
+                            </div>
+
+                            <div class="mb-2">
+                                <th:block th:replace="~{fragment/search::searchFieldRegex(internalName, 'Internal name')}">
+                                </th:block>
+                                <div class="form-text">&nbsp;</div>
                             </div>
                         </div>
                         <div class="col">
                             <div class="mb-2">
                                 <th:block th:replace="~{fragment/search::searchField(itemId, 'Minecraft item ID', 'number')}">
                                 </th:block>
+                                <div class="form-text">
+                                    Minecraft item ID can vary from world to world.
+                                </div>
                             </div>
 
                             <div class="mb-2">
                                 <th:block th:replace="~{fragment/search::searchField(itemDamage, 'Item damage', 'number')}">
                                 </th:block>
+                                <div class="form-text">&nbsp;</div>
                             </div>
                         </div>
                         <div class="col">
                             <div class="mb-2">
                                 <th:block th:replace="~{fragment/search::searchFieldRegex(tooltip, 'Tooltip')}">
                                 </th:block>
+                                <div class="form-text">&nbsp;</div>
                             </div>
 
                             <div class="mb-2">
@@ -67,7 +75,7 @@
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-auto">
-                            <button type="submit" class="btn btn-primary">Search</button>
+                            <button th:replace="~{fragment/search::searchButton}"></button>
                         </div>
                     </div>
                 </div>

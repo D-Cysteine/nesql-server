@@ -16,6 +16,13 @@
            th:value="${@attributeService.request.getParameter(name)}">
 </th:block>
 
+<button th:fragment="searchButton" type="submit" class="search-button btn btn-primary">
+    <span class="spinner-border spinner-border-sm visually-hidden" role="status" aria-hidden="true">
+    </span>
+    <i class="bi-search"></i>
+    Search
+</button>
+
 <div th:fragment="paginatedTable(page, baseUri)" class="container">
     <div th:replace="~{fragment/search::paginationControls(${page}, ${baseUri})}"></div>
     <div class="row">
