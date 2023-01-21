@@ -10,8 +10,6 @@
     <script type="text/javascript" src="/bootstrap/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="/bootstrap-icons/bootstrap-icons.css">
 
-    <script type="text/javascript" src="/htmx/htmx.min.js"></script>
-
     <link rel="stylesheet" href="/css/main.css">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
 </head>
@@ -48,27 +46,6 @@
         </div>
     </div>
 </nav>
-
-<th:block th:fragment="offcanvas">
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasStart"
-         aria-labelledby="offcanvasStartTitle">
-        <div class="offcanvas-header">
-            <h5 id="offcanvasStartTitle" class="offcanvas-title"></h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="close">
-            </button>
-        </div>
-        <div id="offcanvasStartBody" class="offcanvas-body"></div>
-    </div>
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEnd"
-         aria-labelledby="offcanvasEndTitle">
-        <div class="offcanvas-header">
-            <h5 id="offcanvasEndTitle" class="offcanvas-title"></h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="close">
-            </button>
-        </div>
-        <div id="offcanvasEndBody" class="offcanvas-body"></div>
-    </div>
-</th:block>
 
 <script th:fragment="includeJs(fileName)" type="text/javascript" th:src="|/js/${fileName}.js|">
 </script>
