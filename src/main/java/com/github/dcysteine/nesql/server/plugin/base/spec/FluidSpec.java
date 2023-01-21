@@ -9,7 +9,8 @@ public class FluidSpec {
     // Static class.
     private FluidSpec() {}
 
-    public static Sort DEFAULT_SORT = Sort.by(Fluid_.FLUID_ID, Fluid_.NBT, Fluid_.ID);
+    public static Sort DEFAULT_SORT =
+            Sort.by(Fluid_.MOD_ID, Fluid_.INTERNAL_NAME, Fluid_.NBT, Fluid_.ID);
 
     /** Matches by regex. */
     public static Specification<Fluid> buildLocalizedNameSpec(String localizedName) {

@@ -10,7 +10,7 @@ public class ItemSpec {
     private ItemSpec() {}
 
     public static Sort DEFAULT_SORT =
-            Sort.by(Item_.ITEM_ID, Item_.ITEM_DAMAGE, Item_.NBT, Item_.ID);
+            Sort.by(Item_.MOD_ID, Item_.INTERNAL_NAME, Item_.ITEM_DAMAGE, Item_.NBT, Item_.ID);
 
     /** Matches by regex. */
     public static Specification<Item> buildLocalizedNameSpec(String localizedName) {
