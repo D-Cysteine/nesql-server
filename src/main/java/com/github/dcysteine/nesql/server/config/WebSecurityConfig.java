@@ -14,7 +14,10 @@ public class WebSecurityConfig {
 
     private static final String CONTENT_SECURITY_POLICY =
             Joiner.on("; ").join(
-                    new String[]{"default-src 'self'"});
+                    new String[]{
+                            "default-src 'self'",
+                            "img-src 'self' data:",
+                    });
 
     @Bean
     @SuppressWarnings("deprecation")
