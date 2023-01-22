@@ -51,13 +51,13 @@
 </script>
 
 <th:block th:fragment="footer">
-    <script th:replace="~{fragment/base::includeJs('initialize_tooltips')}"></script>
-    <script th:replace="~{fragment/base::includeJs('initialize_popovers')}"></script>
-    <script th:replace="~{fragment/base::includeJs('initialize_offcanvas')}"></script>
+    <script th:replace="~{fragment/template_base::includeJs('initialize_tooltips')}"></script>
+    <script th:replace="~{fragment/template_base::includeJs('initialize_popovers')}"></script>
+    <script th:replace="~{fragment/template_base::includeJs('initialize_offcanvas')}"></script>
 
-    <script th:replace="~{fragment/base::includeJs('image_error_handler')}"></script>
-    <script th:replace="~{fragment/base::includeJs('copy_button')}"></script>
-    <script th:replace="~{fragment/base::includeJs('search_button')}"></script>
+    <script th:replace="~{fragment/template_base::includeJs('image_error_handler')}"></script>
+    <script th:replace="~{fragment/template_base::includeJs('copy_button')}"></script>
+    <script th:replace="~{fragment/template_base::includeJs('search_button')}"></script>
 </th:block>
 </body>
 </html>

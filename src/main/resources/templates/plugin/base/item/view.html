@@ -141,10 +141,10 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="row">
-            <!-- TODO render additional info here -->
-        </div>
+    <div th:replace="~{fragment/info_panel::infoPanels(${displayItem.additionalInfo})}"
+         th:if="${displayItem.additionalInfo.size()} > 0">
     </div>
 </th:block>
 

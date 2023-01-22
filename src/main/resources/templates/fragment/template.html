@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html th:fragment="template(title, content)" xmlns:th="http://www.thymeleaf.org"
       data-bs-theme="dark">
-<head th:replace="~{fragment/base::header(${title})}">
+<head th:replace="~{fragment/template_base::header(${title})}">
 <body>
-<nav th:replace="~{fragment/base::navBar}"></nav>
+<nav th:replace="~{fragment/template_base::navBar}"></nav>
 
 <th:block th:replace="${content}"></th:block>
 
-<th:block th:replace="~{fragment/base::footer}"></th:block>
+<th:block th:replace="~{fragment/template_base::footer}"></th:block>
 </body>
 </html>

@@ -34,6 +34,10 @@ public class ThymeleafService {
         return NumberUtil.formatInteger(integer);
     }
 
+    public <T> List<List<T>> partitionInfoPanels(List<T> infoPanels) {
+        return Lists.partition(infoPanels, externalConfig.getInfoPanelColumns());
+    }
+
     public <T> List<List<T>> partitionGrid(List<T> results) {
         return Lists.partition(results, externalConfig.getPageSizeGridColumns());
     }

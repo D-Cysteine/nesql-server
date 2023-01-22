@@ -15,6 +15,9 @@ public class ExternalConfig {
     @Value("${nesql.server.repository-name}")
     private String repositoryName;
 
+    @Value("${nesql.server.info-panel-columns}")
+    private int infoPanelColumns;
+
     @Value("${nesql.server.page-size.list}")
     private int pageSizeList;
 
@@ -39,6 +42,10 @@ public class ExternalConfig {
 
     public String getRepositoryName() {
         return repositoryName;
+    }
+
+    public int getInfoPanelColumns() {
+        return infoPanelColumns;
     }
 
     public int getPageSizeList() {
