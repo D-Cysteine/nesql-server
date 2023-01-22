@@ -15,6 +15,9 @@ public class ExternalConfig {
     @Value("${nesql.server.repository-name}")
     private String repositoryName;
 
+    @Value("${nesql.server.dark-mode}")
+    private boolean darkMode;
+
     @Value("${nesql.server.info-panel-columns}")
     private int infoPanelColumns;
 
@@ -42,6 +45,10 @@ public class ExternalConfig {
 
     public String getRepositoryName() {
         return repositoryName;
+    }
+
+    public boolean getDarkMode() {
+        return darkMode;
     }
 
     public int getInfoPanelColumns() {

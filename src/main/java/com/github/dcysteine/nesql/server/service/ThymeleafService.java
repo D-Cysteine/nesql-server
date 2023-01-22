@@ -30,6 +30,10 @@ public class ThymeleafService {
         return request;
     }
 
+    public boolean getDarkMode() {
+        return externalConfig.getDarkMode();
+    }
+
     public String formatInteger(long integer) {
         return NumberUtil.formatInteger(integer);
     }

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html th:fragment="template(title, content)" xmlns:th="http://www.thymeleaf.org"
-      data-bs-theme="dark">
+      th:data-bs-theme="${@thymeleafService.darkMode}? 'dark' : _">
 <head th:replace="~{fragment/template_base::header(${title})}">
 <body>
 <nav th:replace="~{fragment/template_base::navBar}"></nav>
