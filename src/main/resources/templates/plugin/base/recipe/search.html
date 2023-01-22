@@ -25,23 +25,98 @@
                 <div class="row mb-3">
                     <div class="col">
                         <div class="mb-2">
-                            <th:block th:replace="~{fragment/search::searchFieldRegex(inputItemName, 'Input item name')}">
+                            <th:block th:replace="~{fragment/search::searchFieldRegex(recipeCategory, 'Recipe category')}">
+                            </th:block>
+                            <div class="form-text">&nbsp;</div>
+                        </div>
+
+                        <div class="mb-2">
+                            <th:block th:replace="~{fragment/search::searchFieldRegex(recipeType, 'Recipe type')}">
+                            </th:block>
+                            <div class="form-text">&nbsp;</div>
+                        </div>
+
+                        <div class="mb-2">
+                            <th:block th:replace="~{fragment/search::searchField(recipeTypeId, 'Recipe type ID', 'search')}">
+                            </th:block>
+                            <div class="form-text">&nbsp;</div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-2">
+                            <th:block th:replace="~{fragment/search::searchFieldRegex(inputItemName, 'Input item localized name')}">
                             </th:block>
                             <div class="form-text text-danger">
-                                Be careful with this field!
-                                Restrict your query or it'll never complete!
+                                Expensive! Use with caution!
                             </div>
                         </div>
 
                         <div class="mb-2">
                             <th:block th:replace="~{fragment/search::searchField(inputItemId, 'Input item ID', 'search')}">
                             </th:block>
+                            <div class="form-text">&nbsp;</div>
+                        </div>
+
+                        <div class="mb-2">
+                            <th:block th:replace="~{fragment/search::searchField(inputItemGroupId, 'Input item group ID', 'search')}">
+                            </th:block>
+                            <div class="form-text">&nbsp;</div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-2">
+                            <th:block th:replace="~{fragment/search::searchFieldRegex(inputFluidName, 'Input fluid localized name')}">
+                            </th:block>
+                            <div class="form-text text-danger">
+                                Expensive! Use with caution!
+                            </div>
+                        </div>
+
+                        <div class="mb-2">
+                            <th:block th:replace="~{fragment/search::searchField(inputFluidId, 'Input fluid ID', 'search')}">
+                            </th:block>
+                            <div class="form-text">&nbsp;</div>
+                        </div>
+
+                        <div class="mb-2">
+                            <th:block th:replace="~{fragment/search::searchField(inputFluidGroupId, 'Input fluid group ID', 'search')}">
+                            </th:block>
+                            <div class="form-text">&nbsp;</div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-2">
+                            <th:block th:replace="~{fragment/search::searchFieldRegex(outputItemName, 'Output item localized name')}">
+                            </th:block>
+                            <div class="form-text text-danger">
+                                Expensive! Use with caution!
+                            </div>
+                        </div>
+
+                        <div class="mb-2">
+                            <th:block th:replace="~{fragment/search::searchField(outputItemId, 'Output item ID', 'search')}">
+                            </th:block>
+                            <div class="form-text">&nbsp;</div>
+                        </div>
+
+                        <div class="mb-2">
+                            <th:block th:replace="~{fragment/search::searchFieldRegex(outputFluidName, 'Output fluid localized name')}">
+                            </th:block>
+                            <div class="form-text text-danger">
+                                Expensive! Use with caution!
+                            </div>
+                        </div>
+
+                        <div class="mb-2">
+                            <th:block th:replace="~{fragment/search::searchField(outputFluidId, 'Output fluid ID', 'search')}">
+                            </th:block>
+                            <div class="form-text">&nbsp;</div>
                         </div>
                     </div>
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-auto">
-                        <button type="submit" class="btn btn-primary">Search</button>
+                        <button th:replace="~{fragment/search::searchButton}"></button>
                     </div>
                 </div>
             </form>

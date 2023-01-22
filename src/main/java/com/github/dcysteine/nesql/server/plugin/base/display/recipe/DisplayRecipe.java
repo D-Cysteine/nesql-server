@@ -59,13 +59,15 @@ public abstract class DisplayRecipe implements Comparable<DisplayRecipe> {
         Map<Integer, Icon> displayFluidOutputs =
                 Maps.transformValues(
                         recipe.getFluidOutputs(),
-                        fluidStack -> DisplayFluidStackWithProbability.buildIcon(fluidStack, service));
+                        fluidStack ->
+                                DisplayFluidStackWithProbability.buildIcon(fluidStack, service));
         ImmutableTable<Integer, Integer, Icon> fluidOutputs =
                 buildIngredientsGrid(
                         recipeType.getFluidOutputDimension(), displayFluidOutputs, recipe);
 
         return new AutoValue_DisplayRecipe(
                 recipe, buildIcon(recipe, service),
+                DisplayRecipeType.buildIcon(recipeType, service),
                 itemInputs, fluidInputs, itemOutputs, fluidOutputs,
                 service.getAdditionalInfo(recipe));
     }
@@ -80,7 +82,8 @@ public abstract class DisplayRecipe implements Comparable<DisplayRecipe> {
         Icon icon;
         if (numItemOutputs > 0) {
             Icon innerIcon =
-                    DisplayItemStackWithProbability.buildIcon(recipe.getItemOutputs().get(0), service);
+                    DisplayItemStackWithProbability.buildIcon(
+                            recipe.getItemOutputs().get(0), service);
             if (numItemOutputs == 1) {
                 description += String.format(" (%s)", innerIcon.getDescription());
             } else if (numFluidOutputs > 0) {
@@ -128,6 +131,7 @@ public abstract class DisplayRecipe implements Comparable<DisplayRecipe> {
 
     public abstract Recipe getRecipe();
     public abstract Icon getIcon();
+    public abstract Icon getRecipeTypeIcon();
     public abstract ImmutableTable<Integer, Integer, Icon> getItemInputs();
     public abstract ImmutableTable<Integer, Integer, Icon> getFluidInputs();
     public abstract ImmutableTable<Integer, Integer, Icon> getItemOutputs();

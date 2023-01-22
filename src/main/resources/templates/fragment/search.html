@@ -38,7 +38,7 @@
         <table class="table table-striped border">
             <tr th:each="row : ${page.content}">
                 <td>
-                    <a th:replace="~{fragment/icon::linkOverlayIconRow(${row})}"></a>
+                    <a th:replace="~{fragment/icon::linkIconRow(${row})}"></a>
                 </td>
             </tr>
             <tr th:if="${#lists.isEmpty(page.content)}" class="text-center">
@@ -58,7 +58,7 @@
                th:with="partitions = ${@thymeleafService.partitionGrid(page.content)}">
             <tr th:each="row : ${partitions}">
                 <td th:each="cell : ${row}">
-                    <a th:replace="~{fragment/icon::linkOverlayIcon(${cell})}"></a>
+                    <a th:replace="~{fragment/icon::linkIcon(${cell})}"></a>
                 </td>
             </tr>
             <tr th:if="${#lists.isEmpty(partitions)}" class="text-center">
@@ -79,7 +79,7 @@
             <tr th:each="row : ${page.content}" class="text-center align-middle">
                 <td>
                     <div class="d-flex justify-content-center align-middle">
-                        <a th:replace="~{fragment/icon::linkOverlayIcon(${row.icon})}"></a>
+                        <a th:replace="~{fragment/icon::linkIcon(${row.icon})}"></a>
                         <i class="bi-chevron-compact-right fs-1"></i>
                     </div>
                 </td>

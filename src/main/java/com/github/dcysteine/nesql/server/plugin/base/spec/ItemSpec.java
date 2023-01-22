@@ -22,75 +22,66 @@ public class ItemSpec {
 
     /** Matches by regex. */
     public static Specification<Item> buildLocalizedNameSpec(String localizedName) {
-        return (root, query, builder) -> {
-            return builder.isTrue(
-                    builder.function(
-                            "regexp_like",
-                            Boolean.class,
-                            root.get(Item_.LOCALIZED_NAME),
-                            builder.literal(localizedName)));
-        };
+        return (root, query, builder) ->
+                builder.isTrue(
+                        builder.function(
+                                "regexp_like",
+                                Boolean.class,
+                                root.get(Item_.LOCALIZED_NAME),
+                                builder.literal(localizedName)));
     }
 
     /** Matches by regex. */
     public static Specification<Item> buildModIdSpec(String modId) {
-        return (root, query, builder) -> {
-            return builder.isTrue(
-                    builder.function(
-                            "regexp_like",
-                            Boolean.class,
-                            root.get(Item_.MOD_ID),
-                            builder.literal(modId)));
-        };
+        return (root, query, builder) ->
+                builder.isTrue(
+                        builder.function(
+                                "regexp_like",
+                                Boolean.class,
+                                root.get(Item_.MOD_ID),
+                                builder.literal(modId)));
     }
 
     /** Matches by regex. */
     public static Specification<Item> buildInternalNameSpec(String internalName) {
-        return (root, query, builder) -> {
-            return builder.isTrue(
-                    builder.function(
-                            "regexp_like",
-                            Boolean.class,
-                            root.get(Item_.INTERNAL_NAME),
-                            builder.literal(internalName)));
-        };
+        return (root, query, builder) ->
+                builder.isTrue(
+                        builder.function(
+                                "regexp_like",
+                                Boolean.class,
+                                root.get(Item_.INTERNAL_NAME),
+                                builder.literal(internalName)));
     }
 
     /** Matches by Minecraft item ID. */
     public static Specification<Item> buildItemIdSpec(int itemId) {
-        return (root, query, builder) -> {
-            return builder.equal(root.get(Item_.ITEM_ID), itemId);
-        };
+        return (root, query, builder) -> builder.equal(root.get(Item_.ITEM_ID), itemId);
     }
 
     public static Specification<Item> buildItemDamageSpec(int itemDamage) {
-        return (root, query, builder) -> {
-            return builder.equal(root.get(Item_.ITEM_DAMAGE), itemDamage);
-        };
+        return (root, query, builder) -> builder.equal(root.get(Item_.ITEM_DAMAGE), itemDamage);
     }
 
     /** Matches by regex. */
     public static Specification<Item> buildTooltipSpec(String tooltip) {
-        return (root, query, builder) -> {
-            return builder.isTrue(
-                    builder.function(
-                            "regexp_like",
-                            Boolean.class,
-                            root.get(Item_.TOOLTIP),
-                            builder.literal(tooltip)));
-        };
+        return (root, query, builder) ->
+                builder.isTrue(
+                        builder.function(
+                                "regexp_like",
+                                Boolean.class,
+                                root.get(Item_.TOOLTIP),
+                                builder.literal(tooltip)));
     }
 
     /** Matches by regex. */
     public static Specification<Item> buildNbtSpec(String nbt) {
-        return (root, query, builder) -> {
-            return builder.isTrue(
-                    builder.function(
-                            "regexp_like",
-                            Boolean.class,
-                            root.get(Item_.NBT),
-                            builder.literal(nbt)));
-        };
+        return (root, query, builder) ->
+                builder.isTrue(
+                        builder.function(
+                                "regexp_like",
+                                Boolean.class,
+                                root.get(Item_.NBT),
+                                builder.literal(nbt)));
     }
 
     /** Finds items that belong to the specified item group. */

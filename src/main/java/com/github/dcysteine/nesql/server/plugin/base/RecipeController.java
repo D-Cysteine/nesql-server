@@ -50,13 +50,38 @@ public class RecipeController {
 
     @GetMapping(path = "/search")
     public String search(
+            @RequestParam(required = false) Optional<String> recipeCategory,
+            @RequestParam(required = false) Optional<String> recipeType,
+            @RequestParam(required = false) Optional<String> recipeTypeId,
             @RequestParam(required = false) Optional<String> inputItemName,
             @RequestParam(required = false) Optional<String> inputItemId,
+            @RequestParam(required = false) Optional<String> inputItemGroupId,
+            @RequestParam(required = false) Optional<String> inputFluidName,
+            @RequestParam(required = false) Optional<String> inputFluidId,
+            @RequestParam(required = false) Optional<String> inputFluidGroupId,
+            @RequestParam(required = false) Optional<String> outputItemName,
+            @RequestParam(required = false) Optional<String> outputItemId,
+            @RequestParam(required = false) Optional<String> outputFluidName,
+            @RequestParam(required = false) Optional<String> outputFluidId,
             @RequestParam(defaultValue = "1") int page,
             Model model) {
         List<Specification<Recipe>> specs = new ArrayList<>();
+        specs.add(ParamUtil.buildStringSpec(recipeCategory, RecipeSpec::buildRecipeCategorySpec));
+        specs.add(ParamUtil.buildStringSpec(recipeType, RecipeSpec::buildRecipeTypeSpec));
+        specs.add(ParamUtil.buildStringSpec(recipeTypeId, RecipeSpec::buildRecipeTypeIdSpec));
         specs.add(ParamUtil.buildStringSpec(inputItemName, RecipeSpec::buildInputItemNameSpec));
         specs.add(ParamUtil.buildStringSpec(inputItemId, RecipeSpec::buildInputItemIdSpec));
+        specs.add(
+                ParamUtil.buildStringSpec(inputItemGroupId, RecipeSpec::buildInputItemGroupIdSpec));
+        specs.add(ParamUtil.buildStringSpec(inputFluidName, RecipeSpec::buildInputFluidNameSpec));
+        specs.add(ParamUtil.buildStringSpec(inputFluidId, RecipeSpec::buildInputFluidIdSpec));
+        specs.add(
+                ParamUtil.buildStringSpec(
+                        inputFluidGroupId, RecipeSpec::buildInputFluidGroupIdSpec));
+        specs.add(ParamUtil.buildStringSpec(outputItemName, RecipeSpec::buildOutputItemNameSpec));
+        specs.add(ParamUtil.buildStringSpec(outputItemId, RecipeSpec::buildOutputItemIdSpec));
+        specs.add(ParamUtil.buildStringSpec(outputFluidName, RecipeSpec::buildOutputFluidNameSpec));
+        specs.add(ParamUtil.buildStringSpec(outputFluidId, RecipeSpec::buildOutputFluidIdSpec));
 
         PageRequest pageRequest = searchService.buildPageRequest(page, SearchResultsLayout.RECIPE);
         searchService.handleSearch(

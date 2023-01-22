@@ -7,7 +7,7 @@
             <td th:each="c,cStat: ${#numbers.sequence(1, dimension.width)}"
                 th:class="${rStat.odd} == ${cStat.odd}? 'recipe-grid-shaded'">
                 <th:block th:if="${table.contains(r - 1, c - 1)}">
-                    <a th:replace="~{fragment/icon::linkOverlayIcon(${table.get(r - 1, c - 1)})}">
+                    <a th:replace="~{fragment/icon::linkIcon(${table.get(r - 1, c - 1)})}">
                     </a>
                 </th:block>
             </td>

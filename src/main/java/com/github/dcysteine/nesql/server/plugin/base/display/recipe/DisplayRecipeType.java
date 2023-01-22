@@ -22,12 +22,17 @@ public abstract class DisplayRecipeType implements Comparable<DisplayRecipeType>
     }
 
     public static Icon buildIcon(RecipeType recipeType, BaseDisplayService service) {
-        return Icon.builder()
+        Icon.Builder builder = Icon.builder()
                 .setDescription(
                         String.format("%s: %s", recipeType.getCategory(), recipeType.getType()))
                 .setUrl(Table.RECIPE_TYPE.getViewUrl(recipeType))
-                .setImage(recipeType.getIcon().getImageFilePath())
-                .build();
+                .setImage(recipeType.getIcon().getImageFilePath());
+
+        if (recipeType.isShapeless()) {
+            builder.setTopLeft("*");
+        }
+
+        return builder.build();
     }
 
     public abstract RecipeType getRecipeType();

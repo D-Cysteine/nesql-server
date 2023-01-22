@@ -14,7 +14,7 @@
             </h1>
         </div>
         <div class="row justify-content-center mb-3">
-            <div th:replace="~{fragment/icon::overlayIconRowCentered(${displayFluid.icon})}"></div>
+            <div th:replace="~{fragment/icon::iconRowCentered(${displayFluid.icon})}"></div>
         </div>
 
         <div class="row">
@@ -62,23 +62,33 @@
                 <table class="table table-striped table-fixed border">
                     <tr>
                         <th scope="row">Fluid ID</th>
-                        <td>[[${fluid.fluidId}]]</td>
+                        <td>
+                            [[${@thymeleafService.formatInteger(fluid.fluidId)}]]
+                        </td>
                     </tr>
                     <tr>
                         <th scope="row">Luminosity</th>
-                        <td>[[${fluid.luminosity}]]</td>
+                        <td>
+                            [[${@thymeleafService.formatInteger(fluid.luminosity)}]]
+                        </td>
                     </tr>
                     <tr>
                         <th scope="row">Density</th>
-                        <td>[[${fluid.density}]]</td>
+                        <td>
+                            [[${@thymeleafService.formatInteger(fluid.density)}]]
+                        </td>
                     </tr>
                     <tr>
                         <th scope="row">Temperature</th>
-                        <td>[[${fluid.temperature}]]</td>
+                        <td>
+                            [[${@thymeleafService.formatInteger(fluid.temperature)}]]
+                        </td>
                     </tr>
                     <tr>
                         <th scope="row">Viscosity</th>
-                        <td>[[${fluid.viscosity}]]</td>
+                        <td>
+                            [[${@thymeleafService.formatInteger(fluid.viscosity)}]]
+                        </td>
                     </tr>
                     <tr>
                         <th scope="row">Gaseous</th>

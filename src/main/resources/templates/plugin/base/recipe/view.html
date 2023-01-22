@@ -14,76 +14,90 @@
             </h1>
         </div>
         <div class="row justify-content-center mb-3">
-            <div th:replace="~{fragment/icon::overlayIconRowCentered(${displayRecipe.icon})}"></div>
-        </div>
-        <div class="row mb-5">
-            <h1 class="display-6 text-center">
-      <span th:if="${displayRecipe.recipe.recipeType.shapeless}" class="badge bg-info">
-        Shapeless
-      </span>
-                <span th:if="!${displayRecipe.recipe.recipeType.shapeless}" class="badge bg-info">
-        Shaped
-      </span>
-            </h1>
+            <div th:replace="~{fragment/icon::iconRowCentered(${displayRecipe.icon})}"></div>
+            <div th:replace="~{fragment/icon::linkIconRowCentered(${displayRecipe.recipeTypeIcon})}">
+            </div>
         </div>
 
-        <div class="row">
-            <nav>
-                <div class="nav nav-tabs justify-content-center" id="recipe-relations-tab" role="tablist">
-                    <button class="nav-link active" id="recipe-relations-item-inputs-tab"
-                            data-bs-toggle="tab" data-bs-target="#item-inputs"
-                            type="button" role="tab"
-                            aria-controls="item-inputs" aria-selected="true">
-                        Item inputs
-                    </button>
-                    <button class="nav-link" id="recipe-relations-fluid-inputs-tab"
-                            data-bs-toggle="tab" data-bs-target="#fluid-inputs"
-                            type="button" role="tab"
-                            aria-controls="fluid-inputs" aria-selected="true">
-                        Fluid inputs
-                    </button>
-                    <button class="nav-link" id="recipe-relations-item-outputs-tab"
-                            data-bs-toggle="tab" data-bs-target="#item-outputs"
-                            type="button" role="tab"
-                            aria-controls="item-outputs" aria-selected="true">
-                        Item outputs
-                    </button>
-                    <button class="nav-link" id="recipe-relations-fluid-outputs-tab"
-                            data-bs-toggle="tab" data-bs-target="#fluid-outputs"
-                            type="button" role="tab"
-                            aria-controls="fluid-outputs" aria-selected="true">
-                        Fluid outputs
-                    </button>
-                </div>
-            </nav>
-            <div class="tab-content" id="recipe-relations-tabContent">
-                <div class="tab-pane fade show active" id="item-inputs" role="tabpanel" tabindex="0"
-                     aria-labelledby="recipe-relations-item-inputs-tab">
-                    <div th:replace="~{fragment/recipe::recipeGridTable(${displayRecipe.itemInputs},${recipe.recipeType.itemInputDimension})}">
+        <div class="row justify-content-center mb-2">
+            <div class="col-6">
+                <table class="table table-striped table-fixed border">
+                    <tr>
+                        <th scope="row">ID</th>
+                        <td class="text-truncate"
+                            data-bs-toggle="tooltip" th:data-bs-title="${recipe.id}">
+                            <button th:replace="~{fragment/copy::copyButton(${recipe.id})}">
+                            </button>
+                            [[${recipe.id}]]
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Category</th>
+                        <td class="text-truncate" data-bs-toggle="tooltip"
+                            th:data-bs-title="${recipe.recipeType.category}">
+                            [[${recipe.recipeType.category}]]
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Type</th>
+                        <td class="text-truncate"
+                            data-bs-toggle="tooltip" th:data-bs-title="${recipe.recipeType.type}">
+                            [[${recipe.recipeType.type}]]
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Shapeless</th>
+                        <td>
+                            <th:block th:replace="~{fragment/format::formatBoolean(${recipe.recipeType.shapeless})}">
+                            </th:block>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-auto" th:if="${displayRecipe.itemInputs.size} + ${displayRecipe.fluidInputs.size} > 0">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Inputs</h5>
+                    </div>
+                    <div class="container mb-5">
+                        <div class="mt-3" th:if="${displayRecipe.itemInputs.size} > 0">
+                            <div th:replace="~{fragment/recipe::recipeGridTable(${displayRecipe.itemInputs},${recipe.recipeType.itemInputDimension})}">
+                            </div>
+                        </div>
+
+                        <div class="mt-3" th:if="${displayRecipe.fluidInputs.size} > 0">
+                            <div th:replace="~{fragment/recipe::recipeGridTable(${displayRecipe.fluidInputs},${recipe.recipeType.fluidInputDimension})}">
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="fluid-inputs" role="tabpanel" tabindex="0"
-                     aria-labelledby="recipe-relations-fluid-inputs-tab">
-                    <div th:replace="~{fragment/recipe::recipeGridTable(${displayRecipe.fluidInputs},${recipe.recipeType.fluidInputDimension})}">
+            </div>
+            <div class="col-auto" th:if="${displayRecipe.itemOutputs.size} + ${displayRecipe.fluidOutputs.size} > 0">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Outputs</h5>
                     </div>
-                </div>
-                <div class="tab-pane fade" id="item-outputs" role="tabpanel" tabindex="0"
-                     aria-labelledby="recipe-relations-item-outputs-tab">
-                    <div th:replace="~{fragment/recipe::recipeGridTable(${displayRecipe.itemOutputs},${recipe.recipeType.itemOutputDimension})}">
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="fluid-outputs" role="tabpanel" tabindex="0"
-                     aria-labelledby="recipe-relations-fluid-outputs-tab">
-                    <div th:replace="~{fragment/recipe::recipeGridTable(${displayRecipe.fluidOutputs},${recipe.recipeType.fluidOutputDimension})}">
+                    <div class="container mb-5">
+                        <div class="mt-3" th:if="${displayRecipe.itemOutputs.size} > 0">
+                            <div th:replace="~{fragment/recipe::recipeGridTable(${displayRecipe.itemOutputs},${recipe.recipeType.itemOutputDimension})}">
+                            </div>
+                        </div>
+
+                        <div class="mt-3" th:if="${displayRecipe.fluidOutputs.size} > 0">
+                            <div th:replace="~{fragment/recipe::recipeGridTable(${displayRecipe.fluidOutputs},${recipe.recipeType.fluidOutputDimension})}">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="row">
-            <!-- TODO render additional info here -->
-        </div>
     </div>
+
+    <th:block th:if="${displayRecipe.additionalInfo.size} > 0">
+        <div th:replace="~{fragment/info_panel::infoPanels(${displayRecipe.additionalInfo})}"></div>
+    </th:block>
 </th:block>
 
 </body>

@@ -27,7 +27,7 @@
         </div>
 
         <div class="row mt-3" th:if="${panel.icons.size} > 0">
-            <table th:replace="~{fragment/icon::overlayIconTable(${panel.icons})}"></table>
+            <table th:replace="~{fragment/icon::iconTable(${panel.icons})}"></table>
         </div>
 
         <div class="row mt-3" th:if="${panel.properties.size} > 0">

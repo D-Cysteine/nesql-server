@@ -21,57 +21,51 @@ public class FluidSpec {
 
     /** Matches by regex. */
     public static Specification<Fluid> buildLocalizedNameSpec(String localizedName) {
-        return (root, query, builder) -> {
-            return builder.isTrue(
-                    builder.function(
-                            "regexp_like",
-                            Boolean.class,
-                            root.get(Fluid_.LOCALIZED_NAME),
-                            builder.literal(localizedName)));
-        };
+        return (root, query, builder) ->
+                builder.isTrue(
+                        builder.function(
+                                "regexp_like",
+                                Boolean.class,
+                                root.get(Fluid_.LOCALIZED_NAME),
+                                builder.literal(localizedName)));
     }
 
     /** Matches by regex. */
     public static Specification<Fluid> buildModIdSpec(String modId) {
-        return (root, query, builder) -> {
-            return builder.isTrue(
-                    builder.function(
-                            "regexp_like",
-                            Boolean.class,
-                            root.get(Fluid_.MOD_ID),
-                            builder.literal(modId)));
-        };
+        return (root, query, builder) ->
+                builder.isTrue(
+                        builder.function(
+                                "regexp_like",
+                                Boolean.class,
+                                root.get(Fluid_.MOD_ID),
+                                builder.literal(modId)));
     }
 
     /** Matches by regex. */
     public static Specification<Fluid> buildInternalNameSpec(String internalName) {
-        return (root, query, builder) -> {
-            return builder.isTrue(
-                    builder.function(
-                            "regexp_like",
-                            Boolean.class,
-                            root.get(Fluid_.INTERNAL_NAME),
-                            builder.literal(internalName)));
-        };
+        return (root, query, builder) ->
+                builder.isTrue(
+                        builder.function(
+                                "regexp_like",
+                                Boolean.class,
+                                root.get(Fluid_.INTERNAL_NAME),
+                                builder.literal(internalName)));
     }
 
     /** Matches by Forge fluid ID. */
     public static Specification<Fluid> buildFluidIdSpec(int fluidId) {
-        return (root, query, builder) -> {
-            return builder.equal(root.get(Fluid_.FLUID_ID), fluidId);
-        };
+        return (root, query, builder) ->  builder.equal(root.get(Fluid_.FLUID_ID), fluidId);
     }
 
     /** Matches by regex. */
     public static Specification<Fluid> buildNbtSpec(String nbt) {
-        return (root, query, builder) -> {
-            return builder.isTrue(
-                    builder.function(
-                            "regexp_like",
-                            Boolean.class,
-                            root.get(Fluid_.NBT),
-                            builder.literal(nbt)));
-        };
+        return (root, query, builder) ->
+                builder.isTrue(
+                        builder.function(
+                                "regexp_like",
+                                Boolean.class,
+                                root.get(Fluid_.NBT),
+                                builder.literal(nbt)));
     }
 
     /** Finds fluids that belong to the specified fluid group. */
