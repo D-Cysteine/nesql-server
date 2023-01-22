@@ -16,6 +16,15 @@
            th:value="${@thymeleafService.request.getParameter(name)}">
 </th:block>
 
+<th:block th:fragment="searchFieldNumber(name, label)">
+    <label th:for="${name}" class="form-label">
+        [[${label}]]
+        <i th:replace="~{fragment/info::number}"></i>
+    </label>
+    <input th:id="${name}" th:name="${name}" th:type="number" class="form-control"
+           th:value="${@thymeleafService.request.getParameter(name)}">
+</th:block>
+
 <button th:fragment="searchButton" type="submit" class="search-button btn btn-primary">
     <span class="spinner-border spinner-border-sm visually-hidden" role="status" aria-hidden="true">
     </span>

@@ -44,20 +44,11 @@
                         </div>
                         <div class="col">
                             <div class="mb-2">
-                                <th:block th:replace="~{fragment/search::searchField(itemId, 'Minecraft item ID', 'number')}">
-                                </th:block>
-                                <div class="form-text">
-                                    Minecraft item ID can vary from world to world.
-                                </div>
-                            </div>
-
-                            <div class="mb-2">
-                                <th:block th:replace="~{fragment/search::searchField(itemDamage, 'Item damage', 'number')}">
+                                <th:block th:replace="~{fragment/search::searchFieldNumber(itemDamage, 'Item damage')}">
                                 </th:block>
                                 <div class="form-text">&nbsp;</div>
                             </div>
-                        </div>
-                        <div class="col">
+
                             <div class="mb-2">
                                 <th:block th:replace="~{fragment/search::searchFieldRegex(tooltip, 'Tooltip')}">
                                 </th:block>
@@ -70,6 +61,19 @@
                                 <div class="form-text">
                                     Search for "^$" to find items with no NBT.
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="mb-2">
+                                <th:block th:replace="~{fragment/search::searchField(itemGroupId, 'Item group ID', 'search')}">
+                                </th:block>
+                                <div class="form-text">&nbsp;</div>
+                            </div>
+
+                            <div class="mb-2">
+                                <th:block th:replace="~{fragment/search::searchField(recipeId, 'Recipe ID (input)', 'search')}">
+                                </th:block>
+                                <div class="form-text">&nbsp;</div>
                             </div>
                         </div>
                     </div>
