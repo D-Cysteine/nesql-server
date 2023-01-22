@@ -44,7 +44,11 @@ public abstract class InfoPanel {
         }
 
         public Builder addProperty(String key, String value) {
-            return addProperty(Property.create(key, value));
+            return addProperty(Property.ofString(key, value));
+        }
+
+        public Builder addProperty(String key, boolean value) {
+            return addProperty(Property.ofBoolean(key, value));
         }
 
         public abstract InfoPanel build();

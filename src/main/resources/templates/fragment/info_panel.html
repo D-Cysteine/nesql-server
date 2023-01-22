@@ -46,8 +46,13 @@
             data-bs-toggle="tooltip" th:data-bs-title="${property.key}">
             [[${property.key}]]
         </th>
-        <td class="text-truncate" data-bs-toggle="tooltip" th:data-bs-title="${property.value}">
-            [[${property.value}]]
+        <td th:if="${property.string.present}" class="text-truncate"
+            data-bs-toggle="tooltip" th:data-bs-title="${property.string.get}">
+            [[${property.string.get}]]
+        </td>
+        <td th:if="${property.boolean.present}">
+            <th:block th:replace="~{fragment/format::formatBoolean(${property.boolean.get})}">
+            </th:block>
         </td>
     </tr>
 </table>
