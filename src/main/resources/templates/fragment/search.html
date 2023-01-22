@@ -12,7 +12,7 @@
         [[${label}]]
         <i th:replace="~{fragment/info::regex}"></i>
     </label>
-    <input th:id="${name}" th:name="${name}" th:type="search" class="form-control"
+    <input th:id="${name}" th:name="${name}" type="search" class="form-control"
            th:value="${@thymeleafService.request.getParameter(name)}">
 </th:block>
 
@@ -21,8 +21,16 @@
         [[${label}]]
         <i th:replace="~{fragment/info::number}"></i>
     </label>
-    <input th:id="${name}" th:name="${name}" th:type="number" class="form-control"
+    <input th:id="${name}" th:name="${name}" type="number" class="form-control"
            th:value="${@thymeleafService.request.getParameter(name)}">
+</th:block>
+
+<th:block th:fragment="searchFieldCheckbox(name, label)">
+    <div class="form-check">
+        <input th:id="${name}" th:name="${name}" type="checkbox" class="form-check-input"
+               th:checked="${@thymeleafService.request.getParameter(name)} == 'on'">
+        <label th:for="${name}" class="form-check-label">[[${label}]]</label>
+    </div>
 </th:block>
 
 <button th:fragment="searchButton" type="submit" class="search-button btn btn-primary">

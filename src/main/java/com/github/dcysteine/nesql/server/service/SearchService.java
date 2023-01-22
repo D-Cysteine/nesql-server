@@ -32,12 +32,7 @@ public class SearchService {
         return PageRequest.of(page - 1, layout.getPageSize(externalConfig), sort);
     }
 
-    public <T extends JpaSpecificationExecutor<R>, R, D> String handleGetAll(
-            PageRequest pageRequest, Model model, T repository, Function<R, D> buildDisplay) {
-        return handleSearch(pageRequest, model, repository, Specification.allOf(), buildDisplay);
-    }
-
-    public <T extends JpaSpecificationExecutor<R>, R, D> String handleSearch(
+    public <T extends JpaSpecificationExecutor<R>, R, D> void handleSearch(
             PageRequest pageRequest, Model model, T repository,
             Specification<R> spec, Function<R, D> buildDisplay) {
         Page<D> results = repository.findAll(spec, pageRequest).map(buildDisplay);
@@ -48,8 +43,5 @@ public class SearchService {
                         .replaceQueryParam("page")
                         .build().toUriString();
         model.addAttribute("baseUri", baseUri);
-
-        // TODO make this void and delete this line, and the search_results template
-        return "search_results";
     }
 }

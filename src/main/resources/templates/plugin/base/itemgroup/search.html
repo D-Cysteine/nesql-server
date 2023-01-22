@@ -2,7 +2,7 @@
 <html th:replace="~{fragment/template::template(~{::title}, ~{::content})}"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Search Items</title>
+    <title>Search Item Groups</title>
 </head>
 <body>
 
@@ -10,7 +10,7 @@
     <div class="container">
         <div class="row">
             <h1 class="display-3 text-center">
-                Search Items
+                Search Item Groups
             </h1>
         </div>
         <div class="row mb-5">
@@ -25,55 +25,42 @@
                     <div class="row mb-3">
                         <div class="col">
                             <div class="mb-2">
-                                <th:block th:replace="~{fragment/search::searchFieldRegex(localizedName, 'Localized name')}">
+                                <th:block th:replace="~{fragment/search::searchFieldRegex(itemName, 'Item name')}">
                                 </th:block>
                                 <div class="form-text">&nbsp;</div>
                             </div>
 
                             <div class="mb-2">
-                                <th:block th:replace="~{fragment/search::searchFieldRegex(modId, 'Mod ID')}">
+                                <th:block th:replace="~{fragment/search::searchField(itemId, 'Item ID', 'search')}">
                                 </th:block>
                                 <div class="form-text">&nbsp;</div>
                             </div>
 
                             <div class="mb-2">
-                                <th:block th:replace="~{fragment/search::searchFieldRegex(internalName, 'Internal name')}">
+                                <th:block th:replace="~{fragment/search::searchFieldNumber(stackSize, 'Stack size')}">
                                 </th:block>
                                 <div class="form-text">&nbsp;</div>
                             </div>
                         </div>
                         <div class="col">
                             <div class="mb-2">
-                                <th:block th:replace="~{fragment/search::searchFieldNumber(itemDamage, 'Item damage')}">
+                                <th:block th:replace="~{fragment/search::searchFieldNumber(minSize, 'Minimum size')}">
                                 </th:block>
                                 <div class="form-text">&nbsp;</div>
                             </div>
 
                             <div class="mb-2">
-                                <th:block th:replace="~{fragment/search::searchFieldRegex(tooltip, 'Tooltip')}">
+                                <th:block th:replace="~{fragment/search::searchFieldNumber(maxSize, 'Maximum size')}">
                                 </th:block>
                                 <div class="form-text">&nbsp;</div>
                             </div>
 
                             <div class="mb-2">
-                                <th:block th:replace="~{fragment/search::searchFieldRegex(nbt, 'NBT')}">
+                                <th:block th:replace="~{fragment/search::searchFieldCheckbox(noWildcard, 'Does not have wildcard')}">
                                 </th:block>
-                                <div class="form-text">
-                                    Search for "^$" to find items with no NBT.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="mb-2">
-                                <th:block th:replace="~{fragment/search::searchField(itemGroupId, 'Item group ID', 'search')}">
-                                </th:block>
-                                <div class="form-text">&nbsp;</div>
-                            </div>
 
-                            <div class="mb-2">
-                                <th:block th:replace="~{fragment/search::searchField(recipeId, 'Recipe ID (input)', 'search')}">
+                                <th:block th:replace="~{fragment/search::searchFieldCheckbox(hasWildcard, 'Has wildcard')}">
                                 </th:block>
-                                <div class="form-text">&nbsp;</div>
                             </div>
                         </div>
                     </div>

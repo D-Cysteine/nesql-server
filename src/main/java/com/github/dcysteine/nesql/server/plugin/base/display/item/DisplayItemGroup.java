@@ -13,14 +13,36 @@ import com.github.dcysteine.nesql.sql.base.item.ItemStack;
 import com.github.dcysteine.nesql.sql.base.item.WildcardItemStack;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSortedSet;
 
+import java.util.Comparator;
+import java.util.Optional;
 import java.util.SortedSet;
 
 @AutoValue
 public abstract class DisplayItemGroup implements Comparable<DisplayItemGroup> {
     public static DisplayItemGroup create(ItemGroup itemGroup, BaseDisplayService service) {
+        ImmutableSortedSet<DisplayWildcardItemStack> wildcardItemStacks =
+                itemGroup.getWildcardItemStacks().stream()
+                        .map(wildcardItemStack ->
+                                DisplayWildcardItemStack.create(wildcardItemStack, service))
+                        .collect(
+                                ImmutableSortedSet.toImmutableSortedSet(Comparator.naturalOrder()));
+
+        int directSize = itemGroup.getItemStacks().size();
+        int wildcardSize =
+                wildcardItemStacks.stream().mapToInt(DisplayWildcardItemStack::matchingItems).sum();
+
+        Optional<Icon> onlyItemStack =
+                Optional.ofNullable(
+                                directSize == 1 && wildcardSize == 0
+                                        ? itemGroup.getItemStacks().first() : null)
+                        .map(itemStack -> DisplayItemStack.buildIcon(itemStack, service));
+
         return new AutoValue_DisplayItemGroup(
-                itemGroup, buildIcon(itemGroup, service), service.getAdditionalInfo(itemGroup));
+                itemGroup, buildIcon(itemGroup, service), onlyItemStack,
+                directSize + wildcardSize, directSize, wildcardSize, wildcardItemStacks,
+                service.getAdditionalInfo(itemGroup));
     }
 
     public static Icon buildIcon(ItemGroup itemGroup, BaseDisplayService service) {
@@ -64,7 +86,7 @@ public abstract class DisplayItemGroup implements Comparable<DisplayItemGroup> {
             icon = innerIcon.toBuilder()
                     .setDescription(description)
                     .setUrl(url)
-                    .setTopLeft(NumberUtil.formatInteger(size))
+                    .setTopLeft(NumberUtil.formatInteger(size) + "*")
                     .build();
         } else {
             icon = Icon.builder()
@@ -79,6 +101,17 @@ public abstract class DisplayItemGroup implements Comparable<DisplayItemGroup> {
 
     public abstract ItemGroup getItemGroup();
     public abstract Icon getIcon();
+
+    /**
+     * Will be set if and only if this item group contains exactly one item stack,
+     * and no wildcard item stacks.
+     */
+    public abstract Optional<Icon> getOnlyItemStackIcon();
+
+    public abstract int getSize();
+    public abstract int getDirectSize();
+    public abstract int getWildcardSize();
+    public abstract ImmutableSortedSet<DisplayWildcardItemStack> wildcardItemStacks();
     public abstract ImmutableList<InfoPanel> getAdditionalInfo();
 
     @Override

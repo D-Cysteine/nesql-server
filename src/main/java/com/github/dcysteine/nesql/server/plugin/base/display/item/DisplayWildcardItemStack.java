@@ -16,8 +16,13 @@ import java.util.List;
 public abstract class DisplayWildcardItemStack implements Comparable<DisplayWildcardItemStack> {
     public static DisplayWildcardItemStack create(
             WildcardItemStack wildcardItemStack, BaseDisplayService service) {
+        ItemRepository itemRepository = service.getItemRepository();
+
+        int matchingItems =
+                itemRepository.findAll(
+                        ItemSpec.buildItemIdSpec(wildcardItemStack.getItemId())).size();
         return new AutoValue_DisplayWildcardItemStack(
-                wildcardItemStack, buildIcon(wildcardItemStack, service));
+                wildcardItemStack, buildIcon(wildcardItemStack, service), matchingItems);
     }
 
     public static Icon buildIcon(WildcardItemStack wildcardItemStack, BaseDisplayService service) {
@@ -54,6 +59,7 @@ public abstract class DisplayWildcardItemStack implements Comparable<DisplayWild
 
     public abstract WildcardItemStack getWildcardItemStack();
     public abstract Icon getIcon();
+    public abstract int matchingItems();
 
     @Override
     public int compareTo(DisplayWildcardItemStack other) {

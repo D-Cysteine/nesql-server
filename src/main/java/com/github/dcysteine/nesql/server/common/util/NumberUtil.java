@@ -22,6 +22,12 @@ public class NumberUtil {
         return numberFormat.format(integer);
     }
 
+    public static String formatDouble(double d) {
+        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+        numberFormat.setMaximumFractionDigits(6);
+        return numberFormat.format(d);
+    }
+
     public static String formatPercentage(double percentage) {
         NumberFormat numberFormat = NumberFormat.getPercentInstance();
         numberFormat.setMaximumFractionDigits(2);

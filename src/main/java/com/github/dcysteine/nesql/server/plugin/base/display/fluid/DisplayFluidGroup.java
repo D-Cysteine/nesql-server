@@ -10,11 +10,19 @@ import com.github.dcysteine.nesql.sql.base.fluid.FluidGroup;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 
+import java.util.Optional;
+
 @AutoValue
 public abstract class DisplayFluidGroup implements Comparable<DisplayFluidGroup> {
     public static DisplayFluidGroup create(FluidGroup fluidGroup, BaseDisplayService service) {
+        int size = fluidGroup.getFluidStacks().size();
+        Optional<Icon> onlyFluidStack =
+                Optional.ofNullable(size == 1 ? fluidGroup.getFluidStacks().first() : null)
+                        .map(fluidStack -> DisplayFluidStack.buildIcon(fluidStack, service));
+
         return new AutoValue_DisplayFluidGroup(
-                fluidGroup, buildIcon(fluidGroup, service), service.getAdditionalInfo(fluidGroup));
+                fluidGroup, buildIcon(fluidGroup, service), onlyFluidStack,
+                fluidGroup.getFluidStacks().size(), service.getAdditionalInfo(fluidGroup));
     }
 
     public static Icon buildIcon(FluidGroup fluidGroup, BaseDisplayService service) {
@@ -47,6 +55,11 @@ public abstract class DisplayFluidGroup implements Comparable<DisplayFluidGroup>
 
     public abstract FluidGroup getFluidGroup();
     public abstract Icon getIcon();
+
+    /** Will be set if and only if this fluid group contains exactly one fluid stack. */
+    public abstract Optional<Icon> getOnlyItemStackIcon();
+
+    public abstract int getSize();
     public abstract ImmutableList<InfoPanel> getAdditionalInfo();
 
     @Override

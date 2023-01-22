@@ -6,6 +6,7 @@ import org.springframework.data.jpa.domain.Specification;
 import javax.annotation.Nullable;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /** Contains utility methods for working with URL parameters. */
 public class ParamUtil {
@@ -18,6 +19,19 @@ public class ParamUtil {
         return param
                 .map(Strings::emptyToNull)
                 .map(function)
+                .orElse(null);
+    }
+
+    /**
+     * We ignore parameters that aren't set, and false boolean parameters are unset, so the only
+     * possible actual value for a boolean parameter is true.
+     */
+    @Nullable
+    public static <T> Specification<T> buildBooleanSpec(
+            Optional<Boolean> param, Supplier<Specification<T>> supplier) {
+        return param
+                .filter(bool -> bool)
+                .map(bool -> supplier.get())
                 .orElse(null);
     }
 

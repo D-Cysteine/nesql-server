@@ -16,12 +16,99 @@
         <div class="row justify-content-center mb-3">
             <div th:replace="~{fragment/icon::iconRowCentered(${displayItemGroup.icon})}">
             </div>
+            <th:block th:if="${displayItemGroup.onlyItemStackIcon.present}">
+                <div th:replace="~{fragment/icon::linkIconRowCentered(${displayItemGroup.onlyItemStackIcon.get})}">
+                </div>
+            </th:block>
         </div>
 
-        <div class="row">
-            <!-- TODO render additional info here -->
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <table class="table table-striped table-fixed border">
+                    <tr>
+                        <th scope="row">ID</th>
+                        <td class="text-truncate"
+                            data-bs-toggle="tooltip" th:data-bs-title="${itemGroup.id}">
+                            <button th:replace="~{fragment/copy::copyButton(${itemGroup.id})}">
+                            </button>
+                            [[${itemGroup.id}]]
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Size</th>
+                        <td>
+                            [[${@thymeleafService.formatInteger(displayItemGroup.size)}]]
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Direct size</th>
+                        <td>
+                            [[${@thymeleafService.formatInteger(displayItemGroup.directSize)}]]
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Wildcard size</th>
+                        <td>
+                            [[${@thymeleafService.formatInteger(displayItemGroup.wildcardSize)}]]
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col" th:if="${displayItemGroup.wildcardItemStacks.size} > 0">
+                <div id="infoAccordion" class="accordion">
+                    <div class="accordion-item">
+                        <h2 id="wildcardLabel" class="accordion-header">
+                            <button class="accordion-button" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#wildcardCollapse"
+                                    aria-expanded="false" aria-controls="wildcardCollapse">
+                                Wildcard item stacks
+                            </button>
+                        </h2>
+                        <div id="wildcardCollapse" class="accordion-collapse collapse show"
+                             data-bs-parent="#infoAccordion" aria-labelledby="wildcardLabel">
+                            <table class="table table-striped table-fixed mb-0">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Mod ID</th>
+                                    <th scope="col">Internal name</th>
+                                    <th scope="col">Item ID</th>
+                                    <th scope="col">Stack size</th>
+                                    <th scope="col">Matching items</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="row : ${displayItemGroup.wildcardItemStacks}">
+                                    <td class="text-truncate"
+                                        data-bs-toggle="tooltip" th:data-bs-title="${row.wildcardItemStack.modId}">
+                                        [[${row.wildcardItemStack.modId}]]
+                                    </td>
+                                    <td class="text-truncate"
+                                        data-bs-toggle="tooltip" th:data-bs-title="${row.wildcardItemStack.internalName}">
+                                        [[${row.wildcardItemStack.internalName}]]
+                                    </td>
+                                    <td>
+                                        [[${@thymeleafService.formatInteger(row.wildcardItemStack.itemId)}]]
+                                    </td>
+                                    <td>
+                                        [[${@thymeleafService.formatInteger(row.wildcardItemStack.stackSize)}]]
+                                    </td>
+                                    <td>
+                                        [[${@thymeleafService.formatInteger(row.matchingItems)}]]
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <th:block th:if="${displayItemGroup.additionalInfo.size} > 0">
+        <div th:replace="~{fragment/info_panel::infoPanels(${displayItemGroup.additionalInfo})}">
+        </div>
+    </th:block>
 </th:block>
 
 </body>

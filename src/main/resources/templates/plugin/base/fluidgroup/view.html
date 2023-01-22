@@ -16,10 +16,32 @@
         <div class="row justify-content-center mb-3">
             <div th:replace="~{fragment/icon::iconRowCentered(${displayFluidGroup.icon})}">
             </div>
+            <th:block th:if="${displayFluidGroup.onlyFluidStackIcon.present}">
+                <div th:replace="~{fragment/icon::linkIconRowCentered(${displayFluidGroup.onlyFluidStackIcon.get})}">
+                </div>
+            </th:block>
         </div>
 
-        <div class="row">
-            <!-- TODO render additional info here -->
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <table class="table table-striped table-fixed border">
+                    <tr>
+                        <th scope="row">ID</th>
+                        <td class="text-truncate"
+                            data-bs-toggle="tooltip" th:data-bs-title="${fluidGroup.id}">
+                            <button th:replace="~{fragment/copy::copyButton(${fluidGroup.id})}">
+                            </button>
+                            [[${fluidGroup.id}]]
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Size</th>
+                        <td>
+                            [[${@thymeleafService.formatInteger(displayFluidGroup.size)}]]
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 </th:block>
