@@ -14,15 +14,27 @@ import com.github.dcysteine.nesql.sql.base.item.ItemStack_;
 import com.github.dcysteine.nesql.sql.base.item.Item_;
 import com.github.dcysteine.nesql.sql.base.item.WildcardItemStack_;
 import com.github.dcysteine.nesql.sql.base.recipe.Recipe;
+import com.github.dcysteine.nesql.sql.base.recipe.RecipeType;
 import com.github.dcysteine.nesql.sql.base.recipe.RecipeType_;
 import com.github.dcysteine.nesql.sql.base.recipe.Recipe_;
 import jakarta.persistence.criteria.Root;
 import jakarta.persistence.criteria.Subquery;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 public class RecipeSpec {
     // Static class.
     private RecipeSpec() {}
+
+    public static Sort DEFAULT_SORT =
+            Sort.unsorted().and(
+                            Sort.sort(Recipe.class)
+                                    .by(Recipe::getRecipeType)
+                                    .by(RecipeType::getCategory))
+                    .and(
+                            Sort.sort(Recipe.class)
+                                    .by(Recipe::getRecipeType)
+                                    .by(RecipeType::getType));
 
     /** Matches by regex. */
     public static Specification<Recipe> buildRecipeCategorySpec(String recipeCategory) {

@@ -83,7 +83,9 @@ public class RecipeController {
         specs.add(ParamUtil.buildStringSpec(outputFluidName, RecipeSpec::buildOutputFluidNameSpec));
         specs.add(ParamUtil.buildStringSpec(outputFluidId, RecipeSpec::buildOutputFluidIdSpec));
 
-        PageRequest pageRequest = searchService.buildPageRequest(page, SearchResultsLayout.RECIPE);
+        PageRequest pageRequest =
+                searchService.buildPageRequest(
+                        page, SearchResultsLayout.RECIPE, RecipeSpec.DEFAULT_SORT);
         searchService.handleSearch(
                 pageRequest, model, recipeRepository, Specification.allOf(specs),
                 baseDisplayFactory::buildDisplayRecipe);
