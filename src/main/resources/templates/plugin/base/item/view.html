@@ -19,7 +19,7 @@
 
         <div class="row mb-5">
             <div class="col">
-                <table class="table table-striped border">
+                <table class="table table-striped table-fixed border">
                     <tr>
                         <th scope="row">ID</th>
                         <td class="text-truncate"
@@ -59,7 +59,7 @@
                 </table>
             </div>
             <div class="col">
-                <table class="table table-striped border">
+                <table class="table table-striped table-fixed border">
                     <tr>
                         <th scope="row">Item ID</th>
                         <td>[[${item.itemId}]]</td>
@@ -90,7 +90,7 @@
                         </h2>
                         <div id="tooltipCollapse" class="accordion-collapse collapse show"
                              data-bs-parent="#infoAccordion" aria-labelledby="tooltipLabel">
-                            <table class="table table-striped mb-0">
+                            <table class="table table-striped table-fixed mb-0">
                                 <tr th:each="line : ${displayItem.tooltip}">
                                     <td class="text-truncate"
                                         data-bs-toggle="tooltip" th:data-bs-title="${line}">
@@ -110,7 +110,7 @@
                         </h2>
                         <div id="nbtCollapse" class="accordion-collapse collapse"
                              data-bs-parent="#infoAccordion" aria-labelledby="nbtLabel">
-                            <table class="table table-striped mb-0">
+                            <table class="table table-striped table-fixed mb-0">
                                 <tr th:each="line : ${displayItem.nbt}">
                                     <td class="text-truncate"
                                         data-bs-toggle="tooltip" th:data-bs-title="${line}">
@@ -130,7 +130,7 @@
                         </h2>
                         <div id="toolClassesCollapse" class="accordion-collapse collapse"
                              data-bs-parent="#infoAccordion" aria-labelledby="toolClassesLabel">
-                            <table class="table table-striped mb-0">
+                            <table class="table table-striped table-fixed mb-0">
                                 <tr th:each="entry : ${item.toolClasses.entrySet()}">
                                     <th scope="row">[[${entry.key}]]</th>
                                     <td>[[${entry.value}]]</td>

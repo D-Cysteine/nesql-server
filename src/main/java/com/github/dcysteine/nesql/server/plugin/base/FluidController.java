@@ -1,5 +1,6 @@
 package com.github.dcysteine.nesql.server.plugin.base;
 
+import com.github.dcysteine.nesql.server.common.SearchResultsLayout;
 import com.github.dcysteine.nesql.server.common.util.ParamUtil;
 import com.github.dcysteine.nesql.server.plugin.base.display.fluid.DisplayFluid;
 import com.github.dcysteine.nesql.server.plugin.base.spec.FluidSpec;
@@ -8,6 +9,7 @@ import com.github.dcysteine.nesql.server.service.SearchService;
 import com.github.dcysteine.nesql.sql.base.fluid.Fluid;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,9 +60,11 @@ public class FluidController {
         specs.add(ParamUtil.buildStringSpec(internalName, FluidSpec::buildInternalNameSpec));
         specs.add(ParamUtil.buildSpec(fluidId, FluidSpec::buildFluidIdSpec));
 
+        PageRequest pageRequest =
+                searchService.buildPageRequest(
+                        page, SearchResultsLayout.GRID, FluidSpec.DEFAULT_SORT);
         searchService.handleSearch(
-                page, model, fluidRepository,
-                Specification.allOf(specs), FluidSpec.DEFAULT_SORT,
+                pageRequest, model, fluidRepository, Specification.allOf(specs),
                 baseDisplayFactory::buildDisplayFluidIcon);
         return "plugin/base/fluid/search";
     }

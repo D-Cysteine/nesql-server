@@ -37,7 +37,7 @@ public abstract class DisplayWildcardItemStack implements Comparable<DisplayWild
                                     "Wildcard Item Stack (#%d)", wildcardItemStack.getItemId()))
                     .setUrl(Constants.NOT_FOUND_URL)
                     .setImage(Constants.MISSING_IMAGE)
-                    .setTopLeft(String.format("#%d", wildcardItemStack.getItemId()))
+                    .setTopLeft("*")
                     .setBottomRight(Integer.toString(wildcardItemStack.getStackSize()))
                     .build();
         } else {
@@ -45,7 +45,7 @@ public abstract class DisplayWildcardItemStack implements Comparable<DisplayWild
             icon = itemIcon.toBuilder()
                     .setDescription(
                             String.format("Wildcard Item Stack (%s)", itemIcon.getDescription()))
-                    .setTopLeft(String.format("#%d", wildcardItemStack.getItemId()))
+                    .setTopLeft("*")
                     .setBottomRight(Integer.toString(wildcardItemStack.getStackSize()))
                     .build();
         }

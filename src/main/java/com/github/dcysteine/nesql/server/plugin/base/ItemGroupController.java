@@ -1,11 +1,13 @@
 package com.github.dcysteine.nesql.server.plugin.base;
 
+import com.github.dcysteine.nesql.server.common.SearchResultsLayout;
 import com.github.dcysteine.nesql.server.plugin.base.display.item.DisplayItemGroup;
 import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayFactory;
 import com.github.dcysteine.nesql.server.service.SearchService;
 import com.github.dcysteine.nesql.sql.base.item.ItemGroup;
 import com.github.dcysteine.nesql.sql.base.item.ItemGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,7 +51,9 @@ public class ItemGroupController {
 
     @GetMapping(path = "/all")
     public String all(@RequestParam(defaultValue = "1") int page, Model model) {
+        PageRequest pageRequest = searchService.buildPageRequest(page, SearchResultsLayout.LIST);
         return searchService.handleGetAll(
-                page, model, itemGroupRepository, baseDisplayFactory::buildDisplayItemGroupIcon);
+                pageRequest, model, itemGroupRepository,
+                baseDisplayFactory::buildDisplayItemGroupIcon);
     }
 }

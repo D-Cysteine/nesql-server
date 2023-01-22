@@ -4,7 +4,7 @@
 <th:block th:fragment="searchField(name, label, type)">
     <label th:for="${name}" class="form-label">[[${label}]]</label>
     <input th:id="${name}" th:name="${name}" th:type="${type}" class="form-control"
-           th:value="${@attributeService.request.getParameter(name)}">
+           th:value="${@thymeleafService.request.getParameter(name)}">
 </th:block>
 
 <th:block th:fragment="searchFieldRegex(name, label)">
@@ -13,7 +13,7 @@
         <i th:replace="~{fragment/info::regex}"></i>
     </label>
     <input th:id="${name}" th:name="${name}" th:type="search" class="form-control"
-           th:value="${@attributeService.request.getParameter(name)}">
+           th:value="${@thymeleafService.request.getParameter(name)}">
 </th:block>
 
 <button th:fragment="searchButton" type="submit" class="search-button btn btn-primary">
@@ -23,7 +23,7 @@
     Search
 </button>
 
-<div th:fragment="paginatedTable(page, baseUri)" class="container">
+<div th:fragment="paginatedTableList(page, baseUri)" class="container">
     <div th:replace="~{fragment/search::paginationControls(${page}, ${baseUri})}"></div>
     <div class="row">
         <table class="table table-striped border">
@@ -34,7 +34,80 @@
             </tr>
             <tr th:if="${#lists.isEmpty(page.content)}">
                 <td>
-                    No rows in table
+                    <span class="text-center">
+                        <i class="bi-x-lg fs-1"></i>
+                    </span>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div th:replace="~{fragment/search::paginationControls(${page}, ${baseUri})}"></div>
+</div>
+
+<div th:fragment="paginatedTableGrid(page, baseUri)" class="container">
+    <div th:replace="~{fragment/search::paginationControls(${page}, ${baseUri})}"></div>
+    <div class="row">
+        <table class="table table-striped border"
+               th:with="partitions = ${@thymeleafService.partitionGrid(page.content)}">
+            <tr th:each="row : ${partitions}">
+                <td th:each="cell : ${row}">
+                    <a th:replace="~{fragment/icon::linkOverlayIcon(${cell})}"></a>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(partitions)}">
+                <td>
+                    <span class="text-center">
+                        <i class="bi-x-lg fs-1"></i>
+                    </span>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div th:replace="~{fragment/search::paginationControls(${page}, ${baseUri})}"></div>
+</div>
+
+<!-- Note: unlike the other layouts, this one expects DisplayRecipe instead of Icon. -->
+<div th:fragment="paginatedTableRecipe(page, baseUri)" class="container">
+    <div th:replace="~{fragment/search::paginationControls(${page}, ${baseUri})}"></div>
+    <div class="row">
+        <table class="table table-striped border">
+            <tr th:each="row : ${page.content}" class="text-center align-middle">
+                <td>
+                    <div class="d-flex justify-content-center align-middle">
+                        <a th:replace="~{fragment/icon::linkOverlayIcon(${row.icon})}"></a>
+                        <i class="bi-chevron-compact-right fs-1"></i>
+                    </div>
+                </td>
+                <td>
+                    <div th:replace="~{fragment/recipe::recipeGridTable(${row.itemInputs},${row.recipe.recipeType.itemInputDimension})}">
+                    </div>
+                </td>
+                <td>
+                    <div th:replace="~{fragment/recipe::recipeGridTable(${row.fluidInputs},${row.recipe.recipeType.fluidInputDimension})}">
+                    </div>
+                </td>
+                <td>
+                    <i class="bi-shuffle fs-1" th:if="${row.recipe.recipeType.shapeless}"
+                       data-bs-toggle="tooltip" data-bs-title="Shapeless recipe">
+                    </i>
+                    <i class="bi-arrow-right fs-1" th:if="!${row.recipe.recipeType.shapeless}"
+                       data-bs-toggle="tooltip" data-bs-title="Shaped recipe">
+                    </i>
+                </td>
+                <td>
+                    <div th:replace="~{fragment/recipe::recipeGridTable(${row.itemOutputs},${row.recipe.recipeType.itemOutputDimension})}">
+                    </div>
+                </td>
+                <td>
+                    <div th:replace="~{fragment/recipe::recipeGridTable(${row.fluidOutputs},${row.recipe.recipeType.fluidOutputDimension})}">
+                    </div>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(page.content)}">
+                <td>
+                    <span class="text-center">
+                        <i class="bi-x-lg fs-1"></i>
+                    </span>
                 </td>
             </tr>
         </table>
@@ -57,8 +130,8 @@
     <div class="col-auto">
         <form method="get">
             <input type="hidden" th:name="${name}"
-                   th:value="${@attributeService.request.getParameter(name)}"
-                   th:each="name : ${@attributeService.request.getParameterNames()}"
+                   th:value="${@thymeleafService.request.getParameter(name)}"
+                   th:each="name : ${@thymeleafService.request.getParameterNames()}"
                    th:if="${name} != 'page'">
 
             <div class="input-group">

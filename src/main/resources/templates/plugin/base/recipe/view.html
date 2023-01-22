@@ -21,7 +21,7 @@
       <span th:if="${displayRecipe.recipe.recipeType.shapeless}" class="badge bg-info">
         Shapeless
       </span>
-                <span th:if="${!displayRecipe.recipe.recipeType.shapeless}" class="badge bg-info">
+                <span th:if="!${displayRecipe.recipe.recipeType.shapeless}" class="badge bg-info">
         Shaped
       </span>
             </h1>

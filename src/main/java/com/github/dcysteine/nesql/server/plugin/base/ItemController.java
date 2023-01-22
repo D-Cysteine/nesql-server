@@ -1,5 +1,6 @@
 package com.github.dcysteine.nesql.server.plugin.base;
 
+import com.github.dcysteine.nesql.server.common.SearchResultsLayout;
 import com.github.dcysteine.nesql.server.common.util.ParamUtil;
 import com.github.dcysteine.nesql.server.plugin.base.display.item.DisplayItem;
 import com.github.dcysteine.nesql.server.plugin.base.spec.ItemSpec;
@@ -8,6 +9,7 @@ import com.github.dcysteine.nesql.server.service.SearchService;
 import com.github.dcysteine.nesql.sql.base.item.Item;
 import com.github.dcysteine.nesql.sql.base.item.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -66,9 +68,11 @@ public class ItemController {
         specs.add(ParamUtil.buildStringSpec(tooltip, ItemSpec::buildTooltipSpec));
         specs.add(ParamUtil.buildStringSpec(nbt, ItemSpec::buildNbtSpec));
 
+        PageRequest pageRequest =
+                searchService.buildPageRequest(
+                        page, SearchResultsLayout.GRID, ItemSpec.DEFAULT_SORT);
         searchService.handleSearch(
-                page, model, itemRepository,
-                Specification.allOf(specs), ItemSpec.DEFAULT_SORT,
+                pageRequest, model, itemRepository, Specification.allOf(specs),
                 baseDisplayFactory::buildDisplayItemIcon);
         return "plugin/base/item/search";
     }

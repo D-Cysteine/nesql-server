@@ -1,5 +1,5 @@
-/* Fix for Bootstrap text-truncate in table cells. */
-table {
+/* Enables Bootstrap text-truncate in table cells. */
+table.table-fixed {
     table-layout: fixed;
 }
 
@@ -7,6 +7,10 @@ table {
 img.icon {
     width: 64px;
     height: 64px;
+    min-width: 64px;
+    min-height: 64px;
+    max-width: 64px;
+    max-height: 64px;
 }
 
 div.icon-container {
@@ -29,6 +33,10 @@ img.icon-overlay {
     position: absolute;
     width: 24px;
     height: 24px;
+    min-width: 24px;
+    min-height: 24px;
+    max-width: 24px;
+    max-height: 24px;
 }
 
 .icon-overlay.top-left {
@@ -51,13 +59,15 @@ img.icon-overlay {
     right: 0;
 }
 
-table.recipe-grid-table tr {
-    height: 80px;
-}
 table.recipe-grid-table td {
     width: 80px;
+    height: 80px;
+    min-width: 80px;
+    min-height: 80px;
+    max-width: 80px;
+    max-height: 80px;
     text-align: center;
-    vertical-align: center;
+    vertical-align: middle;
     border: 1px solid black;
 }
 table.recipe-grid-table td.recipe-grid-shaded {

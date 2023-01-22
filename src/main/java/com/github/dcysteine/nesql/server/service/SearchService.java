@@ -1,5 +1,6 @@
 package com.github.dcysteine.nesql.server.service;
 
+import com.github.dcysteine.nesql.server.common.SearchResultsLayout;
 import com.github.dcysteine.nesql.server.config.ExternalConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,37 +23,33 @@ public class SearchService {
     /** Fallback sort, for any entities that don't have a more meaningful sort. */
     public static final Sort ID_SORT = Sort.by("id");
 
-    public <T extends JpaSpecificationExecutor<R>, R, D> String handleGetAll(
-            int page, Model model, T repository, Function<R, D> buildDisplay) {
-        return handleGetAll(page, model, repository, ID_SORT, buildDisplay);
+    public PageRequest buildPageRequest(int page, SearchResultsLayout layout) {
+        return buildPageRequest(page, layout, ID_SORT);
     }
 
-    public <T extends JpaSpecificationExecutor<R>, R, D> String handleGetAll(
-            int page, Model model, T repository, Sort sort, Function<R, D> buildDisplay) {
-        return handleSearch(
-                page, model, repository, Specification.allOf(), sort, buildDisplay);
-    }
-
-    public <T extends JpaSpecificationExecutor<R>, R, D> String handleSearch(
-            int page, Model model, T repository,
-            Specification<R> spec, Function<R, D> buildDisplay) {
-        return handleSearch(page, model, repository, spec, ID_SORT, buildDisplay);
-    }
-
-    public <T extends JpaSpecificationExecutor<R>, R, D> String handleSearch(
-            int page, Model model, T repository,
-            Specification<R> spec, Sort sort, Function<R, D> buildDisplay) {
+    public PageRequest buildPageRequest(int page, SearchResultsLayout layout, Sort sort) {
         // PageRequest uses 0-index page, but we want 1-indexed.
-        PageRequest pageRequest = PageRequest.of(page - 1, externalConfig.getPageSize(), sort);
+        return PageRequest.of(page - 1, layout.getPageSize(externalConfig), sort);
+    }
+
+    public <T extends JpaSpecificationExecutor<R>, R, D> String handleGetAll(
+            PageRequest pageRequest, Model model, T repository, Function<R, D> buildDisplay) {
+        return handleSearch(pageRequest, model, repository, Specification.allOf(), buildDisplay);
+    }
+
+    public <T extends JpaSpecificationExecutor<R>, R, D> String handleSearch(
+            PageRequest pageRequest, Model model, T repository,
+            Specification<R> spec, Function<R, D> buildDisplay) {
         Page<D> results = repository.findAll(spec, pageRequest).map(buildDisplay);
+        model.addAttribute("page", results);
 
         String baseUri =
                 ServletUriComponentsBuilder.fromCurrentRequest()
                         .replaceQueryParam("page")
                         .build().toUriString();
-
-        model.addAttribute("page", results);
         model.addAttribute("baseUri", baseUri);
+
+        // TODO make this void and delete this line, and the search_results template
         return "search_results";
     }
 }

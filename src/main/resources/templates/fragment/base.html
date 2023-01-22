@@ -25,7 +25,7 @@
                             Index
                         </a>
                     </li>
-                    <li th:each="table : ${@attributeService.navBarTables}" class="nav-item">
+                    <li th:each="table : ${@thymeleafService.navBarTables}" class="nav-item">
                         <a class="nav-link" th:href="@{${table.searchUrl}}">
                             [[${table.name}]]
                         </a>

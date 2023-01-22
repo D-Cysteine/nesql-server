@@ -15,8 +15,17 @@ public class ExternalConfig {
     @Value("${nesql.server.repository-name}")
     private String repositoryName;
 
-    @Value("${nesql.server.page-size}")
-    private int pageSize;
+    @Value("${nesql.server.page-size.list}")
+    private int pageSizeList;
+
+    @Value("${nesql.server.page-size.grid-rows}")
+    private int pageSizeGridRows;
+
+    @Value("${nesql.server.page-size.grid-columns}")
+    private int pageSizeGridColumns;
+
+    @Value("${nesql.server.page-size.recipe}")
+    private int pageSizeRecipe;
 
     @Value("${nesql.server.enable-shutdown}")
     private boolean shutdownEnabled;
@@ -32,8 +41,20 @@ public class ExternalConfig {
         return repositoryName;
     }
 
-    public int getPageSize() {
-        return pageSize;
+    public int getPageSizeList() {
+        return pageSizeList;
+    }
+
+    public int getPageSizeGridRows() {
+        return pageSizeGridRows;
+    }
+
+    public int getPageSizeGridColumns() {
+        return pageSizeGridColumns;
+    }
+
+    public int getPageSizeRecipe() {
+        return pageSizeRecipe;
     }
 
     public boolean isShutdownEnabled() {

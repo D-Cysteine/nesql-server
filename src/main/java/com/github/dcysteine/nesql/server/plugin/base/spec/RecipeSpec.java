@@ -16,6 +16,9 @@ public class RecipeSpec {
     // Static class.
     private RecipeSpec() {}
 
+    // TODO add a reasonable default sort here (and for item group, fluid group)
+    // need to sort by collection contents somehow
+
     /**
      * This is it: the most complex query in the server (so far). Be careful with this query!
      * If you pass it a regex that matches even just a moderate amount of items, the query will take
