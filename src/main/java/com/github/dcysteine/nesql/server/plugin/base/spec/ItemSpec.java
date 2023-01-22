@@ -33,18 +33,6 @@ public class ItemSpec {
     }
 
     /** Matches by regex. */
-    public static Specification<Item> buildInternalNameSpec(String internalName) {
-        return (root, query, builder) -> {
-            return builder.isTrue(
-                    builder.function(
-                            "regexp_like",
-                            Boolean.class,
-                            root.get(Item_.INTERNAL_NAME),
-                            builder.literal(internalName)));
-        };
-    }
-
-    /** Matches by regex. */
     public static Specification<Item> buildModIdSpec(String modId) {
         return (root, query, builder) -> {
             return builder.isTrue(
@@ -53,6 +41,18 @@ public class ItemSpec {
                             Boolean.class,
                             root.get(Item_.MOD_ID),
                             builder.literal(modId)));
+        };
+    }
+
+    /** Matches by regex. */
+    public static Specification<Item> buildInternalNameSpec(String internalName) {
+        return (root, query, builder) -> {
+            return builder.isTrue(
+                    builder.function(
+                            "regexp_like",
+                            Boolean.class,
+                            root.get(Item_.INTERNAL_NAME),
+                            builder.literal(internalName)));
         };
     }
 

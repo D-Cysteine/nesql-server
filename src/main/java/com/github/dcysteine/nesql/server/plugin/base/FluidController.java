@@ -51,14 +51,20 @@ public class FluidController {
     @GetMapping(path = "/search")
     public String search(
             @RequestParam(required = false) Optional<String> localizedName,
+            @RequestParam(required = false) Optional<String> modId,
             @RequestParam(required = false) Optional<String> internalName,
-            @RequestParam(required = false) Optional<Integer> fluidId,
+            @RequestParam(required = false) Optional<String> nbt,
+            @RequestParam(required = false) Optional<String> fluidGroupId,
+            @RequestParam(required = false) Optional<String> recipeId,
             @RequestParam(defaultValue = "1") int page,
             Model model) {
         List<Specification<Fluid>> specs = new ArrayList<>();
         specs.add(ParamUtil.buildStringSpec(localizedName, FluidSpec::buildLocalizedNameSpec));
+        specs.add(ParamUtil.buildStringSpec(modId, FluidSpec::buildModIdSpec));
         specs.add(ParamUtil.buildStringSpec(internalName, FluidSpec::buildInternalNameSpec));
-        specs.add(ParamUtil.buildSpec(fluidId, FluidSpec::buildFluidIdSpec));
+        specs.add(ParamUtil.buildStringSpec(nbt, FluidSpec::buildNbtSpec));
+        specs.add(ParamUtil.buildStringSpec(fluidGroupId, FluidSpec::buildFluidGroupSpec));
+        specs.add(ParamUtil.buildStringSpec(recipeId, FluidSpec::buildRecipeInputSpec));
 
         PageRequest pageRequest =
                 searchService.buildPageRequest(

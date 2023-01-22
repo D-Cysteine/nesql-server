@@ -51,8 +51,8 @@ public class ItemController {
     @GetMapping(path = "/search")
     public String search(
             @RequestParam(required = false) Optional<String> localizedName,
-            @RequestParam(required = false) Optional<String> internalName,
             @RequestParam(required = false) Optional<String> modId,
+            @RequestParam(required = false) Optional<String> internalName,
             @RequestParam(required = false) Optional<Integer> itemDamage,
             @RequestParam(required = false) Optional<String> tooltip,
             @RequestParam(required = false) Optional<String> nbt,
@@ -62,8 +62,8 @@ public class ItemController {
             Model model) {
         List<Specification<Item>> specs = new ArrayList<>();
         specs.add(ParamUtil.buildStringSpec(localizedName, ItemSpec::buildLocalizedNameSpec));
-        specs.add(ParamUtil.buildStringSpec(internalName, ItemSpec::buildInternalNameSpec));
         specs.add(ParamUtil.buildStringSpec(modId, ItemSpec::buildModIdSpec));
+        specs.add(ParamUtil.buildStringSpec(internalName, ItemSpec::buildInternalNameSpec));
         specs.add(ParamUtil.buildSpec(itemDamage, ItemSpec::buildItemDamageSpec));
         specs.add(ParamUtil.buildStringSpec(tooltip, ItemSpec::buildTooltipSpec));
         specs.add(ParamUtil.buildStringSpec(nbt, ItemSpec::buildNbtSpec));

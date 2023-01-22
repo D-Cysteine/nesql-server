@@ -1,7 +1,14 @@
 package com.github.dcysteine.nesql.server.plugin.base.spec;
 
 import com.github.dcysteine.nesql.sql.base.fluid.Fluid;
+import com.github.dcysteine.nesql.sql.base.fluid.FluidGroup;
+import com.github.dcysteine.nesql.sql.base.fluid.FluidGroup_;
+import com.github.dcysteine.nesql.sql.base.fluid.FluidStack_;
 import com.github.dcysteine.nesql.sql.base.fluid.Fluid_;
+import com.github.dcysteine.nesql.sql.base.recipe.Recipe;
+import com.github.dcysteine.nesql.sql.base.recipe.Recipe_;
+import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.Subquery;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -21,6 +28,18 @@ public class FluidSpec {
                             Boolean.class,
                             root.get(Fluid_.LOCALIZED_NAME),
                             builder.literal(localizedName)));
+        };
+    }
+
+    /** Matches by regex. */
+    public static Specification<Fluid> buildModIdSpec(String modId) {
+        return (root, query, builder) -> {
+            return builder.isTrue(
+                    builder.function(
+                            "regexp_like",
+                            Boolean.class,
+                            root.get(Fluid_.MOD_ID),
+                            builder.literal(modId)));
         };
     }
 
@@ -55,9 +74,32 @@ public class FluidSpec {
         };
     }
 
-    public static Specification<Fluid> buildNullNbtSpec() {
+    /** Finds fluids that belong to the specified fluid group. */
+    public static Specification<Fluid> buildFluidGroupSpec(String fluidGroupId) {
         return (root, query, builder) -> {
-            return builder.isNull(root.get(Fluid_.NBT));
+            Subquery<Fluid> directFluidsQuery = query.subquery(Fluid.class);
+            Root<FluidGroup> directFluidGroupRoot = directFluidsQuery.from(FluidGroup.class);
+            directFluidsQuery.select(
+                            directFluidGroupRoot.get(FluidGroup_.FLUID_STACKS)
+                                    .get(FluidStack_.FLUID))
+                    .where(builder.equal(directFluidGroupRoot.get(FluidGroup_.ID), fluidGroupId));
+
+            return builder.in(root).value(directFluidsQuery);
+        };
+    }
+
+    /** Finds fluids that are inputs to the specified recipe. */
+    public static Specification<Fluid> buildRecipeInputSpec(String recipeId) {
+        return (root, query, builder) -> {
+            Subquery<Fluid> directFluidsQuery = query.subquery(Fluid.class);
+            Root<Recipe> directRecipeRoot = directFluidsQuery.from(Recipe.class);
+            directFluidsQuery.select(
+                            directRecipeRoot.get(Recipe_.FLUID_INPUTS)
+                                    .get(FluidGroup_.FLUID_STACKS)
+                                    .get(FluidStack_.FLUID))
+                    .where(builder.equal(directRecipeRoot.get(Recipe_.ID), recipeId));
+
+            return builder.in(root).value(directFluidsQuery);
         };
     }
 }

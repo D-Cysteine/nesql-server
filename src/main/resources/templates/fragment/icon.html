@@ -51,11 +51,9 @@
             <a th:replace="~{fragment/icon::linkOverlayIconRow(${row})}"></a>
         </td>
     </tr>
-    <tr th:if="${#lists.isEmpty(rows)}">
+    <tr th:if="${#lists.isEmpty(rows)}" class="text-center">
         <td>
-            <span class="text-center">
-                <i class="bi-x-lg fs-1"></i>
-            </span>
+            <i class="bi-x-lg fs-1"></i>
         </td>
     </tr>
 </table>

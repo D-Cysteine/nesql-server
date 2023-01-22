@@ -41,11 +41,9 @@
                     <a th:replace="~{fragment/icon::linkOverlayIconRow(${row})}"></a>
                 </td>
             </tr>
-            <tr th:if="${#lists.isEmpty(page.content)}">
+            <tr th:if="${#lists.isEmpty(page.content)}" class="text-center">
                 <td>
-                    <span class="text-center">
-                        <i class="bi-x-lg fs-1"></i>
-                    </span>
+                    <i class="bi-x-lg fs-1"></i>
                 </td>
             </tr>
         </table>
@@ -63,11 +61,9 @@
                     <a th:replace="~{fragment/icon::linkOverlayIcon(${cell})}"></a>
                 </td>
             </tr>
-            <tr th:if="${#lists.isEmpty(partitions)}">
+            <tr th:if="${#lists.isEmpty(partitions)}" class="text-center">
                 <td>
-                    <span class="text-center">
-                        <i class="bi-x-lg fs-1"></i>
-                    </span>
+                    <i class="bi-x-lg fs-1"></i>
                 </td>
             </tr>
         </table>
@@ -112,11 +108,9 @@
                     </div>
                 </td>
             </tr>
-            <tr th:if="${#lists.isEmpty(page.content)}">
+            <tr th:if="${#lists.isEmpty(page.content)}" class="text-center">
                 <td>
-                    <span class="text-center">
-                        <i class="bi-x-lg fs-1"></i>
-                    </span>
+                    <i class="bi-x-lg fs-1"></i>
                 </td>
             </tr>
         </table>

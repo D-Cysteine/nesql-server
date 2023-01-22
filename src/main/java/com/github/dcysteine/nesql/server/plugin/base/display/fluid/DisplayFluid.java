@@ -3,6 +3,7 @@ package com.github.dcysteine.nesql.server.plugin.base.display.fluid;
 import com.github.dcysteine.nesql.server.common.Table;
 import com.github.dcysteine.nesql.server.common.display.Icon;
 import com.github.dcysteine.nesql.server.common.display.InfoPanel;
+import com.github.dcysteine.nesql.server.common.util.StringUtil;
 import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayService;
 import com.github.dcysteine.nesql.sql.base.fluid.Fluid;
 import com.google.auto.value.AutoValue;
@@ -11,8 +12,13 @@ import com.google.common.collect.ImmutableList;
 @AutoValue
 public abstract class DisplayFluid implements Comparable<DisplayFluid> {
     public static DisplayFluid create(Fluid fluid, BaseDisplayService service) {
+        ImmutableList<String> nbt = ImmutableList.of();
+        if (fluid.hasNbt()) {
+            nbt = ImmutableList.copyOf(StringUtil.prettyPrintNbt(fluid.getNbt()).split("\n"));
+        }
+
         return new AutoValue_DisplayFluid(
-                fluid, buildIcon(fluid, service), service.getAdditionalInfo(fluid));
+                fluid, buildIcon(fluid, service), nbt, service.getAdditionalInfo(fluid));
     }
 
     public static Icon buildIcon(Fluid fluid, BaseDisplayService service) {
@@ -25,6 +31,7 @@ public abstract class DisplayFluid implements Comparable<DisplayFluid> {
 
     public abstract Fluid getFluid();
     public abstract Icon getIcon();
+    public abstract ImmutableList<String> getNbt();
     public abstract ImmutableList<InfoPanel> getAdditionalInfo();
 
     @Override

@@ -27,23 +27,46 @@
                             <div class="mb-2">
                                 <th:block th:replace="~{fragment/search::searchFieldRegex(localizedName, 'Localized name')}">
                                 </th:block>
+                                <div class="form-text">&nbsp;</div>
+                            </div>
+
+                            <div class="mb-2">
+                                <th:block th:replace="~{fragment/search::searchFieldRegex(modId, 'Mod ID')}">
+                                </th:block>
+                                <div class="form-text">&nbsp;</div>
                             </div>
 
                             <div class="mb-2">
                                 <th:block th:replace="~{fragment/search::searchFieldRegex(internalName, 'Internal name')}">
                                 </th:block>
+                                <div class="form-text">&nbsp;</div>
                             </div>
                         </div>
                         <div class="col">
                             <div class="mb-2">
-                                <th:block th:replace="~{fragment/search::searchField(fluidId, 'Forge fluid ID', 'number')}">
+                                <th:block th:replace="~{fragment/search::searchFieldRegex(nbt, 'NBT')}">
                                 </th:block>
+                                <div class="form-text">
+                                    Search for "^$" to find items with no NBT.
+                                </div>
+                            </div>
+
+                            <div class="mb-2">
+                                <th:block th:replace="~{fragment/search::searchField(fluidGroupId, 'Fluid group ID', 'search')}">
+                                </th:block>
+                                <div class="form-text">&nbsp;</div>
+                            </div>
+
+                            <div class="mb-2">
+                                <th:block th:replace="~{fragment/search::searchField(recipeId, 'Recipe ID (input)', 'search')}">
+                                </th:block>
+                                <div class="form-text">&nbsp;</div>
                             </div>
                         </div>
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-auto">
-                            <button type="submit" class="btn btn-primary">Search</button>
+                            <button th:replace="~{fragment/search::searchButton}"></button>
                         </div>
                     </div>
                 </div>
