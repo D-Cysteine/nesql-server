@@ -314,12 +314,11 @@ public class RecipeSpec {
                     .where(
                             builder.and(
                                     builder.in(itemWitnessRoot).value(itemQuery),
-                                    builder.in(itemWitnessRoot.get(Item_.ID))
+                                    builder.in(itemWitnessRoot)
                                             .value(
                                                     root
                                                             .get(Recipe_.ITEM_OUTPUTS)
-                                                            .get(ItemStackWithProbability_.ITEM)
-                                                            .get(Item_.ID))));
+                                                            .get(ItemStackWithProbability_.ITEM))));
 
             return builder.exists(itemWitnessQuery);
         };
@@ -355,12 +354,11 @@ public class RecipeSpec {
                     .where(
                             builder.and(
                                     builder.in(fluidWitnessRoot).value(fluidQuery),
-                                    builder.in(fluidWitnessRoot.get(Fluid_.ID))
+                                    builder.in(fluidWitnessRoot)
                                             .value(
                                                     root
                                                             .get(Recipe_.FLUID_OUTPUTS)
-                                                            .get(FluidStackWithProbability_.FLUID)
-                                                            .get(Fluid_.ID))));
+                                                            .get(FluidStackWithProbability_.FLUID))));
 
             return builder.exists(fluidWitnessQuery);
         };
