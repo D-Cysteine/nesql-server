@@ -23,19 +23,25 @@
                 <table class="table table-striped border">
                     <tr>
                         <th scope="row">ID</th>
-                        <td class="text-truncate">
-                            <button th:replace="~{fragment/copy::copyButton(${recipeType.id})}">
-                            </button>
+                        <td class="text-truncate"
+                            data-bs-toggle="tooltip" th:data-bs-title="${recipeType.id}">
+                            <button th:replace="~{fragment/copy::copyButton(${recipeType.id})}"></button>
                             [[${recipeType.id}]]
                         </td>
                     </tr>
                     <tr>
                         <th scope="row">Category</th>
-                        <td>[[${recipeType.category}]]</td>
+                        <td class="text-truncate"
+                            data-bs-toggle="tooltip" th:data-bs-title="${recipeType.category}">
+                            [[${recipeType.category}]]
+                        </td>
                     </tr>
                     <tr>
                         <th scope="row">Type</th>
-                        <td>[[${recipeType.type}]]</td>
+                        <td class="text-truncate"
+                            data-bs-toggle="tooltip" th:data-bs-title="${recipeType.type}">
+                            [[${recipeType.type}]]
+                        </td>
                     </tr>
                     <tr>
                         <th scope="row">Shapeless</th>
@@ -67,11 +73,12 @@
                 </table>
             </div>
         </div>
-
-        <div class="row">
-            <!-- TODO render additional info here -->
-        </div>
     </div>
+
+    <th:block th:if="${displayRecipeType.additionalInfo.size} > 0">
+        <div th:replace="~{fragment/info_panel::infoPanels(${displayRecipeType.additionalInfo})}">
+        </div>
+    </th:block>
 </th:block>
 </body>
 </html>
