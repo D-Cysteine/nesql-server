@@ -1,10 +1,6 @@
 package com.github.dcysteine.nesql.server.plugin.base.display;
 
-import com.github.dcysteine.nesql.server.common.display.Icon;
 import com.github.dcysteine.nesql.server.common.display.InfoPanel;
-import com.github.dcysteine.nesql.server.common.display.Link;
-import com.github.dcysteine.nesql.server.common.display.Property;
-import com.github.dcysteine.nesql.server.plugin.base.display.item.DisplayItem;
 import com.github.dcysteine.nesql.sql.base.fluid.Fluid;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidGroup;
 import com.github.dcysteine.nesql.sql.base.item.Item;
@@ -27,30 +23,7 @@ public class BaseDisplayService {
     }
 
     public ImmutableList<InfoPanel> getAdditionalInfo(Item item) {
-        Icon testIcon = DisplayItem.buildIcon(item, this);
-        //return ImmutableList.of();
-        return ImmutableList.of(
-                InfoPanel.builder()
-                        .setTitle("Test 1")
-                        .build(),
-                InfoPanel.builder()
-                        .setTitle("Test 2")
-                        .addLink(Link.create("test1", "test2"))
-                        .addLink(Link.create("test1", "test2"))
-                        .addLink(Link.create("test1", "test2"))
-                        .addIcon(testIcon)
-                        .addIcon(testIcon)
-                        .addIcon(testIcon)
-                        .addProperty(Property.create("test1", "test2"))
-                        .addProperty(Property.create("test1", "test2"))
-                        .addProperty(Property.create("test1", "test2"))
-                        .build(),
-                InfoPanel.builder()
-                        .setTitle("Test 3")
-                        .build(),
-                InfoPanel.builder()
-                        .setTitle("Test 4")
-                        .build());
+        return ImmutableList.of();
     }
 
     public ImmutableList<InfoPanel> getAdditionalInfo(Fluid fluid) {
