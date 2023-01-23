@@ -65,7 +65,7 @@ public enum Table {
     }
 
     public String getSearchUrl() {
-        return getSearchUrl(ImmutableMap.of());
+        return String.format("~/%s/search", path);
     }
 
     public String getSearchUrl(String... params) {
@@ -73,15 +73,11 @@ public enum Table {
             throw new IllegalArgumentException("params must have even length!\n" + params);
         }
 
-        Map<String, String> paramMap = new HashMap<>();
+        UriComponentsBuilder builder =
+                UriComponentsBuilder.fromUriString(String.format("~/%s/search", path));
         for (int i = 0; i < params.length; i += 2) {
-            paramMap.put(params[i], params[i + 1]);
+            builder.queryParam(params[i], params[i + 1]);
         }
-        return getSearchUrl(paramMap);
-    }
-
-    public String getSearchUrl(Map<String, String> params) {
-        return "~"+ UriComponentsBuilder.fromUriString(String.format("/%s/search", path))
-                .build(params);
+        return builder.toUriString();
     }
 }

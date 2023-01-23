@@ -1,6 +1,8 @@
 package com.github.dcysteine.nesql.server.plugin.base.display;
 
+import com.github.dcysteine.nesql.server.common.Table;
 import com.github.dcysteine.nesql.server.common.display.InfoPanel;
+import com.github.dcysteine.nesql.server.common.display.Link;
 import com.github.dcysteine.nesql.sql.base.fluid.Fluid;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidGroup;
 import com.github.dcysteine.nesql.sql.base.item.Item;
@@ -23,19 +25,96 @@ public class BaseDisplayService {
     }
 
     public ImmutableList<InfoPanel> getAdditionalInfo(Item item) {
-        return ImmutableList.of();
+        InfoPanel basePanel =
+                InfoPanel.builder()
+                        .setTitle("Base")
+                        .addLink(
+                                Link.create(
+                                        "bi-search",
+                                        "Item groups",
+                                        Table.ITEM_GROUP.getSearchUrl("itemId", item.getId())))
+                        .addLink(
+                                Link.create(
+                                        "bi-search",
+                                        "Recipe input",
+                                        Table.RECIPE.getSearchUrl("inputItemId", item.getId())))
+                        .addLink(
+                                Link.create(
+                                        "bi-search",
+                                        "Recipe output",
+                                        Table.RECIPE.getSearchUrl(
+                                                "outputItemId", item.getId())))
+                        .build();
+
+        return ImmutableList.of(basePanel);
     }
 
     public ImmutableList<InfoPanel> getAdditionalInfo(Fluid fluid) {
-        return ImmutableList.of();
+        InfoPanel basePanel =
+                InfoPanel.builder()
+                        .setTitle("Base")
+                        .addLink(
+                                Link.create(
+                                        "bi-search",
+                                        "Fluid groups",
+                                        Table.FLUID_GROUP.getSearchUrl("fluidId", fluid.getId())))
+                        .addLink(
+                                Link.create(
+                                        "bi-search",
+                                        "Recipe input",
+                                        Table.RECIPE.getSearchUrl(
+                                                "inputFluidId", fluid.getId())))
+                        .addLink(
+                                Link.create(
+                                        "bi-search",
+                                        "Recipe output",
+                                        Table.RECIPE.getSearchUrl(
+                                                "outputFluidId", fluid.getId())))
+                        .build();
+
+        return ImmutableList.of(basePanel);
     }
 
     public ImmutableList<InfoPanel> getAdditionalInfo(ItemGroup itemGroup) {
-        return ImmutableList.of();
+        InfoPanel basePanel =
+                InfoPanel.builder()
+                        .setTitle("Base")
+                        .addLink(
+                                Link.create(
+                                        "bi-search",
+                                        "Items",
+                                        Table.ITEM.getSearchUrl(
+                                                "itemGroupId", itemGroup.getId())))
+                        .addLink(
+                                Link.create(
+                                        "bi-search",
+                                        "Recipe input",
+                                        Table.RECIPE.getSearchUrl(
+                                                "inputItemGroupId", itemGroup.getId())))
+                        .build();
+
+        return ImmutableList.of(basePanel);
     }
 
     public ImmutableList<InfoPanel> getAdditionalInfo(FluidGroup fluidGroup) {
-        return ImmutableList.of();
+        InfoPanel basePanel =
+                InfoPanel.builder()
+                        .setTitle("Base")
+                        .addLink(
+                                Link.create(
+                                        "bi-search",
+                                        "Fluids",
+                                        Table.FLUID.getSearchUrl(
+                                                "fluidGroupId", fluidGroup.getId())))
+                        .addLink(
+                                Link.create(
+                                        "bi-search",
+                                        "Recipe input",
+                                        Table.RECIPE.getSearchUrl(
+                                                "inputFluidGroupId", fluidGroup.getId())))
+                        .build();
+
+        return ImmutableList.of(basePanel);
     }
 
     public ImmutableList<InfoPanel> getAdditionalInfo(Recipe recipe) {
@@ -43,6 +122,17 @@ public class BaseDisplayService {
     }
 
     public ImmutableList<InfoPanel> getAdditionalInfo(RecipeType recipeType) {
-        return ImmutableList.of();
+        InfoPanel basePanel =
+                InfoPanel.builder()
+                        .setTitle("Base")
+                        .addLink(
+                                Link.create(
+                                        "bi-search",
+                                        "Recipes",
+                                        Table.RECIPE.getSearchUrl(
+                                                "recipeTypeId", recipeType.getId())))
+                        .build();
+
+        return ImmutableList.of(basePanel);
     }
 }
