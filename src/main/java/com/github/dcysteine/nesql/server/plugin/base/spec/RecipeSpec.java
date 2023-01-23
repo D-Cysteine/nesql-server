@@ -26,7 +26,7 @@ public class RecipeSpec {
     // Static class.
     private RecipeSpec() {}
 
-    public static Sort DEFAULT_SORT =
+    public static final Sort DEFAULT_SORT =
             Sort.unsorted().and(
                             Sort.sort(Recipe.class)
                                     .by(Recipe::getRecipeType)
@@ -216,9 +216,24 @@ public class RecipeSpec {
     }
 
     public static Specification<Recipe> buildInputItemGroupIdSpec(String itemGroupId) {
-        return (root, query, builder) ->
-                builder.in(builder.literal(itemGroupId))
-                        .value(root.get(Recipe_.ITEM_INPUTS).get(ItemGroup_.ID));
+        return (root, query, builder) -> {
+            // Unfortunately, we have to do this to ensure distinct query results.
+            // This is necessary because Recipe.ITEM_INPUTS can contain duplicates.
+            // We cannot simply call query.distinct() because that breaks sorting, for some reason.
+            Subquery<ItemGroup> itemGroupWitnessQuery = query.subquery(ItemGroup.class);
+            Root<ItemGroup> itemGroupWitnessRoot = itemGroupWitnessQuery.from(ItemGroup.class);
+            itemGroupWitnessQuery.select(itemGroupWitnessRoot)
+                    .where(
+                            builder.and(
+                                    builder.equal(
+                                            itemGroupWitnessRoot.get(ItemGroup_.ID), itemGroupId),
+                                    builder.in(itemGroupWitnessRoot.get(ItemGroup_.ID))
+                                            .value(
+                                                    root.get(Recipe_.ITEM_INPUTS)
+                                                            .get(ItemGroup_.ID))));
+
+            return builder.exists(itemGroupWitnessQuery);
+        };
     }
 
     /** Matches by regex. */
@@ -300,9 +315,25 @@ public class RecipeSpec {
     }
 
     public static Specification<Recipe> buildInputFluidGroupIdSpec(String fluidGroupId) {
-        return (root, query, builder) ->
-                builder.in(builder.literal(fluidGroupId))
-                        .value(root.get(Recipe_.FLUID_INPUTS).get(FluidGroup_.ID));
+        return (root, query, builder) -> {
+            // Unfortunately, we have to do this to ensure distinct query results.
+            // This is necessary because Recipe.ITEM_INPUTS can contain duplicates.
+            // We cannot simply call query.distinct() because that breaks sorting, for some reason.
+            Subquery<FluidGroup> fluidGroupWitnessQuery = query.subquery(FluidGroup.class);
+            Root<FluidGroup> fluidGroupWitnessRoot = fluidGroupWitnessQuery.from(FluidGroup.class);
+            fluidGroupWitnessQuery.select(fluidGroupWitnessRoot)
+                    .where(
+                            builder.and(
+                                    builder.equal(
+                                            fluidGroupWitnessRoot.get(FluidGroup_.ID),
+                                            fluidGroupId),
+                                    builder.in(fluidGroupWitnessRoot.get(FluidGroup_.ID))
+                                            .value(
+                                                    root.get(Recipe_.FLUID_INPUTS)
+                                                            .get(FluidGroup_.ID))));
+
+            return builder.exists(fluidGroupWitnessQuery);
+        };
     }
 
     /** Matches by regex. */
@@ -337,12 +368,24 @@ public class RecipeSpec {
     }
 
     public static Specification<Recipe> buildOutputItemIdSpec(String itemId) {
-        return (root, query, builder) ->
-                builder.in(builder.literal(itemId))
-                        .value(
-                                root.get(Recipe_.ITEM_OUTPUTS)
-                                        .get(ItemStackWithProbability_.ITEM)
-                                        .get(Item_.ID));
+        return (root, query, builder) -> {
+            // Unfortunately, we have to do this to ensure distinct query results.
+            // This is necessary because Recipe.ITEM_INPUTS can contain duplicates.
+            // We cannot simply call query.distinct() because that breaks sorting, for some reason.
+            Subquery<Item> itemWitnessQuery = query.subquery(Item.class);
+            Root<Item> itemWitnessRoot = itemWitnessQuery.from(Item.class);
+            itemWitnessQuery.select(itemWitnessRoot)
+                    .where(
+                            builder.and(
+                                    builder.equal(
+                                            itemWitnessRoot.get(Item_.ID), itemId),
+                                    builder.in(itemWitnessRoot)
+                                            .value(
+                                                    root.get(Recipe_.ITEM_OUTPUTS)
+                                                            .get(ItemStackWithProbability_.ITEM))));
+
+            return builder.exists(itemWitnessQuery);
+        };
     }
 
     /** Matches by regex. */
@@ -377,11 +420,23 @@ public class RecipeSpec {
     }
 
     public static Specification<Recipe> buildOutputFluidIdSpec(String fluidId) {
-        return (root, query, builder) ->
-                builder.in(builder.literal(fluidId))
-                        .value(
-                                root.get(Recipe_.FLUID_OUTPUTS)
-                                        .get(FluidStackWithProbability_.FLUID)
-                                        .get(Fluid_.ID));
+        return (root, query, builder) -> {
+            // Unfortunately, we have to do this to ensure distinct query results.
+            // This is necessary because Recipe.FLUID_INPUTS can contain duplicates.
+            // We cannot simply call query.distinct() because that breaks sorting, for some reason.
+            Subquery<Fluid> fluidWitnessQuery = query.subquery(Fluid.class);
+            Root<Fluid> fluidWitnessRoot = fluidWitnessQuery.from(Fluid.class);
+            fluidWitnessQuery.select(fluidWitnessRoot)
+                    .where(
+                            builder.and(
+                                    builder.equal(
+                                            fluidWitnessRoot.get(Fluid_.ID), fluidId),
+                                    builder.in(fluidWitnessRoot)
+                                            .value(
+                                                    root.get(Recipe_.FLUID_OUTPUTS)
+                                                            .get(FluidStackWithProbability_.FLUID))));
+
+            return builder.exists(fluidWitnessQuery);
+        };
     }
 }

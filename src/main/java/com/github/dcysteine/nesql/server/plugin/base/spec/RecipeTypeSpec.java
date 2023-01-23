@@ -9,7 +9,7 @@ public class RecipeTypeSpec {
     // Static class.
     private RecipeTypeSpec() {}
 
-    public static Sort DEFAULT_SORT = Sort.by(RecipeType_.CATEGORY, RecipeType_.TYPE);
+    public static final Sort DEFAULT_SORT = Sort.by(RecipeType_.CATEGORY, RecipeType_.TYPE);
 
     /** Matches by regex. */
     public static Specification<RecipeType> buildRecipeCategorySpec(String recipeCategory) {

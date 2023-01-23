@@ -17,7 +17,7 @@ public class ItemSpec {
     // Static class.
     private ItemSpec() {}
 
-    public static Sort DEFAULT_SORT =
+    public static final Sort DEFAULT_SORT =
             Sort.by(Item_.MOD_ID, Item_.INTERNAL_NAME, Item_.ITEM_DAMAGE, Item_.NBT, Item_.ID);
 
     /** Matches by regex. */

@@ -16,7 +16,7 @@ public class FluidSpec {
     // Static class.
     private FluidSpec() {}
 
-    public static Sort DEFAULT_SORT =
+    public static final Sort DEFAULT_SORT =
             Sort.by(Fluid_.MOD_ID, Fluid_.INTERNAL_NAME, Fluid_.NBT, Fluid_.ID);
 
     /** Matches by regex. */
