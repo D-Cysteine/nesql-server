@@ -79,7 +79,6 @@ public abstract class DisplayRecipe implements Comparable<DisplayRecipe> {
 
         String description = recipeType.getCategory() + " " + recipeType.getType();
         String url = Table.RECIPE.getViewUrl(recipe);
-        Icon icon;
         if (numItemOutputs > 0) {
             Icon innerIcon =
                     DisplayItemStackWithProbability.buildIcon(
@@ -97,7 +96,7 @@ public abstract class DisplayRecipe implements Comparable<DisplayRecipe> {
                         String.format(" (%s items)", NumberUtil.formatInteger(numItemOutputs));
             }
 
-            icon = innerIcon.toBuilder()
+            return innerIcon.toBuilder()
                     .setDescription(description)
                     .setUrl(url)
                     .setBottomLeftImage(recipe.getRecipeType().getIcon().getImageFilePath())
@@ -113,20 +112,19 @@ public abstract class DisplayRecipe implements Comparable<DisplayRecipe> {
                         String.format(" (%s fluids)", NumberUtil.formatInteger(numFluidOutputs));
             }
 
-            icon = innerIcon.toBuilder()
+            return innerIcon.toBuilder()
                     .setDescription(description)
                     .setUrl(url)
                     .setBottomLeftImage(recipe.getRecipeType().getIcon().getImageFilePath())
                     .build();
         } else {
-            icon = Icon.builder()
+            return Icon.builder()
                     .setDescription(description + " (empty)")
                     .setUrl(url)
                     .setImage(Constants.MISSING_IMAGE)
                     .setBottomLeftImage(recipe.getRecipeType().getIcon().getImageFilePath())
                     .build();
         }
-        return icon;
     }
 
     public abstract Recipe getRecipe();

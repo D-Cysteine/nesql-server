@@ -73,7 +73,7 @@
                                     <th scope="col">Internal name</th>
                                     <th scope="col">Item ID</th>
                                     <th scope="col">Stack size</th>
-                                    <th scope="col">Matching items</th>
+                                    <th scope="col">Size</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -93,7 +93,7 @@
                                         [[${@thymeleafService.formatInteger(row.wildcardItemStack.stackSize)}]]
                                     </td>
                                     <td>
-                                        [[${@thymeleafService.formatInteger(row.matchingItems)}]]
+                                        [[${@thymeleafService.formatInteger(row.size)}]]
                                     </td>
                                 </tr>
                                 </tbody>

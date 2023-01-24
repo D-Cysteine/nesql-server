@@ -7,10 +7,12 @@ import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayService;
 import com.github.dcysteine.nesql.server.plugin.base.spec.ItemSpec;
 import com.github.dcysteine.nesql.sql.base.item.Item;
 import com.github.dcysteine.nesql.sql.base.item.ItemRepository;
+import com.github.dcysteine.nesql.sql.base.item.ItemStack;
 import com.github.dcysteine.nesql.sql.base.item.WildcardItemStack;
 import com.google.auto.value.AutoValue;
 
 import java.util.List;
+import java.util.Optional;
 
 @AutoValue
 public abstract class DisplayWildcardItemStack implements Comparable<DisplayWildcardItemStack> {
@@ -18,25 +20,34 @@ public abstract class DisplayWildcardItemStack implements Comparable<DisplayWild
             WildcardItemStack wildcardItemStack, BaseDisplayService service) {
         ItemRepository itemRepository = service.getItemRepository();
 
-        int matchingItems =
+        List<Item> items =
                 itemRepository.findAll(
-                        ItemSpec.buildItemIdSpec(wildcardItemStack.getItemId())).size();
+                        ItemSpec.buildItemIdSpec(wildcardItemStack.getItemId()),
+                        ItemSpec.DEFAULT_SORT);
+
+        Optional<Icon> onlyItemStackIcon = Optional.empty();
+        if (items.size() == 1) {
+            ItemStack onlyItemStack = new ItemStack(items.get(0), wildcardItemStack.getStackSize());
+            onlyItemStackIcon = Optional.of(DisplayItemStack.buildIcon(onlyItemStack, service));
+        }
+
         return new AutoValue_DisplayWildcardItemStack(
-                wildcardItemStack, buildIcon(wildcardItemStack, service), matchingItems);
+                wildcardItemStack, buildIcon(wildcardItemStack, service), onlyItemStackIcon,
+                items.size());
     }
 
     public static Icon buildIcon(WildcardItemStack wildcardItemStack, BaseDisplayService service) {
         ItemRepository itemRepository = service.getItemRepository();
 
-        int itemId = wildcardItemStack.getItemId();
         List<Item> items =
-                itemRepository.findAll(ItemSpec.buildItemIdSpec(itemId), ItemSpec.DEFAULT_SORT);
-        Icon icon;
+                itemRepository.findAll(
+                        ItemSpec.buildItemIdSpec(wildcardItemStack.getItemId()),
+                        ItemSpec.DEFAULT_SORT);
         if (items.isEmpty()) {
             Main.Logger.error(
                     "Could not find base item for item id: {}", wildcardItemStack.getItemId());
 
-            icon = Icon.builder()
+            return Icon.builder()
                     .setDescription(
                             String.format(
                                     "Wildcard Item Stack (#%d)", wildcardItemStack.getItemId()))
@@ -47,19 +58,22 @@ public abstract class DisplayWildcardItemStack implements Comparable<DisplayWild
                     .build();
         } else {
             Icon itemIcon = DisplayItem.buildIcon(items.get(0), service);
-            icon = itemIcon.toBuilder()
+            return itemIcon.toBuilder()
                     .setDescription(
                             String.format("Wildcard Item Stack (%s)", itemIcon.getDescription()))
                     .setTopLeft("*")
                     .setBottomRight(Integer.toString(wildcardItemStack.getStackSize()))
                     .build();
         }
-        return icon;
     }
 
     public abstract WildcardItemStack getWildcardItemStack();
     public abstract Icon getIcon();
-    public abstract int matchingItems();
+
+    /** Will be set if and only if this wildcard matches exactly one item stack. */
+    public abstract Optional<Icon> getOnlyItemStackIcon();
+
+    public abstract int getSize();
 
     @Override
     public int compareTo(DisplayWildcardItemStack other) {

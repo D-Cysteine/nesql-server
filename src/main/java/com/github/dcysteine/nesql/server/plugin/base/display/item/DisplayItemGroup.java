@@ -31,16 +31,22 @@ public abstract class DisplayItemGroup implements Comparable<DisplayItemGroup> {
 
         int directSize = itemGroup.getItemStacks().size();
         int wildcardSize =
-                wildcardItemStacks.stream().mapToInt(DisplayWildcardItemStack::matchingItems).sum();
+                wildcardItemStacks.stream().mapToInt(DisplayWildcardItemStack::getSize).sum();
 
-        Optional<Icon> onlyItemStack =
-                Optional.ofNullable(
-                                directSize == 1 && wildcardSize == 0
-                                        ? itemGroup.getItemStacks().first() : null)
-                        .map(itemStack -> DisplayItemStack.buildIcon(itemStack, service));
+        Optional<Icon> onlyItemStackIcon = Optional.empty();
+        if (directSize == 1 && wildcardSize == 0) {
+            ItemStack onlyItemStack = itemGroup.getItemStacks().first();
+            onlyItemStackIcon = Optional.of(DisplayItemStack.buildIcon(onlyItemStack, service));
+        } else if (directSize == 0 && wildcardSize == 1) {
+            // This should be guaranteed to return exactly one icon.
+            onlyItemStackIcon = wildcardItemStacks.stream()
+                    .filter(wildcardItemStack -> wildcardItemStack.getSize() == 1)
+                    .findAny()
+                    .flatMap(DisplayWildcardItemStack::getOnlyItemStackIcon);
+        }
 
         return new AutoValue_DisplayItemGroup(
-                itemGroup, buildIcon(itemGroup, service), onlyItemStack,
+                itemGroup, buildIcon(itemGroup, service), onlyItemStackIcon,
                 directSize + wildcardSize, directSize, wildcardSize, wildcardItemStacks,
                 service.getAdditionalInfo(itemGroup));
     }
@@ -102,10 +108,7 @@ public abstract class DisplayItemGroup implements Comparable<DisplayItemGroup> {
     public abstract ItemGroup getItemGroup();
     public abstract Icon getIcon();
 
-    /**
-     * Will be set if and only if this item group contains exactly one item stack,
-     * and no wildcard item stacks.
-     */
+    /** Will be set if and only if this item group contains exactly one item stack. */
     public abstract Optional<Icon> getOnlyItemStackIcon();
 
     public abstract int getSize();

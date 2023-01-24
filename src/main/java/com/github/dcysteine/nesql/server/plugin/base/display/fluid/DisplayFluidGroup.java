@@ -27,7 +27,7 @@ public abstract class DisplayFluidGroup implements Comparable<DisplayFluidGroup>
 
     public static Icon buildIcon(FluidGroup fluidGroup, BaseDisplayService service) {
         String url = Table.FLUID_GROUP.getViewUrl(fluidGroup);
-        Icon icon;
+
         if (!fluidGroup.getFluidStacks().isEmpty()) {
             int size = fluidGroup.getFluidStacks().size();
             String description =
@@ -37,20 +37,19 @@ public abstract class DisplayFluidGroup implements Comparable<DisplayFluidGroup>
                 description = String.format("Fluid Group (%s)", innerIcon.getDescription());
             }
 
-            icon = innerIcon.toBuilder()
+            return innerIcon.toBuilder()
                     .setDescription(description)
                     .setUrl(url)
                     .setTopLeft(NumberUtil.formatInteger(size))
                     .build();
         } else {
-            icon = Icon.builder()
+            return Icon.builder()
                     .setDescription("Fluid Group (empty)")
                     .setUrl(url)
                     .setImage(Constants.MISSING_IMAGE)
                     .setTopLeft("0")
                     .build();
         }
-        return icon;
     }
 
     public abstract FluidGroup getFluidGroup();
