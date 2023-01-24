@@ -21,11 +21,12 @@
         <div class="row mb-5">
             <div class="col">
                 <table class="table table-striped border">
-                    <tr>
+                    <tr class="align-middle">
                         <th scope="row">ID</th>
                         <td class="text-truncate"
                             data-bs-toggle="tooltip" th:data-bs-title="${recipeType.id}">
-                            <button th:replace="~{fragment/copy::copyButton(${recipeType.id})}"></button>
+                            <button th:replace="~{fragment/copy::copyButton(${recipeType.id})}">
+                            </button>
                             [[${recipeType.id}]]
                         </td>
                     </tr>

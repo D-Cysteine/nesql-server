@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-<button th:fragment="copyButton(text)" class="copy-button btn btn-secondary" th:data-text="${text}">
+<button th:fragment="copyButton(text)" class="copy-button btn btn-sm btn-outline-secondary"
+        th:data-text="${text}">
     <i class="bi-clipboard2"></i>
 </button>
 </body>

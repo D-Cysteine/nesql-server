@@ -20,7 +20,7 @@
         <div class="row">
             <div class="col">
                 <table class="table table-striped table-fixed border">
-                    <tr>
+                    <tr class="align-middle">
                         <th scope="row">ID</th>
                         <td class="text-truncate"
                             data-bs-toggle="tooltip" th:data-bs-title="${item.id}">
@@ -82,6 +82,24 @@
                         <th scope="row">Max damage</th>
                         <td>
                             [[${@thymeleafService.formatInteger(item.maxDamage)}]]
+                        </td>
+                    </tr>
+                    <tr class="align-middle">
+                        <th scope="row">Give item</th>
+                        <td class="text-truncate font-monospace"
+                            data-bs-toggle="tooltip" th:data-bs-title="${displayItem.giveCommand}">
+                            <button th:replace="~{fragment/copy::copyButton(${displayItem.giveCommand})}">
+                            </button>
+                            [[${displayItem.giveCommand}]]
+                        </td>
+                    </tr>
+                    <tr th:if="${displayItem.giveStackCommand.present}" class="align-middle">
+                        <th scope="row">Give stack</th>
+                        <td class="text-truncate font-monospace"
+                            data-bs-toggle="tooltip" th:data-bs-title="${displayItem.giveStackCommand.get}">
+                            <button th:replace="~{fragment/copy::copyButton(${displayItem.giveStackCommand.get})}">
+                            </button>
+                            [[${displayItem.giveStackCommand.get}]]
                         </td>
                     </tr>
                 </table>

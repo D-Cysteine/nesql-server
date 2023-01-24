@@ -114,7 +114,7 @@ public abstract class DisplayItemGroup implements Comparable<DisplayItemGroup> {
     public abstract int getSize();
     public abstract int getDirectSize();
     public abstract int getWildcardSize();
-    public abstract ImmutableSortedSet<DisplayWildcardItemStack> wildcardItemStacks();
+    public abstract ImmutableSortedSet<DisplayWildcardItemStack> getWildcardItemStacks();
     public abstract ImmutableList<InfoPanel> getAdditionalInfo();
 
     @Override
