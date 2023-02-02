@@ -3,12 +3,9 @@ package com.github.dcysteine.nesql.server.common;
 import com.github.dcysteine.nesql.sql.Identifiable;
 import com.github.dcysteine.nesql.sql.Plugin;
 import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.ImmutableMap;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Function;
 
 /** Enum for organizing code relating to tables. */
@@ -70,7 +67,8 @@ public enum Table {
 
     public String getSearchUrl(String... params) {
         if (params.length % 2 != 0) {
-            throw new IllegalArgumentException("params must have even length!\n" + params);
+            throw new IllegalArgumentException(
+                    "params must have even length!\n" + Arrays.toString(params));
         }
 
         UriComponentsBuilder builder =

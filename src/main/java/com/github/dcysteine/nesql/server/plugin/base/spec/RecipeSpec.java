@@ -38,6 +38,7 @@ public class RecipeSpec {
 
     /** Matches by regex. */
     public static Specification<Recipe> buildRecipeCategorySpec(String recipeCategory) {
+        // TODO add subquery to find matching recipe types first, for speed?
         return (root, query, builder) ->
                 builder.isTrue(
                         builder.function(
@@ -49,6 +50,7 @@ public class RecipeSpec {
 
     /** Matches by regex. */
     public static Specification<Recipe> buildRecipeTypeSpec(String recipeType) {
+        // TODO add subquery to find matching recipe types first, for speed?
         return (root, query, builder) ->
                 builder.isTrue(
                         builder.function(

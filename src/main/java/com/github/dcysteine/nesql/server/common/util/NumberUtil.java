@@ -28,9 +28,9 @@ public class NumberUtil {
         return numberFormat.format(d);
     }
 
-    public static String formatPercentage(double percentage) {
+    public static String formatPercentage(double probability) {
         NumberFormat numberFormat = NumberFormat.getPercentInstance();
         numberFormat.setMaximumFractionDigits(2);
-        return numberFormat.format(percentage);
+        return numberFormat.format(probability * 100d);
     }
 }

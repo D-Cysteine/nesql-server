@@ -77,12 +77,12 @@ public abstract class DisplayRecipe implements Comparable<DisplayRecipe> {
         int numItemOutputs = recipe.getItemOutputs().size();
         int numFluidOutputs = recipe.getFluidOutputs().size();
 
-        String description = recipeType.getCategory() + " " + recipeType.getType();
+        String description = recipeType.getCategory() + ": " + recipeType.getType();
         String url = Table.RECIPE.getViewUrl(recipe);
         if (numItemOutputs > 0) {
             Icon innerIcon =
                     DisplayItemStackWithProbability.buildIcon(
-                            recipe.getItemOutputs().get(0), service);
+                            recipe.getItemOutputs().values().stream().findFirst().get(), service);
             if (numItemOutputs == 1) {
                 description += String.format(" (%s)", innerIcon.getDescription());
             } else if (numFluidOutputs > 0) {
@@ -104,7 +104,7 @@ public abstract class DisplayRecipe implements Comparable<DisplayRecipe> {
         } else if (numFluidOutputs > 0) {
             Icon innerIcon =
                     DisplayFluidStackWithProbability.buildIcon(
-                            recipe.getFluidOutputs().get(0), service);
+                            recipe.getFluidOutputs().values().stream().findFirst().get(), service);
             if (numFluidOutputs == 1) {
                 description += String.format(" (%s)", innerIcon.getDescription());
             } else {
