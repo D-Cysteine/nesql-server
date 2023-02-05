@@ -9,6 +9,7 @@ import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayService;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidGroup;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 
 import java.util.Optional;
 
@@ -17,7 +18,10 @@ public abstract class DisplayFluidGroup implements Comparable<DisplayFluidGroup>
     public static DisplayFluidGroup create(FluidGroup fluidGroup, BaseDisplayService service) {
         int size = fluidGroup.getFluidStacks().size();
         Optional<Icon> onlyFluidStack =
-                Optional.ofNullable(size == 1 ? fluidGroup.getFluidStacks().first() : null)
+                Optional.ofNullable(
+                                size == 1
+                                        ? Iterables.getOnlyElement(fluidGroup.getFluidStacks())
+                                        : null)
                         .map(fluidStack -> DisplayFluidStack.buildIcon(fluidStack, service));
 
         return new AutoValue_DisplayFluidGroup(
@@ -32,7 +36,9 @@ public abstract class DisplayFluidGroup implements Comparable<DisplayFluidGroup>
             int size = fluidGroup.getFluidStacks().size();
             String description =
                     String.format("Fluid Group (%s fluid stacks)", NumberUtil.formatInteger(size));
-            Icon innerIcon = DisplayFluidStack.buildIcon(fluidGroup.getFluidStacks().first(), service);
+            Icon innerIcon =
+                    DisplayFluidStack.buildIcon(
+                            fluidGroup.getFluidStacks().iterator().next(), service);
             if (size == 1) {
                 description = String.format("Fluid Group (%s)", innerIcon.getDescription());
             }
@@ -56,7 +62,7 @@ public abstract class DisplayFluidGroup implements Comparable<DisplayFluidGroup>
     public abstract Icon getIcon();
 
     /** Will be set if and only if this fluid group contains exactly one fluid stack. */
-    public abstract Optional<Icon> getOnlyItemStackIcon();
+    public abstract Optional<Icon> getOnlyFluidStackIcon();
 
     public abstract int getSize();
     public abstract ImmutableList<InfoPanel> getAdditionalInfo();

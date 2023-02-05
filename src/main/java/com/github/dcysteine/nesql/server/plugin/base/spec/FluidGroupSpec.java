@@ -1,5 +1,6 @@
 package com.github.dcysteine.nesql.server.plugin.base.spec;
 
+import com.github.dcysteine.nesql.server.common.util.QueryUtil;
 import com.github.dcysteine.nesql.sql.base.fluid.Fluid;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidGroup;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidGroup_;
@@ -20,12 +21,10 @@ public class FluidGroupSpec {
             Root<Fluid> fluidRoot = fluidQuery.from(Fluid.class);
             fluidQuery.select(fluidRoot)
                     .where(
-                            builder.isTrue(
-                                    builder.function(
-                                            "regexp_like",
-                                            Boolean.class,
-                                            fluidRoot.get(Fluid_.LOCALIZED_NAME),
-                                            builder.literal(localizedName))));
+                            QueryUtil.regexMatch(
+                                    builder,
+                                    fluidRoot.get(Fluid_.LOCALIZED_NAME),
+                                    builder.literal(localizedName)));
 
             Subquery<Fluid> fluidWitnessQuery = query.subquery(Fluid.class);
             Root<Fluid> fluidWitnessRoot = fluidWitnessQuery.from(Fluid.class);

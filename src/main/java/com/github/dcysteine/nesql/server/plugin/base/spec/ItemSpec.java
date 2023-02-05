@@ -1,5 +1,6 @@
 package com.github.dcysteine.nesql.server.plugin.base.spec;
 
+import com.github.dcysteine.nesql.server.common.util.QueryUtil;
 import com.github.dcysteine.nesql.sql.base.item.Item;
 import com.github.dcysteine.nesql.sql.base.item.ItemGroup;
 import com.github.dcysteine.nesql.sql.base.item.ItemGroup_;
@@ -23,34 +24,28 @@ public class ItemSpec {
     /** Matches by regex. */
     public static Specification<Item> buildLocalizedNameSpec(String localizedName) {
         return (root, query, builder) ->
-                builder.isTrue(
-                        builder.function(
-                                "regexp_like",
-                                Boolean.class,
-                                root.get(Item_.LOCALIZED_NAME),
-                                builder.literal(localizedName)));
+                QueryUtil.regexMatch(
+                        builder,
+                        root.get(Item_.LOCALIZED_NAME),
+                        builder.literal(localizedName));
     }
 
     /** Matches by regex. */
     public static Specification<Item> buildModIdSpec(String modId) {
         return (root, query, builder) ->
-                builder.isTrue(
-                        builder.function(
-                                "regexp_like",
-                                Boolean.class,
-                                root.get(Item_.MOD_ID),
-                                builder.literal(modId)));
+                QueryUtil.regexMatch(
+                        builder,
+                        root.get(Item_.MOD_ID),
+                        builder.literal(modId));
     }
 
     /** Matches by regex. */
     public static Specification<Item> buildInternalNameSpec(String internalName) {
         return (root, query, builder) ->
-                builder.isTrue(
-                        builder.function(
-                                "regexp_like",
-                                Boolean.class,
-                                root.get(Item_.INTERNAL_NAME),
-                                builder.literal(internalName)));
+                QueryUtil.regexMatch(
+                        builder,
+                        root.get(Item_.INTERNAL_NAME),
+                        builder.literal(internalName));
     }
 
     /** Matches by Minecraft item ID. */
@@ -65,23 +60,19 @@ public class ItemSpec {
     /** Matches by regex. */
     public static Specification<Item> buildTooltipSpec(String tooltip) {
         return (root, query, builder) ->
-                builder.isTrue(
-                        builder.function(
-                                "regexp_like",
-                                Boolean.class,
-                                root.get(Item_.TOOLTIP),
-                                builder.literal(tooltip)));
+                QueryUtil.regexMatch(
+                        builder,
+                        root.get(Item_.TOOLTIP),
+                        builder.literal(tooltip));
     }
 
     /** Matches by regex. */
     public static Specification<Item> buildNbtSpec(String nbt) {
         return (root, query, builder) ->
-                builder.isTrue(
-                        builder.function(
-                                "regexp_like",
-                                Boolean.class,
-                                root.get(Item_.NBT),
-                                builder.literal(nbt)));
+                QueryUtil.regexMatch(
+                        builder,
+                        root.get(Item_.NBT),
+                        builder.literal(nbt));
     }
 
     /** Finds items that belong to the specified item group. */

@@ -34,7 +34,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
-    runtimeOnly("com.h2database:h2:2.1.214")
+    runtimeOnly("org.hsqldb:hsqldb:2.7.1")
 }
 
 tasks.withType<Jar> {

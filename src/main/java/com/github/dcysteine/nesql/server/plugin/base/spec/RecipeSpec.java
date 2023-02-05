@@ -1,5 +1,6 @@
 package com.github.dcysteine.nesql.server.plugin.base.spec;
 
+import com.github.dcysteine.nesql.server.common.util.QueryUtil;
 import com.github.dcysteine.nesql.sql.base.fluid.Fluid;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidGroup;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidGroup_;
@@ -40,24 +41,20 @@ public class RecipeSpec {
     public static Specification<Recipe> buildRecipeCategorySpec(String recipeCategory) {
         // TODO add subquery to find matching recipe types first, for speed?
         return (root, query, builder) ->
-                builder.isTrue(
-                        builder.function(
-                                "regexp_like",
-                                Boolean.class,
-                                root.get(Recipe_.RECIPE_TYPE).get(RecipeType_.CATEGORY),
-                                builder.literal(recipeCategory)));
+                QueryUtil.regexMatch(
+                        builder,
+                        root.get(Recipe_.RECIPE_TYPE).get(RecipeType_.CATEGORY),
+                        builder.literal(recipeCategory));
     }
 
     /** Matches by regex. */
     public static Specification<Recipe> buildRecipeTypeSpec(String recipeType) {
         // TODO add subquery to find matching recipe types first, for speed?
         return (root, query, builder) ->
-                builder.isTrue(
-                        builder.function(
-                                "regexp_like",
-                                Boolean.class,
-                                root.get(Recipe_.RECIPE_TYPE).get(RecipeType_.TYPE),
-                                builder.literal(recipeType)));
+                QueryUtil.regexMatch(
+                        builder,
+                        root.get(Recipe_.RECIPE_TYPE).get(RecipeType_.TYPE),
+                        builder.literal(recipeType));
     }
 
     public static Specification<Recipe> buildRecipeTypeIdSpec(String recipeTypeId) {
@@ -77,12 +74,10 @@ public class RecipeSpec {
             Root<Item> itemRoot = itemQuery.from(Item.class);
             itemQuery.select(itemRoot)
                     .where(
-                            builder.isTrue(
-                                    builder.function(
-                                            "regexp_like",
-                                            Boolean.class,
-                                            itemRoot.get(Item_.LOCALIZED_NAME),
-                                            builder.literal(localizedName))));
+                            QueryUtil.regexMatch(
+                                    builder,
+                                    itemRoot.get(Item_.LOCALIZED_NAME),
+                                    builder.literal(localizedName)));
 
 
             // We have to split the two item inclusion paths (direct and wildcard) into separate
@@ -245,12 +240,10 @@ public class RecipeSpec {
             Root<Fluid> fluidRoot = fluidQuery.from(Fluid.class);
             fluidQuery.select(fluidRoot)
                     .where(
-                            builder.isTrue(
-                                    builder.function(
-                                            "regexp_like",
-                                            Boolean.class,
-                                            fluidRoot.get(Fluid_.LOCALIZED_NAME),
-                                            builder.literal(localizedName))));
+                            QueryUtil.regexMatch(
+                                    builder,
+                                    fluidRoot.get(Fluid_.LOCALIZED_NAME),
+                                    builder.literal(localizedName)));
 
 
             Subquery<FluidGroup> fluidGroupsQuery = query.subquery(FluidGroup.class);
@@ -345,12 +338,10 @@ public class RecipeSpec {
             Root<Item> itemRoot = itemQuery.from(Item.class);
             itemQuery.select(itemRoot)
                     .where(
-                            builder.isTrue(
-                                    builder.function(
-                                            "regexp_like",
-                                            Boolean.class,
-                                            itemRoot.get(Item_.LOCALIZED_NAME),
-                                            builder.literal(localizedName))));
+                            QueryUtil.regexMatch(
+                                    builder,
+                                    itemRoot.get(Item_.LOCALIZED_NAME),
+                                    builder.literal(localizedName)));
 
 
             Subquery<Item> itemWitnessQuery = query.subquery(Item.class);
@@ -397,12 +388,10 @@ public class RecipeSpec {
             Root<Fluid> fluidRoot = fluidQuery.from(Fluid.class);
             fluidQuery.select(fluidRoot)
                     .where(
-                            builder.isTrue(
-                                    builder.function(
-                                            "regexp_like",
-                                            Boolean.class,
-                                            fluidRoot.get(Fluid_.LOCALIZED_NAME),
-                                            builder.literal(localizedName))));
+                            QueryUtil.regexMatch(
+                                    builder,
+                                    fluidRoot.get(Fluid_.LOCALIZED_NAME),
+                                    builder.literal(localizedName)));
 
 
             Subquery<Fluid> fluidWitnessQuery = query.subquery(Fluid.class);

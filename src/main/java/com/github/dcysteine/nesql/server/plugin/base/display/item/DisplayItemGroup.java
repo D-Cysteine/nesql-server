@@ -14,10 +14,11 @@ import com.github.dcysteine.nesql.sql.base.item.WildcardItemStack;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSortedSet;
+import com.google.common.collect.Iterables;
 
 import java.util.Comparator;
 import java.util.Optional;
-import java.util.SortedSet;
+import java.util.Set;
 
 @AutoValue
 public abstract class DisplayItemGroup implements Comparable<DisplayItemGroup> {
@@ -35,7 +36,7 @@ public abstract class DisplayItemGroup implements Comparable<DisplayItemGroup> {
 
         Optional<Icon> onlyItemStackIcon = Optional.empty();
         if (directSize == 1 && wildcardSize == 0) {
-            ItemStack onlyItemStack = itemGroup.getItemStacks().first();
+            ItemStack onlyItemStack = Iterables.getOnlyElement(itemGroup.getItemStacks());
             onlyItemStackIcon = Optional.of(DisplayItemStack.buildIcon(onlyItemStack, service));
         } else if (directSize == 0 && wildcardSize == 1) {
             // This should be guaranteed to return exactly one icon.
@@ -54,8 +55,8 @@ public abstract class DisplayItemGroup implements Comparable<DisplayItemGroup> {
     public static Icon buildIcon(ItemGroup itemGroup, BaseDisplayService service) {
         ItemRepository itemRepository = service.getItemRepository();
 
-        SortedSet<ItemStack> itemStacks = itemGroup.getItemStacks();
-        SortedSet<WildcardItemStack> wildcardItemStacks = itemGroup.getWildcardItemStacks();
+        Set<ItemStack> itemStacks = itemGroup.getItemStacks();
+        Set<WildcardItemStack> wildcardItemStacks = itemGroup.getWildcardItemStacks();
 
         int size = itemStacks.size();
         for (WildcardItemStack wildcardItemStack : wildcardItemStacks) {
@@ -68,7 +69,7 @@ public abstract class DisplayItemGroup implements Comparable<DisplayItemGroup> {
         if (!itemStacks.isEmpty()) {
             String description =
                     String.format("Item Group (%s item stacks)", NumberUtil.formatInteger(size));
-            Icon innerIcon = DisplayItemStack.buildIcon(itemStacks.first(), service);
+            Icon innerIcon = DisplayItemStack.buildIcon(itemStacks.iterator().next(), service);
             if (size == 1) {
                 description = String.format("Item Group (%s)", innerIcon.getDescription());
             }
@@ -84,7 +85,9 @@ public abstract class DisplayItemGroup implements Comparable<DisplayItemGroup> {
                             "Wildcard Item Group (%s keys, %s item stacks)",
                             NumberUtil.formatInteger(wildcardItemStacks.size()),
                             NumberUtil.formatInteger(size));
-            Icon innerIcon = DisplayWildcardItemStack.buildIcon(wildcardItemStacks.first(), service);
+            Icon innerIcon =
+                    DisplayWildcardItemStack.buildIcon(
+                            wildcardItemStacks.iterator().next(), service);
             if (wildcardItemStacks.size() == 1) {
                 description = String.format("Wildcard Item Group (%s)", innerIcon.getDescription());
             }

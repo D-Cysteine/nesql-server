@@ -44,6 +44,11 @@
             </div>
         </div>
     </div>
+
+    <th:block th:if="${displayFluidGroup.additionalInfo.size} > 0">
+        <div th:replace="~{fragment/info_panel::infoPanels(${displayFluidGroup.additionalInfo})}">
+        </div>
+    </th:block>
 </th:block>
 
 </body>

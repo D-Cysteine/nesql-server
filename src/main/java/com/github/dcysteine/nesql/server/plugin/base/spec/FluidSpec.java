@@ -1,5 +1,6 @@
 package com.github.dcysteine.nesql.server.plugin.base.spec;
 
+import com.github.dcysteine.nesql.server.common.util.QueryUtil;
 import com.github.dcysteine.nesql.sql.base.fluid.Fluid;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidGroup;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidGroup_;
@@ -22,34 +23,28 @@ public class FluidSpec {
     /** Matches by regex. */
     public static Specification<Fluid> buildLocalizedNameSpec(String localizedName) {
         return (root, query, builder) ->
-                builder.isTrue(
-                        builder.function(
-                                "regexp_like",
-                                Boolean.class,
-                                root.get(Fluid_.LOCALIZED_NAME),
-                                builder.literal(localizedName)));
+                QueryUtil.regexMatch(
+                        builder,
+                        root.get(Fluid_.LOCALIZED_NAME),
+                        builder.literal(localizedName));
     }
 
     /** Matches by regex. */
     public static Specification<Fluid> buildModIdSpec(String modId) {
         return (root, query, builder) ->
-                builder.isTrue(
-                        builder.function(
-                                "regexp_like",
-                                Boolean.class,
-                                root.get(Fluid_.MOD_ID),
-                                builder.literal(modId)));
+                QueryUtil.regexMatch(
+                        builder,
+                        root.get(Fluid_.MOD_ID),
+                        builder.literal(modId));
     }
 
     /** Matches by regex. */
     public static Specification<Fluid> buildInternalNameSpec(String internalName) {
         return (root, query, builder) ->
-                builder.isTrue(
-                        builder.function(
-                                "regexp_like",
-                                Boolean.class,
-                                root.get(Fluid_.INTERNAL_NAME),
-                                builder.literal(internalName)));
+                QueryUtil.regexMatch(
+                        builder,
+                        root.get(Fluid_.INTERNAL_NAME),
+                        builder.literal(internalName));
     }
 
     /** Matches by Forge fluid ID. */
@@ -60,12 +55,10 @@ public class FluidSpec {
     /** Matches by regex. */
     public static Specification<Fluid> buildNbtSpec(String nbt) {
         return (root, query, builder) ->
-                builder.isTrue(
-                        builder.function(
-                                "regexp_like",
-                                Boolean.class,
-                                root.get(Fluid_.NBT),
-                                builder.literal(nbt)));
+                QueryUtil.regexMatch(
+                        builder,
+                        root.get(Fluid_.NBT),
+                        builder.literal(nbt));
     }
 
     /** Finds fluids that belong to the specified fluid group. */

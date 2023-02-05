@@ -1,5 +1,6 @@
 package com.github.dcysteine.nesql.server.plugin.base.spec;
 
+import com.github.dcysteine.nesql.server.common.util.QueryUtil;
 import com.github.dcysteine.nesql.sql.base.item.Item;
 import com.github.dcysteine.nesql.sql.base.item.ItemGroup;
 import com.github.dcysteine.nesql.sql.base.item.ItemGroup_;
@@ -21,12 +22,10 @@ public class ItemGroupSpec {
             Root<Item> itemRoot = itemQuery.from(Item.class);
             itemQuery.select(itemRoot)
                     .where(
-                            builder.isTrue(
-                                    builder.function(
-                                            "regexp_like",
-                                            Boolean.class,
-                                            itemRoot.get(Item_.LOCALIZED_NAME),
-                                            builder.literal(localizedName))));
+                            QueryUtil.regexMatch(
+                                    builder,
+                                    itemRoot.get(Item_.LOCALIZED_NAME),
+                                    builder.literal(localizedName)));
 
 
             // We have to split the two item inclusion paths (direct and wildcard) into separate
