@@ -22,7 +22,7 @@
             </th:block>
         </div>
 
-        <div class="row justify-content-center">
+        <div class="row justify-content-center mb-3">
             <div class="col-6">
                 <table class="table table-striped table-fixed border">
                     <tr class="align-middle">
@@ -72,8 +72,9 @@
                                     <th scope="col">Mod ID</th>
                                     <th scope="col">Internal name</th>
                                     <th scope="col">Item ID</th>
+                                    <th scope="col">Item Damage</th>
+                                    <th scope="col">NBT</th>
                                     <th scope="col">Stack size</th>
-                                    <th scope="col">Size</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -90,10 +91,14 @@
                                         [[${@thymeleafService.formatInteger(row.wildcardItemStack.itemId)}]]
                                     </td>
                                     <td>
-                                        [[${@thymeleafService.formatInteger(row.wildcardItemStack.stackSize)}]]
+                                        [[${row.itemDamage}]]
+                                    </td>
+                                    <td class="text-truncate"
+                                        data-bs-toggle="tooltip" th:data-bs-title="${row.nbt}">
+                                        [[${row.nbt}]]
                                     </td>
                                     <td>
-                                        [[${@thymeleafService.formatInteger(row.size)}]]
+                                        [[${@thymeleafService.formatInteger(row.wildcardItemStack.stackSize)}]]
                                     </td>
                                 </tr>
                                 </tbody>
@@ -102,6 +107,11 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div class="row justify-content-center" th:if="${displayItemGroup.allItemStacks.size} > 0">
+            <table th:replace="~{fragment/icon::iconTable(${displayItemGroup.allItemStacks})}">
+            </table>
         </div>
     </div>
 

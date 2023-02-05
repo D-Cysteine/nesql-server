@@ -13,7 +13,15 @@ public abstract class DisplayFluidStack implements Comparable<DisplayFluidStack>
     }
 
     public static Icon buildIcon(FluidStack fluidStack, BaseDisplayService service) {
-        return DisplayFluid.buildIcon(fluidStack.getFluid(), service).toBuilder()
+        Icon innerIcon = DisplayFluid.buildIcon(fluidStack.getFluid(), service);
+        String description =
+                String.format(
+                        "%s (%s)",
+                        innerIcon.getDescription(),
+                        NumberUtil.formatInteger(fluidStack.getAmount()));
+
+        return innerIcon.toBuilder()
+                .setDescription(description)
                 .setBottomRight(NumberUtil.formatCompact(fluidStack.getAmount()))
                 .build();
     }

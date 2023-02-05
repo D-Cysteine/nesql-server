@@ -18,6 +18,10 @@ public class NumberUtil {
     }
 
     public static String formatCompact(long integer) {
+        if (Math.abs(integer) < 10_000) {
+            return formatInteger(integer);
+        }
+
         NumberFormat numberFormat = NumberFormat.getCompactNumberInstance();
         return numberFormat.format(integer);
     }

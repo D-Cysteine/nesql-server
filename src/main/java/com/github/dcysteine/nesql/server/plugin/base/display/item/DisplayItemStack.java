@@ -13,7 +13,15 @@ public abstract class DisplayItemStack implements Comparable<DisplayItemStack> {
     }
 
     public static Icon buildIcon(ItemStack itemStack, BaseDisplayService service) {
-        return DisplayItem.buildIcon(itemStack.getItem(), service).toBuilder()
+        Icon innerIcon = DisplayItem.buildIcon(itemStack.getItem(), service);
+        String description =
+                String.format(
+                        "%s (%s)",
+                        innerIcon.getDescription(),
+                        NumberUtil.formatInteger(itemStack.getStackSize()));
+
+        return innerIcon.toBuilder()
+                .setDescription(description)
                 .setBottomRight(NumberUtil.formatInteger(itemStack.getStackSize()))
                 .build();
     }

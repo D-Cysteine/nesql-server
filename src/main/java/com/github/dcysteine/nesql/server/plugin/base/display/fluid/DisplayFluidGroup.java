@@ -16,17 +16,23 @@ import java.util.Optional;
 @AutoValue
 public abstract class DisplayFluidGroup implements Comparable<DisplayFluidGroup> {
     public static DisplayFluidGroup create(FluidGroup fluidGroup, BaseDisplayService service) {
-        int size = fluidGroup.getFluidStacks().size();
-        Optional<Icon> onlyFluidStack =
-                Optional.ofNullable(
-                                size == 1
-                                        ? Iterables.getOnlyElement(fluidGroup.getFluidStacks())
-                                        : null)
-                        .map(fluidStack -> DisplayFluidStack.buildIcon(fluidStack, service));
+        ImmutableList<Icon> fluidStacks =
+                fluidGroup.getFluidStacks().stream()
+                        .sorted()
+                        .distinct()
+                        .map(fluidStack -> DisplayFluidStack.buildIcon(fluidStack, service))
+                        .collect(ImmutableList.toImmutableList());
+        int size = fluidStacks.size();
+
+        Optional<Icon> onlyFluidStackIcon = Optional.empty();
+        if (size == 1) {
+            onlyFluidStackIcon = Optional.of(Iterables.getOnlyElement(fluidStacks));
+        }
 
         return new AutoValue_DisplayFluidGroup(
-                fluidGroup, buildIcon(fluidGroup, service), onlyFluidStack,
-                fluidGroup.getFluidStacks().size(), service.getAdditionalInfo(fluidGroup));
+                fluidGroup, buildIcon(fluidGroup, service), onlyFluidStackIcon,
+                fluidGroup.getFluidStacks().size(), fluidStacks,
+                service.getAdditionalInfo(fluidGroup));
     }
 
     public static Icon buildIcon(FluidGroup fluidGroup, BaseDisplayService service) {
@@ -65,6 +71,7 @@ public abstract class DisplayFluidGroup implements Comparable<DisplayFluidGroup>
     public abstract Optional<Icon> getOnlyFluidStackIcon();
 
     public abstract int getSize();
+    public abstract ImmutableList<Icon> getFluidStacks();
     public abstract ImmutableList<InfoPanel> getAdditionalInfo();
 
     @Override

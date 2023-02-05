@@ -3,16 +3,15 @@ package com.github.dcysteine.nesql.server.plugin.base.display.item;
 import com.github.dcysteine.nesql.server.Main;
 import com.github.dcysteine.nesql.server.common.Constants;
 import com.github.dcysteine.nesql.server.common.display.Icon;
+import com.github.dcysteine.nesql.server.common.util.NumberUtil;
 import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayService;
 import com.github.dcysteine.nesql.server.plugin.base.spec.ItemSpec;
 import com.github.dcysteine.nesql.sql.base.item.Item;
 import com.github.dcysteine.nesql.sql.base.item.ItemRepository;
-import com.github.dcysteine.nesql.sql.base.item.ItemStack;
 import com.github.dcysteine.nesql.sql.base.item.WildcardItemStack;
 import com.google.auto.value.AutoValue;
 
 import java.util.List;
-import java.util.Optional;
 
 @AutoValue
 public abstract class DisplayWildcardItemStack implements Comparable<DisplayWildcardItemStack> {
@@ -25,15 +24,18 @@ public abstract class DisplayWildcardItemStack implements Comparable<DisplayWild
                         ItemSpec.buildItemIdSpec(wildcardItemStack.getItemId()),
                         ItemSpec.DEFAULT_SORT);
 
-        Optional<Icon> onlyItemStackIcon = Optional.empty();
-        if (items.size() == 1) {
-            ItemStack onlyItemStack = new ItemStack(items.get(0), wildcardItemStack.getStackSize());
-            onlyItemStackIcon = Optional.of(DisplayItemStack.buildIcon(onlyItemStack, service));
+        String itemDamage = "*";
+        if (!wildcardItemStack.isWildcardItemDamage()) {
+            itemDamage = NumberUtil.formatInteger(wildcardItemStack.getItemDamage());
+        }
+
+        String nbt = "*";
+        if (!wildcardItemStack.isWildcardNbt()) {
+            nbt = wildcardItemStack.getNbt();
         }
 
         return new AutoValue_DisplayWildcardItemStack(
-                wildcardItemStack, buildIcon(wildcardItemStack, service), onlyItemStackIcon,
-                items.size());
+                wildcardItemStack, buildIcon(wildcardItemStack, service), itemDamage, nbt);
     }
 
     public static Icon buildIcon(WildcardItemStack wildcardItemStack, BaseDisplayService service) {
@@ -70,10 +72,11 @@ public abstract class DisplayWildcardItemStack implements Comparable<DisplayWild
     public abstract WildcardItemStack getWildcardItemStack();
     public abstract Icon getIcon();
 
-    /** Will be set if and only if this wildcard matches exactly one item stack. */
-    public abstract Optional<Icon> getOnlyItemStackIcon();
+    /** Will be "*" for wildcard item damage. */
+    public abstract String getItemDamage();
 
-    public abstract int getSize();
+    /** Will be "*" for wildcard NBT. */
+    public abstract String getNbt();
 
     @Override
     public int compareTo(DisplayWildcardItemStack other) {
