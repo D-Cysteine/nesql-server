@@ -19,7 +19,6 @@ public abstract class DisplayFluidGroup implements Comparable<DisplayFluidGroup>
         ImmutableList<Icon> fluidStacks =
                 fluidGroup.getFluidStacks().stream()
                         .sorted()
-                        .distinct()
                         .map(fluidStack -> DisplayFluidStack.buildIcon(fluidStack, service))
                         .collect(ImmutableList.toImmutableList());
         int size = fluidStacks.size();

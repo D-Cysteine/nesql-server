@@ -17,39 +17,33 @@ public class FluidGroupSpec {
     /** Matches by regex. */
     public static Specification<FluidGroup> buildFluidNameSpec(String localizedName) {
         return (root, query, builder) -> {
-            Subquery<Fluid> fluidQuery = query.subquery(Fluid.class);
+            Subquery<String> fluidQuery = query.subquery(String.class);
             Root<Fluid> fluidRoot = fluidQuery.from(Fluid.class);
-            fluidQuery.select(fluidRoot)
+            fluidQuery.select(fluidRoot.get(Fluid_.ID))
                     .where(
                             QueryUtil.regexMatch(
                                     builder,
                                     fluidRoot.get(Fluid_.LOCALIZED_NAME),
                                     builder.literal(localizedName)));
 
-            Subquery<Fluid> fluidWitnessQuery = query.subquery(Fluid.class);
-            Root<Fluid> fluidWitnessRoot = fluidWitnessQuery.from(Fluid.class);
-            fluidWitnessQuery.select(fluidWitnessRoot)
-                    .where(
-                            builder.and(
-                                    builder.in(fluidWitnessRoot).value(fluidQuery),
-                                    builder.in(fluidWitnessRoot)
-                                            .value(
-                                                    root
-                                                            .get(FluidGroup_.FLUID_STACKS)
-                                                            .get(FluidStack_.FLUID))));
-
-            return builder.exists(fluidWitnessQuery);
+            // This works for now, but will stop working if we ever add sorting.
+            // We may need to add a new field in the row schema if we want to add sorting.
+            query.distinct(true);
+            return builder.equal(
+                    root.get(FluidGroup_.FLUID_STACKS).get(FluidStack_.FLUID).get(Fluid_.ID),
+                    builder.any(fluidQuery));
         };
     }
 
     public static Specification<FluidGroup> buildFluidIdSpec(String fluidId) {
-        return (root, query, builder) ->
-                builder.in(builder.literal(fluidId))
-                        .value(
-                                root
-                                        .get(FluidGroup_.FLUID_STACKS)
-                                        .get(FluidStack_.FLUID)
-                                        .get(Fluid_.ID));
+        return (root, query, builder) -> {
+            // This works for now, but will stop working if we ever add sorting.
+            // We may need to add a new field in the row schema if we want to add sorting.
+            query.distinct(true);
+            return builder.equal(
+                    root.get(FluidGroup_.FLUID_STACKS).get(FluidStack_.FLUID).get(Fluid_.ID),
+                    fluidId);
+        };
     }
 
     public static Specification<FluidGroup> buildAmountSpec(int amount) {

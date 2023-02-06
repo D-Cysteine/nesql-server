@@ -6,21 +6,14 @@ import com.github.dcysteine.nesql.server.common.display.Icon;
 import com.github.dcysteine.nesql.server.common.display.InfoPanel;
 import com.github.dcysteine.nesql.server.common.util.NumberUtil;
 import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayService;
-import com.github.dcysteine.nesql.server.plugin.base.spec.ItemSpec;
 import com.github.dcysteine.nesql.sql.base.item.ItemGroup;
-import com.github.dcysteine.nesql.sql.base.item.ItemRepository;
-import com.github.dcysteine.nesql.sql.base.item.ItemStack;
-import com.github.dcysteine.nesql.sql.base.item.WildcardItemStack;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Streams;
 
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 
 @AutoValue
 public abstract class DisplayItemGroup implements Comparable<DisplayItemGroup> {
@@ -33,11 +26,8 @@ public abstract class DisplayItemGroup implements Comparable<DisplayItemGroup> {
                                 ImmutableSortedSet.toImmutableSortedSet(Comparator.naturalOrder()));
 
         ImmutableList<Icon> allItemStacks =
-                Streams.concat(
-                                itemGroup.getItemStacks().stream(),
-                                itemGroup.getResolvedWildcardItemStacks().stream())
+                itemGroup.getAllItemStacks().stream()
                         .sorted()
-                        .distinct()
                         .map(itemStack -> DisplayItemStack.buildIcon(itemStack, service))
                         .collect(ImmutableList.toImmutableList());
         int size = allItemStacks.size();
@@ -56,19 +46,16 @@ public abstract class DisplayItemGroup implements Comparable<DisplayItemGroup> {
     }
 
     public static Icon buildIcon(ItemGroup itemGroup, BaseDisplayService service) {
-        ItemRepository itemRepository = service.getItemRepository();
-
-        Set<ItemStack> allItemStacks = new HashSet<>();
-        allItemStacks.addAll(itemGroup.getItemStacks());
-        allItemStacks.addAll(itemGroup.getResolvedWildcardItemStacks());
-        int size = allItemStacks.size();
-
         String url = Table.ITEM_GROUP.getViewUrl(itemGroup);
+
         Icon icon;
-        if (!allItemStacks.isEmpty()) {
+        if (!itemGroup.getAllItemStacks().isEmpty()) {
+            int size = itemGroup.getAllItemStacks().size();
             String description =
                     String.format("Item Group (%s item stacks)", NumberUtil.formatInteger(size));
-            Icon innerIcon = DisplayItemStack.buildIcon(allItemStacks.iterator().next(), service);
+            Icon innerIcon =
+                    DisplayItemStack.buildIcon(
+                            itemGroup.getAllItemStacks().iterator().next(), service);
             if (size == 1) {
                 description = String.format("Item Group (%s)", innerIcon.getDescription());
             }
