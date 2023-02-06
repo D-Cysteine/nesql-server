@@ -73,6 +73,24 @@ public class RecipeSpec {
         };
     }
 
+    /** Matches by regex. */
+    public static Specification<Recipe> buildInputItemModIdSpec(String modId) {
+        return (root, query, builder) -> {
+            Subquery<String> itemQuery = query.subquery(String.class);
+            Root<Item> itemRoot = itemQuery.from(Item.class);
+            itemQuery.select(itemRoot.get(Item_.ID))
+                    .where(
+                            QueryUtil.regexMatch(
+                                    builder,
+                                    itemRoot.get(Item_.MOD_ID),
+                                    builder.literal(modId)));
+
+            return builder.equal(
+                    root.get(Recipe_.ITEM_INPUTS_ITEMS).get(Item_.ID),
+                    builder.any(itemQuery));
+        };
+    }
+
     public static Specification<Recipe> buildInputItemIdSpec(String itemId) {
         return (root, query, builder) ->
                 builder.equal(root.get(Recipe_.ITEM_INPUTS_ITEMS).get(Item_.ID), itemId);
@@ -94,6 +112,24 @@ public class RecipeSpec {
                                     builder,
                                     fluidRoot.get(Fluid_.LOCALIZED_NAME),
                                     builder.literal(localizedName)));
+
+            return builder.equal(
+                    root.get(Recipe_.FLUID_INPUTS_FLUIDS).get(Fluid_.ID),
+                    builder.any(fluidQuery));
+        };
+    }
+
+    /** Matches by regex. */
+    public static Specification<Recipe> buildInputFluidModIdSpec(String modId) {
+        return (root, query, builder) -> {
+            Subquery<String> fluidQuery = query.subquery(String.class);
+            Root<Fluid> fluidRoot = fluidQuery.from(Fluid.class);
+            fluidQuery.select(fluidRoot.get(Fluid_.ID))
+                    .where(
+                            QueryUtil.regexMatch(
+                                    builder,
+                                    fluidRoot.get(Fluid_.MOD_ID),
+                                    builder.literal(modId)));
 
             return builder.equal(
                     root.get(Recipe_.FLUID_INPUTS_FLUIDS).get(Fluid_.ID),
@@ -130,6 +166,24 @@ public class RecipeSpec {
         };
     }
 
+    /** Matches by regex. */
+    public static Specification<Recipe> buildOutputItemModIdSpec(String modId) {
+        return (root, query, builder) -> {
+            Subquery<String> itemQuery = query.subquery(String.class);
+            Root<Item> itemRoot = itemQuery.from(Item.class);
+            itemQuery.select(itemRoot.get(Item_.ID))
+                    .where(
+                            QueryUtil.regexMatch(
+                                    builder,
+                                    itemRoot.get(Item_.MOD_ID),
+                                    builder.literal(modId)));
+
+            return builder.equal(
+                    root.get(Recipe_.UNIQUE_ITEM_OUTPUTS).get(Item_.ID),
+                    builder.any(itemQuery));
+        };
+    }
+
     public static Specification<Recipe> buildOutputItemIdSpec(String itemId) {
         return (root, query, builder) ->
                 builder.equal(root.get(Recipe_.UNIQUE_ITEM_OUTPUTS).get(Item_.ID), itemId);
@@ -146,6 +200,24 @@ public class RecipeSpec {
                                     builder,
                                     fluidRoot.get(Fluid_.LOCALIZED_NAME),
                                     builder.literal(localizedName)));
+
+            return builder.equal(
+                    root.get(Recipe_.UNIQUE_FLUID_OUTPUTS).get(Fluid_.ID),
+                    builder.any(fluidQuery));
+        };
+    }
+
+    /** Matches by regex. */
+    public static Specification<Recipe> buildOutputFluidModIdSpec(String modId) {
+        return (root, query, builder) -> {
+            Subquery<String> fluidQuery = query.subquery(String.class);
+            Root<Fluid> fluidRoot = fluidQuery.from(Fluid.class);
+            fluidQuery.select(fluidRoot.get(Fluid_.ID))
+                    .where(
+                            QueryUtil.regexMatch(
+                                    builder,
+                                    fluidRoot.get(Fluid_.MOD_ID),
+                                    builder.literal(modId)));
 
             return builder.equal(
                     root.get(Recipe_.UNIQUE_FLUID_OUTPUTS).get(Fluid_.ID),

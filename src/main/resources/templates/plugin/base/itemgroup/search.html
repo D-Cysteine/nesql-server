@@ -31,18 +31,24 @@
                             </div>
 
                             <div class="mb-2">
-                                <th:block th:replace="~{fragment/search::searchField(itemId, 'Item ID', 'search')}">
+                                <th:block th:replace="~{fragment/search::searchFieldRegex(itemModId, 'Item mod ID')}">
                                 </th:block>
                                 <div class="form-text">&nbsp;</div>
                             </div>
 
                             <div class="mb-2">
-                                <th:block th:replace="~{fragment/search::searchFieldNumber(stackSize, 'Stack size')}">
+                                <th:block th:replace="~{fragment/search::searchField(itemId, 'Item ID', 'search')}">
                                 </th:block>
                                 <div class="form-text">&nbsp;</div>
                             </div>
                         </div>
                         <div class="col">
+                            <div class="mb-2">
+                                <th:block th:replace="~{fragment/search::searchFieldNumber(stackSize, 'Stack size')}">
+                                </th:block>
+                                <div class="form-text">&nbsp;</div>
+                            </div>
+
                             <div class="mb-2">
                                 <th:block th:replace="~{fragment/search::searchFieldNumber(minSize, 'Minimum size')}">
                                 </th:block>

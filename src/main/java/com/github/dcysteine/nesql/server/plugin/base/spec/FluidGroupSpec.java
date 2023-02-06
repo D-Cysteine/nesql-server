@@ -35,6 +35,27 @@ public class FluidGroupSpec {
         };
     }
 
+    /** Matches by regex. */
+    public static Specification<FluidGroup> buildFluidModIdSpec(String modId) {
+        return (root, query, builder) -> {
+            Subquery<String> fluidQuery = query.subquery(String.class);
+            Root<Fluid> fluidRoot = fluidQuery.from(Fluid.class);
+            fluidQuery.select(fluidRoot.get(Fluid_.ID))
+                    .where(
+                            QueryUtil.regexMatch(
+                                    builder,
+                                    fluidRoot.get(Fluid_.MOD_ID),
+                                    builder.literal(modId)));
+
+            // This works for now, but will stop working if we ever add sorting.
+            // We may need to add a new field in the row schema if we want to add sorting.
+            query.distinct(true);
+            return builder.equal(
+                    root.get(FluidGroup_.FLUID_STACKS).get(FluidStack_.FLUID).get(Fluid_.ID),
+                    builder.any(fluidQuery));
+        };
+    }
+
     public static Specification<FluidGroup> buildFluidIdSpec(String fluidId) {
         return (root, query, builder) -> {
             // This works for now, but will stop working if we ever add sorting.

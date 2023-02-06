@@ -51,6 +51,7 @@ public class ItemGroupController {
     @GetMapping(path = "/search")
     public String search(
             @RequestParam(required = false) Optional<String> itemName,
+            @RequestParam(required = false) Optional<String> itemModId,
             @RequestParam(required = false) Optional<String> itemId,
             @RequestParam(required = false) Optional<Integer> stackSize,
             @RequestParam(required = false) Optional<Integer> minSize,
@@ -61,6 +62,7 @@ public class ItemGroupController {
             Model model) {
         List<Specification<ItemGroup>> specs = new ArrayList<>();
         specs.add(ParamUtil.buildStringSpec(itemName, ItemGroupSpec::buildItemNameSpec));
+        specs.add(ParamUtil.buildStringSpec(itemModId, ItemGroupSpec::buildItemModIdSpec));
         specs.add(ParamUtil.buildStringSpec(itemId, ItemGroupSpec::buildItemIdSpec));
         specs.add(ParamUtil.buildSpec(stackSize, ItemGroupSpec::buildStackSizeSpec));
         specs.add(ParamUtil.buildSpec(minSize, ItemGroupSpec::buildMinSizeSpec));

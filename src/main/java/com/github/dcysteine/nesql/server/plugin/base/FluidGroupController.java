@@ -51,6 +51,7 @@ public class FluidGroupController {
     @GetMapping(path = "/search")
     public String search(
             @RequestParam(required = false) Optional<String> fluidName,
+            @RequestParam(required = false) Optional<String> fluidModId,
             @RequestParam(required = false) Optional<String> fluidId,
             @RequestParam(required = false) Optional<Integer> amount,
             @RequestParam(required = false) Optional<Integer> minSize,
@@ -59,6 +60,7 @@ public class FluidGroupController {
             Model model) {
         List<Specification<FluidGroup>> specs = new ArrayList<>();
         specs.add(ParamUtil.buildStringSpec(fluidName, FluidGroupSpec::buildFluidNameSpec));
+        specs.add(ParamUtil.buildStringSpec(fluidModId, FluidGroupSpec::buildFluidModIdSpec));
         specs.add(ParamUtil.buildStringSpec(fluidId, FluidGroupSpec::buildFluidIdSpec));
         specs.add(ParamUtil.buildSpec(amount, FluidGroupSpec::buildAmountSpec));
         specs.add(ParamUtil.buildSpec(minSize, FluidGroupSpec::buildMinSizeSpec));
