@@ -16,6 +16,17 @@ public enum Table {
     FLUID_GROUP(Plugin.BASE, "Fluid Group", "fluidgroup"),
     RECIPE(Plugin.BASE, "Recipe", "recipe"),
     RECIPE_TYPE(Plugin.BASE, "Recipe Type", "recipetype"),
+
+    ORE_DICTIONARY(Plugin.FORGE, "Ore Dictionary", "oredictionary"),
+    FLUID_CONTAINER(Plugin.FORGE, "Fluid Container", "fluidcontainer"),
+    EMPTY_CONTAINER(Plugin.FORGE, "Empty Container", "emptycontainer"),
+
+    GREGTECH_RECIPE(Plugin.GREGTECH, "GregTech Recipe", "gregtechrecipe"),
+
+    THAUMCRAFT_ASPECT(Plugin.THAUMCRAFT, "Thaumcraft Aspect", "thaumcraftaspect"),
+    THAUMCRAFT_ASPECT_ENTRY(Plugin.THAUMCRAFT, "Thaumcraft Aspect Entry", "thaumcraftaspectentry"),
+
+    QUEST(Plugin.QUEST, "Quest", "quest"),
     ;
 
     public static final ImmutableListMultimap<Plugin, Table> TABLES =

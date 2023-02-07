@@ -25,11 +25,31 @@
                             Index
                         </a>
                     </li>
-                    <li th:each="table : ${@thymeleafService.navBarTables}" class="nav-item">
+                    <li th:each="table : ${@thymeleafService.navbarMainTables}" class="nav-item">
                         <a class="nav-link" th:href="@{${table.searchUrl}}">
                             [[${table.name}]]
                         </a>
                     </li>
+                    <th:block th:with="dropdownTables = ${@thymeleafService.navbarDropdownTables}">
+                        <li th:if="${dropdownTables.size} > 0" class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button"
+                               data-bs-toggle="dropdown">
+                                Plugin tables
+                            </a>
+                            <ul class="dropdown-menu">
+                                <th:block th:each="tables,iterStat : ${dropdownTables}">
+                                    <li th:each="table : ${tables}">
+                                        <a class="dropdown-item" th:href="@{${table.searchUrl}}">
+                                            [[${table.name}]]
+                                        </a>
+                                    </li>
+                                    <li th:if="!${iterStat.last}">
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                </th:block>
+                            </ul>
+                        </li>
+                    </th:block>
                 </ul>
             </div>
             <div class="col-3">
