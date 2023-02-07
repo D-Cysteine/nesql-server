@@ -13,55 +13,55 @@
                 Search Item Groups
             </h1>
         </div>
-        <div class="row mb-5">
+        <div class="row">
         <span class="text-center">
             Query fields will be joined with AND. Leave all fields blank to retrieve everything.
         </span>
         </div>
 
-        <div class="row justify-content-center">
+        <div class="row justify-content-center mt-5">
             <form method="get">
                 <div class="container">
-                    <div class="row mb-3">
+                    <div class="row">
                         <div class="col">
-                            <div class="mb-2">
+                            <div class="mt-2">
                                 <th:block th:replace="~{fragment/search::searchFieldRegex(itemName, 'Item name')}">
                                 </th:block>
                                 <div class="form-text">&nbsp;</div>
                             </div>
 
-                            <div class="mb-2">
+                            <div class="mt-2">
                                 <th:block th:replace="~{fragment/search::searchFieldRegex(itemModId, 'Item mod ID')}">
                                 </th:block>
                                 <div class="form-text">&nbsp;</div>
                             </div>
 
-                            <div class="mb-2">
+                            <div class="mt-2">
                                 <th:block th:replace="~{fragment/search::searchField(itemId, 'Item ID', 'search')}">
                                 </th:block>
                                 <div class="form-text">&nbsp;</div>
                             </div>
                         </div>
                         <div class="col">
-                            <div class="mb-2">
+                            <div class="mt-2">
                                 <th:block th:replace="~{fragment/search::searchFieldNumber(stackSize, 'Stack size')}">
                                 </th:block>
                                 <div class="form-text">&nbsp;</div>
                             </div>
 
-                            <div class="mb-2">
+                            <div class="mt-2">
                                 <th:block th:replace="~{fragment/search::searchFieldNumber(minSize, 'Minimum size')}">
                                 </th:block>
                                 <div class="form-text">&nbsp;</div>
                             </div>
 
-                            <div class="mb-2">
+                            <div class="mt-2">
                                 <th:block th:replace="~{fragment/search::searchFieldNumber(maxSize, 'Maximum size')}">
                                 </th:block>
                                 <div class="form-text">&nbsp;</div>
                             </div>
 
-                            <div class="mb-2">
+                            <div class="mt-2">
                                 <th:block th:replace="~{fragment/search::searchFieldCheckbox(noWildcard, 'Does not have wildcard')}">
                                 </th:block>
 
@@ -70,7 +70,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row justify-content-center">
+                    <div class="row justify-content-center mt-3">
                         <div class="col-auto">
                             <button th:replace="~{fragment/search::searchButton}"></button>
                         </div>

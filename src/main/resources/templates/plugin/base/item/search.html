@@ -13,49 +13,49 @@
                 Search Items
             </h1>
         </div>
-        <div class="row mb-5">
+        <div class="row">
         <span class="text-center">
             Query fields will be joined with AND. Leave all fields blank to retrieve everything.
         </span>
         </div>
 
-        <div class="row justify-content-center">
+        <div class="row justify-content-center mt-5">
             <form method="get">
                 <div class="container">
-                    <div class="row mb-3">
+                    <div class="row">
                         <div class="col">
-                            <div class="mb-2">
+                            <div class="mt-2">
                                 <th:block th:replace="~{fragment/search::searchFieldRegex(localizedName, 'Localized name')}">
                                 </th:block>
                                 <div class="form-text">&nbsp;</div>
                             </div>
 
-                            <div class="mb-2">
+                            <div class="mt-2">
                                 <th:block th:replace="~{fragment/search::searchFieldRegex(modId, 'Mod ID')}">
                                 </th:block>
                                 <div class="form-text">&nbsp;</div>
                             </div>
 
-                            <div class="mb-2">
+                            <div class="mt-2">
                                 <th:block th:replace="~{fragment/search::searchFieldRegex(internalName, 'Internal name')}">
                                 </th:block>
                                 <div class="form-text">&nbsp;</div>
                             </div>
                         </div>
                         <div class="col">
-                            <div class="mb-2">
+                            <div class="mt-2">
                                 <th:block th:replace="~{fragment/search::searchFieldNumber(itemDamage, 'Item damage')}">
                                 </th:block>
                                 <div class="form-text">&nbsp;</div>
                             </div>
 
-                            <div class="mb-2">
+                            <div class="mt-2">
                                 <th:block th:replace="~{fragment/search::searchFieldRegex(tooltip, 'Tooltip')}">
                                 </th:block>
                                 <div class="form-text">&nbsp;</div>
                             </div>
 
-                            <div class="mb-2">
+                            <div class="mt-2">
                                 <th:block th:replace="~{fragment/search::searchFieldRegex(nbt, 'NBT')}">
                                 </th:block>
                                 <div class="form-text">
@@ -64,20 +64,20 @@
                             </div>
                         </div>
                         <div class="col">
-                            <div class="mb-2">
+                            <div class="mt-2">
                                 <th:block th:replace="~{fragment/search::searchField(itemGroupId, 'Item group ID', 'search')}">
                                 </th:block>
                                 <div class="form-text">&nbsp;</div>
                             </div>
 
-                            <div class="mb-2">
+                            <div class="mt-2">
                                 <th:block th:replace="~{fragment/search::searchField(recipeId, 'Recipe ID (input)', 'search')}">
                                 </th:block>
                                 <div class="form-text">&nbsp;</div>
                             </div>
                         </div>
                     </div>
-                    <div class="row justify-content-center">
+                    <div class="row justify-content-center mt-3">
                         <div class="col-auto">
                             <button th:replace="~{fragment/search::searchButton}"></button>
                         </div>
