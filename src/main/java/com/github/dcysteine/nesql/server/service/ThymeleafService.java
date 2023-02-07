@@ -10,12 +10,18 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 /** Service providing values and utility methods to Thymeleaf templates. */
 @Service
 public class ThymeleafService {
+    private static final DateTimeFormatter DATE_TIME_FORMATTER =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     @Autowired
     private ExternalConfig externalConfig;
 
@@ -36,6 +42,12 @@ public class ThymeleafService {
 
     public String formatInteger(long integer) {
         return NumberUtil.formatInteger(integer);
+    }
+
+    public String formatTimestamp(long millis) {
+        Instant instant = Instant.ofEpochMilli(millis);
+        ZonedDateTime dateTime = ZonedDateTime.ofInstant(instant, ZoneId.systemDefault());
+        return DATE_TIME_FORMATTER.format(dateTime);
     }
 
     public <T> List<List<T>> partitionInfoPanels(List<T> infoPanels) {

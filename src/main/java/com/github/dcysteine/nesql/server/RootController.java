@@ -3,6 +3,8 @@ package com.github.dcysteine.nesql.server;
 import com.github.dcysteine.nesql.server.config.ExternalConfig;
 import com.github.dcysteine.nesql.server.service.IdSearchService;
 import com.github.dcysteine.nesql.server.common.util.NumberUtil;
+import com.github.dcysteine.nesql.sql.Metadata;
+import com.github.dcysteine.nesql.sql.MetadataRepository;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidRepository;
 import com.github.dcysteine.nesql.sql.base.item.ItemRepository;
 import com.github.dcysteine.nesql.sql.base.recipe.RecipeRepository;
@@ -35,14 +37,15 @@ public class RootController {
     @Autowired
     private RecipeRepository recipeRepository;
 
+    @Autowired
+    private MetadataRepository metadataRepository;
+
     @GetMapping(value = {"/", "/index"})
     public String index(Model model) {
-        model.addAttribute(
-                "itemCount", NumberUtil.formatInteger(itemRepository.count()));
-        model.addAttribute(
-                "fluidCount", NumberUtil.formatInteger(fluidRepository.count()));
-        model.addAttribute(
-                "recipeCount", NumberUtil.formatInteger(recipeRepository.count()));
+        model.addAttribute("itemCount", NumberUtil.formatInteger(itemRepository.count()));
+        model.addAttribute("fluidCount", NumberUtil.formatInteger(fluidRepository.count()));
+        model.addAttribute("recipeCount", NumberUtil.formatInteger(recipeRepository.count()));
+        model.addAttribute("metadata", metadataRepository.findById(Metadata.ID).get());
         return "index";
     }
 

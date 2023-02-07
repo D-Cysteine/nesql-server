@@ -14,7 +14,30 @@
             </h1>
         </div>
         <div class="row justify-content-center">
-            Loaded [[${itemCount}]] items, [[${fluidCount}]] fluids, [[${recipeCount}]] recipes.
+            Loaded [[${itemCount}]] items, [[${fluidCount}]] fluids, [[${recipeCount}]] recipes
+        </div>
+
+        <div class="row justify-content-center mt-2">
+            <div class="col-3">
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-info fw-bold">
+                        Active plugins
+                    </li>
+                    <li th:each="plugin : ${metadata.activePlugins}" class="list-group-item">
+                        [[${plugin.name}]]
+                    </li>
+                    <li th:if="${#lists.isEmpty(metadata.activePlugins)}"
+                        class="list-group-item list-group-item-warning">
+                        None
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row justify-content-center fw-light mt-2">
+            Repository created on
+            [[${@thymeleafService.formatTimestamp(metadata.creationTimeMillis)}]]
+            by NESQL Exporter v[[${metadata.version}]]
         </div>
     </div>
 </th:block>
