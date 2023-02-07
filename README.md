@@ -39,19 +39,19 @@ client, which can be downloaded from the link above (you may want to make a copy
 of the database first, just to be safe). Then, run this command to list all of
 the tables in the database:
 
-```
+```sql
 SELECT TABLE_NAME FROM INFORMATION_SCHEMA.SYSTEM_TABLES WHERE TABLE_TYPE = 'TABLE'
 ```
 
 Finally, run this block of commands, with an entry for each table:
 
-```
+```sql
 SET TABLE <table name> TYPE CACHED
 SHUTDOWN COMPACT
 ```
 
 For example, to compact the `ITEM` and `FLUID` tables, you would run:
-```
+```sql
 SET TABLE ITEM TYPE CACHED
 SET TABLE FLUID TYPE CACHED
 SHUTDOWN COMPACT
@@ -59,4 +59,10 @@ SHUTDOWN COMPACT
 
 This process is likely to take a while, and may moderately increase disk space
 usage, but you will see a massive reduction in server start-up time, and a
-moderate increase in query time.
+moderate increase in query time. Memory usage will also decrease significantly.
+
+It is also possible to tune the performance of a `CACHED` database, by
+configuring how many rows are cached in memory. These parameters can be tuned
+by executing SQL commands in the HSQLDB client. See `hsqldb.cache_rows` and
+`hsqldb.cache_size`
+[here](https://hsqldb.org/doc/2.0/guide/dbproperties-chapt.html).

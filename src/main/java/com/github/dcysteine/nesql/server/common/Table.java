@@ -17,16 +17,21 @@ public enum Table {
     RECIPE(Plugin.BASE, "Recipe", "recipe"),
     RECIPE_TYPE(Plugin.BASE, "Recipe Type", "recipetype"),
 
+    /** This table is just a custom search for {@code ItemGroup}. */
     ORE_DICTIONARY(Plugin.FORGE, "Ore Dictionary", "oredictionary"),
+    // Fluid Block table is omitted.
+    /** This table is just a custom search for {@code Item}. */
     FLUID_CONTAINER(Plugin.FORGE, "Fluid Container", "fluidcontainer"),
-    EMPTY_CONTAINER(Plugin.FORGE, "Empty Container", "emptycontainer"),
 
+    /** This table is just a custom search for {@code Recipe}. */
     GREGTECH_RECIPE(Plugin.GREGTECH, "GregTech Recipe", "gregtechrecipe"),
 
     THAUMCRAFT_ASPECT(Plugin.THAUMCRAFT, "Thaumcraft Aspect", "thaumcraftaspect"),
+    /** This table is just a custom search for {@code Item}. */
     THAUMCRAFT_ASPECT_ENTRY(Plugin.THAUMCRAFT, "Thaumcraft Aspect Entry", "thaumcraftaspectentry"),
 
     QUEST(Plugin.QUEST, "Quest", "quest"),
+    // Task and Reward tables are omitted.
     ;
 
     public static final ImmutableListMultimap<Plugin, Table> TABLES =

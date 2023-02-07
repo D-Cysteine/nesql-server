@@ -27,6 +27,7 @@ public class BaseDisplayService extends PluginDisplayService {
         registerFunction(FluidGroup.class, this::buildFluidGroupAdditionalInfo);
         registerFunction(RecipeType.class, this::buildRecipeTypeAdditionalInfo);
     }
+
     public ImmutableList<InfoPanel> buildItemAdditionalInfo(Item item) {
         InfoPanel basePanel =
                 InfoPanel.builder()

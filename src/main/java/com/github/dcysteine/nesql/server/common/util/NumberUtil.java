@@ -35,6 +35,6 @@ public class NumberUtil {
     public static String formatPercentage(double probability) {
         NumberFormat numberFormat = NumberFormat.getPercentInstance();
         numberFormat.setMaximumFractionDigits(2);
-        return numberFormat.format(probability * 100d);
+        return numberFormat.format(probability);
     }
 }
