@@ -1,8 +1,8 @@
 package com.github.dcysteine.nesql.server.plugin.base.display.fluid;
 
 import com.github.dcysteine.nesql.server.common.display.Icon;
+import com.github.dcysteine.nesql.server.common.service.DisplayService;
 import com.github.dcysteine.nesql.server.common.util.NumberUtil;
-import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayService;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidStackWithProbability;
 import com.google.auto.value.AutoValue;
 
@@ -10,12 +10,12 @@ import com.google.auto.value.AutoValue;
 public abstract class DisplayFluidStackWithProbability
         implements Comparable<DisplayFluidStackWithProbability> {
     public static DisplayFluidStackWithProbability create(
-            FluidStackWithProbability fluidStack, BaseDisplayService service) {
+            FluidStackWithProbability fluidStack, DisplayService service) {
         return new AutoValue_DisplayFluidStackWithProbability(
                 fluidStack, buildIcon(fluidStack, service));
     }
 
-    public static Icon buildIcon(FluidStackWithProbability fluidStack, BaseDisplayService service) {
+    public static Icon buildIcon(FluidStackWithProbability fluidStack, DisplayService service) {
         Icon icon = DisplayFluidStack.buildIcon(fluidStack.withoutProbability(), service);
         if (NumberUtil.fuzzyEquals(fluidStack.getProbability(), 1.0d)) {
             return icon;

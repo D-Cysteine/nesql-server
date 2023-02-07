@@ -5,7 +5,7 @@ import com.github.dcysteine.nesql.server.common.util.ParamUtil;
 import com.github.dcysteine.nesql.server.plugin.base.display.fluid.DisplayFluid;
 import com.github.dcysteine.nesql.server.plugin.base.spec.FluidSpec;
 import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayFactory;
-import com.github.dcysteine.nesql.server.service.SearchService;
+import com.github.dcysteine.nesql.server.common.service.SearchService;
 import com.github.dcysteine.nesql.sql.base.fluid.Fluid;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidRepository;
 import org.springframework.beans.factory.annotation.Autowired;

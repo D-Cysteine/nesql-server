@@ -1,7 +1,7 @@
 package com.github.dcysteine.nesql.server;
 
 import com.github.dcysteine.nesql.server.config.ExternalConfig;
-import com.github.dcysteine.nesql.server.service.IdSearchService;
+import com.github.dcysteine.nesql.server.common.service.IdSearchService;
 import com.github.dcysteine.nesql.server.common.util.NumberUtil;
 import com.github.dcysteine.nesql.sql.Metadata;
 import com.github.dcysteine.nesql.sql.MetadataRepository;

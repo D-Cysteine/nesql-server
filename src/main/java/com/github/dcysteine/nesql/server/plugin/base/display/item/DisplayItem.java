@@ -3,9 +3,9 @@ package com.github.dcysteine.nesql.server.plugin.base.display.item;
 import com.github.dcysteine.nesql.server.common.Table;
 import com.github.dcysteine.nesql.server.common.display.Icon;
 import com.github.dcysteine.nesql.server.common.display.InfoPanel;
+import com.github.dcysteine.nesql.server.common.service.DisplayService;
 import com.github.dcysteine.nesql.server.common.util.MinecraftUtil;
 import com.github.dcysteine.nesql.server.common.util.StringUtil;
-import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayService;
 import com.github.dcysteine.nesql.sql.base.item.Item;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @AutoValue
 public abstract class DisplayItem implements Comparable<DisplayItem> {
-    public static DisplayItem create(Item item, BaseDisplayService service) {
+    public static DisplayItem create(Item item, DisplayService service) {
         ImmutableList<String> nbt = ImmutableList.of();
         if (item.hasNbt()) {
             nbt = ImmutableList.copyOf(StringUtil.prettyPrintNbt(item.getNbt()).split("\n"));
@@ -30,10 +30,10 @@ public abstract class DisplayItem implements Comparable<DisplayItem> {
         return new AutoValue_DisplayItem(
                 item, buildIcon(item, service),
                 nbt, ImmutableList.copyOf(item.getTooltip().split("\n")),
-                giveCommand, giveStackCommand, service.getAdditionalInfo(item));
+                giveCommand, giveStackCommand, service.buildAdditionalInfo(Item.class, item));
     }
 
-    public static Icon buildIcon(Item item, BaseDisplayService service) {
+    public static Icon buildIcon(Item item, DisplayService service) {
         return Icon.builder()
                 .setDescription(item.getLocalizedName())
                 .setUrl(Table.ITEM.getViewUrl(item))

@@ -1,7 +1,7 @@
 ## Not Enough SQL Server
 
 The server module for NESQL. The exporter module can be found
-[here](https://github.com/D-Cysteine/nesql-exporter). Still very WIP.
+[here](https://github.com/D-Cysteine/nesql-exporter). Still WIP.
 
 ### Instructions
 

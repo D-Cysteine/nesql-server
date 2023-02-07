@@ -3,8 +3,8 @@ package com.github.dcysteine.nesql.server.plugin.base.display.item;
 import com.github.dcysteine.nesql.server.Main;
 import com.github.dcysteine.nesql.server.common.Constants;
 import com.github.dcysteine.nesql.server.common.display.Icon;
+import com.github.dcysteine.nesql.server.common.service.DisplayService;
 import com.github.dcysteine.nesql.server.common.util.NumberUtil;
-import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayService;
 import com.github.dcysteine.nesql.server.plugin.base.spec.ItemSpec;
 import com.github.dcysteine.nesql.sql.base.item.Item;
 import com.github.dcysteine.nesql.sql.base.item.ItemRepository;
@@ -16,14 +16,7 @@ import java.util.List;
 @AutoValue
 public abstract class DisplayWildcardItemStack implements Comparable<DisplayWildcardItemStack> {
     public static DisplayWildcardItemStack create(
-            WildcardItemStack wildcardItemStack, BaseDisplayService service) {
-        ItemRepository itemRepository = service.getItemRepository();
-
-        List<Item> items =
-                itemRepository.findAll(
-                        ItemSpec.buildItemIdSpec(wildcardItemStack.getItemId()),
-                        ItemSpec.DEFAULT_SORT);
-
+            WildcardItemStack wildcardItemStack, DisplayService service) {
         String itemDamage = "*";
         if (!wildcardItemStack.isWildcardItemDamage()) {
             itemDamage = NumberUtil.formatInteger(wildcardItemStack.getItemDamage());
@@ -38,7 +31,7 @@ public abstract class DisplayWildcardItemStack implements Comparable<DisplayWild
                 wildcardItemStack, buildIcon(wildcardItemStack, service), itemDamage, nbt);
     }
 
-    public static Icon buildIcon(WildcardItemStack wildcardItemStack, BaseDisplayService service) {
+    public static Icon buildIcon(WildcardItemStack wildcardItemStack, DisplayService service) {
         ItemRepository itemRepository = service.getItemRepository();
 
         List<Item> items =

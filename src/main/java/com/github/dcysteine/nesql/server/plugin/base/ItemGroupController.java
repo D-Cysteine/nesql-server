@@ -5,7 +5,7 @@ import com.github.dcysteine.nesql.server.common.util.ParamUtil;
 import com.github.dcysteine.nesql.server.plugin.base.display.item.DisplayItemGroup;
 import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayFactory;
 import com.github.dcysteine.nesql.server.plugin.base.spec.ItemGroupSpec;
-import com.github.dcysteine.nesql.server.service.SearchService;
+import com.github.dcysteine.nesql.server.common.service.SearchService;
 import com.github.dcysteine.nesql.sql.base.item.ItemGroup;
 import com.github.dcysteine.nesql.sql.base.item.ItemGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;

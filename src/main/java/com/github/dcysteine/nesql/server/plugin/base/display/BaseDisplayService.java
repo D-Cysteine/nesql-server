@@ -3,6 +3,8 @@ package com.github.dcysteine.nesql.server.plugin.base.display;
 import com.github.dcysteine.nesql.server.common.Table;
 import com.github.dcysteine.nesql.server.common.display.InfoPanel;
 import com.github.dcysteine.nesql.server.common.display.Link;
+import com.github.dcysteine.nesql.server.plugin.PluginDisplayService;
+import com.github.dcysteine.nesql.sql.Plugin;
 import com.github.dcysteine.nesql.sql.base.fluid.Fluid;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidGroup;
 import com.github.dcysteine.nesql.sql.base.item.Item;
@@ -16,15 +18,16 @@ import org.springframework.stereotype.Service;
 
 /** Helper class that provides dependencies and methods for building display objects. */
 @Service
-public class BaseDisplayService {
-    @Autowired
-    private ItemRepository itemRepository;
-
-    public ItemRepository getItemRepository() {
-        return itemRepository;
+public class BaseDisplayService extends PluginDisplayService {
+    public BaseDisplayService() {
+        super(Plugin.BASE);
+        registerFunction(Item.class, this::buildItemAdditionalInfo);
+        registerFunction(Fluid.class, this::buildFluidAdditionalInfo);
+        registerFunction(ItemGroup.class, this::buildItemGroupAdditionalInfo);
+        registerFunction(FluidGroup.class, this::buildFluidGroupAdditionalInfo);
+        registerFunction(RecipeType.class, this::buildRecipeTypeAdditionalInfo);
     }
-
-    public ImmutableList<InfoPanel> getAdditionalInfo(Item item) {
+    public ImmutableList<InfoPanel> buildItemAdditionalInfo(Item item) {
         InfoPanel basePanel =
                 InfoPanel.builder()
                         .setTitle("Base")
@@ -49,7 +52,7 @@ public class BaseDisplayService {
         return ImmutableList.of(basePanel);
     }
 
-    public ImmutableList<InfoPanel> getAdditionalInfo(Fluid fluid) {
+    public ImmutableList<InfoPanel> buildFluidAdditionalInfo(Fluid fluid) {
         InfoPanel basePanel =
                 InfoPanel.builder()
                         .setTitle("Base")
@@ -75,7 +78,7 @@ public class BaseDisplayService {
         return ImmutableList.of(basePanel);
     }
 
-    public ImmutableList<InfoPanel> getAdditionalInfo(ItemGroup itemGroup) {
+    public ImmutableList<InfoPanel> buildItemGroupAdditionalInfo(ItemGroup itemGroup) {
         InfoPanel basePanel =
                 InfoPanel.builder()
                         .setTitle("Base")
@@ -96,7 +99,7 @@ public class BaseDisplayService {
         return ImmutableList.of(basePanel);
     }
 
-    public ImmutableList<InfoPanel> getAdditionalInfo(FluidGroup fluidGroup) {
+    public ImmutableList<InfoPanel> buildFluidGroupAdditionalInfo(FluidGroup fluidGroup) {
         InfoPanel basePanel =
                 InfoPanel.builder()
                         .setTitle("Base")
@@ -117,11 +120,7 @@ public class BaseDisplayService {
         return ImmutableList.of(basePanel);
     }
 
-    public ImmutableList<InfoPanel> getAdditionalInfo(Recipe recipe) {
-        return ImmutableList.of();
-    }
-
-    public ImmutableList<InfoPanel> getAdditionalInfo(RecipeType recipeType) {
+    public ImmutableList<InfoPanel> buildRecipeTypeAdditionalInfo(RecipeType recipeType) {
         InfoPanel basePanel =
                 InfoPanel.builder()
                         .setTitle("Base")

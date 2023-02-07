@@ -4,8 +4,8 @@ import com.github.dcysteine.nesql.server.common.Constants;
 import com.github.dcysteine.nesql.server.common.Table;
 import com.github.dcysteine.nesql.server.common.display.Icon;
 import com.github.dcysteine.nesql.server.common.display.InfoPanel;
+import com.github.dcysteine.nesql.server.common.service.DisplayService;
 import com.github.dcysteine.nesql.server.common.util.NumberUtil;
-import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayService;
 import com.github.dcysteine.nesql.sql.base.item.ItemGroup;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @AutoValue
 public abstract class DisplayItemGroup implements Comparable<DisplayItemGroup> {
-    public static DisplayItemGroup create(ItemGroup itemGroup, BaseDisplayService service) {
+    public static DisplayItemGroup create(ItemGroup itemGroup, DisplayService service) {
         ImmutableSortedSet<DisplayWildcardItemStack> wildcardItemStacks =
                 itemGroup.getWildcardItemStacks().stream()
                         .map(wildcardItemStack ->
@@ -42,10 +42,10 @@ public abstract class DisplayItemGroup implements Comparable<DisplayItemGroup> {
         return new AutoValue_DisplayItemGroup(
                 itemGroup, buildIcon(itemGroup, service), onlyItemStackIcon,
                 size, directSize, wildcardSize, allItemStacks, wildcardItemStacks,
-                service.getAdditionalInfo(itemGroup));
+                service.buildAdditionalInfo(ItemGroup.class, itemGroup));
     }
 
-    public static Icon buildIcon(ItemGroup itemGroup, BaseDisplayService service) {
+    public static Icon buildIcon(ItemGroup itemGroup, DisplayService service) {
         String url = Table.ITEM_GROUP.getViewUrl(itemGroup);
 
         Icon icon;

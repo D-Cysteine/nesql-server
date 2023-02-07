@@ -51,6 +51,12 @@
                             </th:block>
                         </td>
                     </tr>
+                    <tr>
+                        <th scope="row">Recipe count</th>
+                        <td>
+                            [[${@thymeleafService.formatInteger(displayRecipeType.recipeCount)}]]
+                        </td>
+                    </tr>
                 </table>
             </div>
             <div class="col">

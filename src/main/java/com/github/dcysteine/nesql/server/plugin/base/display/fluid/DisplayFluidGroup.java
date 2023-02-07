@@ -4,8 +4,8 @@ import com.github.dcysteine.nesql.server.common.Constants;
 import com.github.dcysteine.nesql.server.common.Table;
 import com.github.dcysteine.nesql.server.common.display.Icon;
 import com.github.dcysteine.nesql.server.common.display.InfoPanel;
+import com.github.dcysteine.nesql.server.common.service.DisplayService;
 import com.github.dcysteine.nesql.server.common.util.NumberUtil;
-import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayService;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidGroup;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @AutoValue
 public abstract class DisplayFluidGroup implements Comparable<DisplayFluidGroup> {
-    public static DisplayFluidGroup create(FluidGroup fluidGroup, BaseDisplayService service) {
+    public static DisplayFluidGroup create(FluidGroup fluidGroup, DisplayService service) {
         ImmutableList<Icon> fluidStacks =
                 fluidGroup.getFluidStacks().stream()
                         .sorted()
@@ -31,10 +31,10 @@ public abstract class DisplayFluidGroup implements Comparable<DisplayFluidGroup>
         return new AutoValue_DisplayFluidGroup(
                 fluidGroup, buildIcon(fluidGroup, service), onlyFluidStackIcon,
                 fluidGroup.getFluidStacks().size(), fluidStacks,
-                service.getAdditionalInfo(fluidGroup));
+                service.buildAdditionalInfo(FluidGroup.class, fluidGroup));
     }
 
-    public static Icon buildIcon(FluidGroup fluidGroup, BaseDisplayService service) {
+    public static Icon buildIcon(FluidGroup fluidGroup, DisplayService service) {
         String url = Table.FLUID_GROUP.getViewUrl(fluidGroup);
 
         if (!fluidGroup.getFluidStacks().isEmpty()) {

@@ -1,4 +1,4 @@
-package com.github.dcysteine.nesql.server.service;
+package com.github.dcysteine.nesql.server.common.service;
 
 import com.github.dcysteine.nesql.server.common.Table;
 import com.github.dcysteine.nesql.server.common.util.NumberUtil;
@@ -14,7 +14,6 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 /** Service providing values and utility methods to Thymeleaf templates. */

@@ -1,4 +1,4 @@
-package com.github.dcysteine.nesql.server.service;
+package com.github.dcysteine.nesql.server.common.service;
 
 import com.github.dcysteine.nesql.server.common.Table;
 import com.github.dcysteine.nesql.sql.Identifiable;

@@ -1,6 +1,7 @@
 package com.github.dcysteine.nesql.server.plugin.base.display;
 
 import com.github.dcysteine.nesql.server.common.display.Icon;
+import com.github.dcysteine.nesql.server.common.service.DisplayService;
 import com.github.dcysteine.nesql.server.plugin.base.display.fluid.DisplayFluid;
 import com.github.dcysteine.nesql.server.plugin.base.display.fluid.DisplayFluidGroup;
 import com.github.dcysteine.nesql.server.plugin.base.display.fluid.DisplayFluidStack;
@@ -30,7 +31,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class BaseDisplayFactory {
     @Autowired
-    private BaseDisplayService service;
+    private DisplayService service;
 
     public DisplayItem buildDisplayItem(Item item) {
         return DisplayItem.create(item, service);

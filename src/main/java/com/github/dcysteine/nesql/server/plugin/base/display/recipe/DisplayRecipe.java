@@ -5,8 +5,8 @@ import com.github.dcysteine.nesql.server.common.Constants;
 import com.github.dcysteine.nesql.server.common.Table;
 import com.github.dcysteine.nesql.server.common.display.Icon;
 import com.github.dcysteine.nesql.server.common.display.InfoPanel;
+import com.github.dcysteine.nesql.server.common.service.DisplayService;
 import com.github.dcysteine.nesql.server.common.util.NumberUtil;
-import com.github.dcysteine.nesql.server.plugin.base.display.BaseDisplayService;
 import com.github.dcysteine.nesql.server.plugin.base.display.fluid.DisplayFluidGroup;
 import com.github.dcysteine.nesql.server.plugin.base.display.fluid.DisplayFluidStackWithProbability;
 import com.github.dcysteine.nesql.server.plugin.base.display.item.DisplayItemGroup;
@@ -29,7 +29,7 @@ import java.util.Map;
  */
 @AutoValue
 public abstract class DisplayRecipe implements Comparable<DisplayRecipe> {
-    public static DisplayRecipe create(Recipe recipe, BaseDisplayService service) {
+    public static DisplayRecipe create(Recipe recipe, DisplayService service) {
         RecipeType recipeType = recipe.getRecipeType();
 
         Map<Integer, Icon> displayItemInputs =
@@ -69,10 +69,10 @@ public abstract class DisplayRecipe implements Comparable<DisplayRecipe> {
                 recipe, buildIcon(recipe, service),
                 DisplayRecipeType.buildIcon(recipeType, service),
                 itemInputs, fluidInputs, itemOutputs, fluidOutputs,
-                service.getAdditionalInfo(recipe));
+                service.buildAdditionalInfo(Recipe.class, recipe));
     }
 
-    public static Icon buildIcon(Recipe recipe, BaseDisplayService service) {
+    public static Icon buildIcon(Recipe recipe, DisplayService service) {
         RecipeType recipeType = recipe.getRecipeType();
         int numItemOutputs = recipe.getItemOutputs().size();
         int numFluidOutputs = recipe.getFluidOutputs().size();
