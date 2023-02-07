@@ -24,3 +24,39 @@ modify.
 This is still WIP, and some options (like repository name) don't work yet! The
 most useful option to configure is probably the SQL query timeout, which
 defaults to 1 min.
+
+### Faster startup
+
+NESQL Server reads from an [HSQLDB database](http://hsqldb.org/) database. For
+speed reasons, NESQL Exporter currently exports these databases in `TEXT`
+format. If you'd like to greatly reduce the NESQL Server start-up time, you can
+convert the exported database to `CACHED` format, though this will also increase
+query times. The documentation for this topic can be found
+[here](http://www.hsqldb.org/web/hsqlPerformance.html).
+
+To perform the conversion, you will need to open the database with the HSQLDB
+client, which can be downloaded from the link above (you may want to make a copy
+of the database first, just to be safe). Then, run this command to list all of
+the tables in the database:
+
+```
+SELECT TABLE_NAME FROM INFORMATION_SCHEMA.SYSTEM_TABLES WHERE TABLE_TYPE = 'TABLE'
+```
+
+Finally, run this block of commands, with an entry for each table:
+
+```
+SET TABLE <table name> TYPE CACHED
+SHUTDOWN COMPACT
+```
+
+For example, to compact the `ITEM` and `FLUID` tables, you would run:
+```
+SET TABLE ITEM TYPE CACHED
+SET TABLE FLUID TYPE CACHED
+SHUTDOWN COMPACT
+```
+
+This process is likely to take a while, and may moderately increase disk space
+usage, but you will see a massive reduction in server start-up time, and a
+moderate increase in query time.
