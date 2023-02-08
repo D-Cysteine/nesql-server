@@ -92,11 +92,11 @@
                     </div>
                 </td>
                 <td>
-                    <div th:replace="~{fragment/recipe::recipeGridTable(${row.itemInputs},${row.recipe.recipeType.itemInputDimension})}">
+                    <div th:replace="~{fragment/recipe::recipeGridTable(${row.itemInputs},${row.itemInputsMaxDimension})}">
                     </div>
                 </td>
                 <td>
-                    <div th:replace="~{fragment/recipe::recipeGridTable(${row.fluidInputs},${row.recipe.recipeType.fluidInputDimension})}">
+                    <div th:replace="~{fragment/recipe::recipeGridTable(${row.fluidInputs},${row.fluidInputsMaxDimension})}">
                     </div>
                 </td>
                 <td>
@@ -108,11 +108,11 @@
                     </i>
                 </td>
                 <td>
-                    <div th:replace="~{fragment/recipe::recipeGridTable(${row.itemOutputs},${row.recipe.recipeType.itemOutputDimension})}">
+                    <div th:replace="~{fragment/recipe::recipeGridTable(${row.itemOutputs},${row.itemOutputsMaxDimension})}">
                     </div>
                 </td>
                 <td>
-                    <div th:replace="~{fragment/recipe::recipeGridTable(${row.fluidOutputs},${row.recipe.recipeType.fluidOutputDimension})}">
+                    <div th:replace="~{fragment/recipe::recipeGridTable(${row.fluidOutputs},${row.fluidOutputsMaxDimension})}">
                     </div>
                 </td>
             </tr>

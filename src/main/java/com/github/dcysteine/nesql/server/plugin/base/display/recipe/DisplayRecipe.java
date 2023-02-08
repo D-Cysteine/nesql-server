@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
+import java.util.OptionalInt;
 
 /**
  * Packages up a {@link Recipe} for displaying on a page.
@@ -39,6 +40,8 @@ public abstract class DisplayRecipe implements Comparable<DisplayRecipe> {
         ImmutableTable<Integer, Integer, Icon> itemInputs =
                 buildIngredientsGrid(
                         recipeType.getItemInputDimension(), displayItemInputs, recipe);
+        Dimension itemInputsMaxDimension =
+                computeMaxDimension(itemInputs, recipeType.getItemInputDimension());
 
         Map<Integer, Icon> displayFluidInputs =
                 Maps.transformValues(
@@ -47,6 +50,8 @@ public abstract class DisplayRecipe implements Comparable<DisplayRecipe> {
         ImmutableTable<Integer, Integer, Icon> fluidInputs =
                 buildIngredientsGrid(
                         recipeType.getFluidInputDimension(), displayFluidInputs, recipe);
+        Dimension fluidInputsMaxDimension =
+                computeMaxDimension(fluidInputs, recipeType.getFluidInputDimension());
 
         Map<Integer, Icon> displayItemOutputs =
                 Maps.transformValues(
@@ -55,6 +60,8 @@ public abstract class DisplayRecipe implements Comparable<DisplayRecipe> {
         ImmutableTable<Integer, Integer, Icon> itemOutputs =
                 buildIngredientsGrid(
                         recipeType.getItemOutputDimension(), displayItemOutputs, recipe);
+        Dimension itemOutputsMaxDimension =
+                computeMaxDimension(itemOutputs, recipeType.getItemOutputDimension());
 
         Map<Integer, Icon> displayFluidOutputs =
                 Maps.transformValues(
@@ -64,11 +71,15 @@ public abstract class DisplayRecipe implements Comparable<DisplayRecipe> {
         ImmutableTable<Integer, Integer, Icon> fluidOutputs =
                 buildIngredientsGrid(
                         recipeType.getFluidOutputDimension(), displayFluidOutputs, recipe);
+        Dimension fluidOutputsMaxDimension =
+                computeMaxDimension(fluidOutputs, recipeType.getFluidOutputDimension());
 
         return new AutoValue_DisplayRecipe(
                 recipe, buildIcon(recipe, service),
                 DisplayRecipeType.buildIcon(recipeType, service),
                 itemInputs, fluidInputs, itemOutputs, fluidOutputs,
+                itemInputsMaxDimension, fluidInputsMaxDimension,
+                itemOutputsMaxDimension, fluidOutputsMaxDimension,
                 service.buildAdditionalInfo(Recipe.class, recipe));
     }
 
@@ -134,6 +145,10 @@ public abstract class DisplayRecipe implements Comparable<DisplayRecipe> {
     public abstract ImmutableTable<Integer, Integer, Icon> getFluidInputs();
     public abstract ImmutableTable<Integer, Integer, Icon> getItemOutputs();
     public abstract ImmutableTable<Integer, Integer, Icon> getFluidOutputs();
+    public abstract Dimension getItemInputsMaxDimension();
+    public abstract Dimension getFluidInputsMaxDimension();
+    public abstract Dimension getItemOutputsMaxDimension();
+    public abstract Dimension getFluidOutputsMaxDimension();
     public abstract ImmutableList<InfoPanel> getAdditionalInfo();
 
     private static ImmutableTable<Integer, Integer, Icon> buildIngredientsGrid(
@@ -161,6 +176,25 @@ public abstract class DisplayRecipe implements Comparable<DisplayRecipe> {
         }
 
         return builder.build();
+    }
+
+    /**
+     * Finds the maximum dimension of the given table, and takes the maximum of that and the normal
+     * recipe dimension.
+     *
+     * <p>Needed since some bad recipes exist, which exceed the normal recipe dimensions.
+     */
+    private static Dimension computeMaxDimension(
+            com.google.common.collect.Table<Integer, Integer, ?> table, Dimension dimension) {
+        OptionalInt tableWidth = table.columnKeySet().stream().mapToInt(Integer::intValue).max();
+        OptionalInt tableHeight = table.rowKeySet().stream().mapToInt(Integer::intValue).max();
+        int maxWidth = tableWidth.isPresent() ? tableWidth.getAsInt() + 1 : 0;
+        int maxHeight = tableHeight.isPresent() ? tableHeight.getAsInt() + 1 : 0;
+
+        maxWidth = Math.max(maxWidth, dimension.getWidth());
+        maxHeight = Math.max(maxHeight, dimension.getHeight());
+
+        return new Dimension(maxWidth, maxHeight);
     }
 
     @Override
