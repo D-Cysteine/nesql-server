@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html th:replace="~{fragment/template::template(~{::title}, ~{::content})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Search Ore Dictionary</title>
+</head>
+<body>
+
+<th:block th:fragment="content">
+    <div class="container">
+        <div class="row">
+            <h1 class="display-3 text-center">
+                Search Ore Dictionary
+            </h1>
+        </div>
+        <div class="row">
+            <span class="text-center">
+                Query fields will be joined with AND. Leave all fields blank to retrieve everything.
+            </span>
+        </div>
+
+        <div class="row justify-content-center mt-5">
+            <form method="get">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <div class="mt-2">
+                                <th:block th:replace="~{fragment/search::searchFieldRegex(itemName, 'Item name')}">
+                                </th:block>
+                                <div class="form-text">&nbsp;</div>
+                            </div>
+
+                            <div class="mt-2">
+                                <th:block th:replace="~{fragment/search::searchFieldRegex(itemModId, 'Item mod ID')}">
+                                </th:block>
+                                <div class="form-text">&nbsp;</div>
+                            </div>
+
+                            <div class="mt-2">
+                                <th:block th:replace="~{fragment/search::searchField(itemId, 'Item ID', 'search')}">
+                                </th:block>
+                                <div class="form-text">&nbsp;</div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="mt-2">
+                                <th:block th:replace="~{fragment/search::searchFieldRegex(oreName, 'Ore name')}">
+                                </th:block>
+                                <div class="form-text">&nbsp;</div>
+                            </div>
+
+                            <div class="mt-2">
+                                <th:block th:replace="~{fragment/search::searchFieldNumber(minSize, 'Minimum size')}">
+                                </th:block>
+                                <div class="form-text">&nbsp;</div>
+                            </div>
+
+                            <div class="mt-2">
+                                <th:block th:replace="~{fragment/search::searchFieldNumber(maxSize, 'Maximum size')}">
+                                </th:block>
+                                <div class="form-text">&nbsp;</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center mt-3">
+                        <div class="col-auto">
+                            <button th:replace="~{fragment/search::searchButton}"></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="row my-5">
+            <h1 class="display-3 text-center">
+                Search Results
+            </h1>
+        </div>
+        <div class="row">
+            <div th:replace="~{fragment/search::paginatedTableList(${page}, ${baseUri})}"></div>
+        </div>
+    </div>
+</th:block>
+
+</body>
+</html>
