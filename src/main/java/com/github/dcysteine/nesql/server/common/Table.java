@@ -23,8 +23,7 @@ public enum Table {
     /** This table uses {@code Item}'s {@code view} page. */
     FLUID_CONTAINER(Plugin.FORGE, "Fluid Container", "fluidcontainer"),
 
-    /** This table uses {@code Recipe}'s {@code view} page. */
-    GREGTECH_RECIPE(Plugin.GREGTECH, "GregTech Recipe", "gregtechrecipe"),
+    // GregTech Recipe table is omitted.
 
     THAUMCRAFT_ASPECT(Plugin.THAUMCRAFT, "Thaumcraft Aspect", "thaumcraftaspect"),
     /** This table uses {@code Item}'s {@code view} page. */

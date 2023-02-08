@@ -33,6 +33,10 @@
         <div class="row mt-3" th:if="${panel.properties.size} > 0">
             <table th:replace="~{fragment/info_panel::properties(${panel.properties})}"></table>
         </div>
+
+        <div class="row mt-3" th:if="${panel.text.size} > 0">
+            <table th:replace="~{fragment/info_panel::text(${panel.text})}"></table>
+        </div>
     </div>
 </div>
 
@@ -56,6 +60,14 @@
         <td th:if="${property.boolean.present}">
             <th:block th:replace="~{fragment/format::formatBoolean(${property.boolean.get})}">
             </th:block>
+        </td>
+    </tr>
+</table>
+
+<table th:fragment="text(text)" class="table table-striped table-fixed border mb-0">
+    <tr th:each="text : ${text}">
+        <td class="text-truncate" data-bs-toggle="tooltip" th:data-bs-title="${text}">
+            [[${text}]]
         </td>
     </tr>
 </table>

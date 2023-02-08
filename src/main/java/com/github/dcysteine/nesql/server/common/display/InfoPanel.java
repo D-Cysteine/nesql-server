@@ -9,6 +9,7 @@ public abstract class InfoPanel {
     public abstract String getTitle();
     public abstract ImmutableList<Link> getLinks();
     public abstract ImmutableList<Icon> getIcons();
+    public abstract ImmutableList<String> getText();
     public abstract ImmutableList<Property> getProperties();
 
     public static Builder builder() {
@@ -23,6 +24,7 @@ public abstract class InfoPanel {
         public abstract ImmutableList.Builder<Link> linksBuilder();
         public abstract ImmutableList.Builder<Icon> iconsBuilder();
         public abstract ImmutableList.Builder<Property> propertiesBuilder();
+        public abstract ImmutableList.Builder<String> textBuilder();
 
         public Builder addLink(Link link) {
             linksBuilder().add(link);
@@ -49,6 +51,11 @@ public abstract class InfoPanel {
 
         public Builder addProperty(String key, boolean value) {
             return addProperty(Property.ofBoolean(key, value));
+        }
+
+        public Builder addText(String text) {
+            textBuilder().add(text);
+            return this;
         }
 
         public abstract InfoPanel build();
