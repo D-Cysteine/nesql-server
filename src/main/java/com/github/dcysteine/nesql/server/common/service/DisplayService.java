@@ -37,7 +37,7 @@ public class DisplayService {
     public <T> ImmutableList<InfoPanel> buildAdditionalInfo(Class<T> clazz, T entity) {
         ImmutableList.Builder<InfoPanel> builder = ImmutableList.builder();
         pluginDisplayServices.stream()
-                .map(service -> service.buildAdditionalInfo(clazz, entity))
+                .map(service -> service.buildAdditionalInfo(clazz, entity, this))
                 .forEach(builder::addAll);
         return builder.build();
     }

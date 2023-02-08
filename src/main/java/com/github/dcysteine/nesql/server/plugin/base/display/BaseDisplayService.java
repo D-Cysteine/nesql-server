@@ -3,6 +3,7 @@ package com.github.dcysteine.nesql.server.plugin.base.display;
 import com.github.dcysteine.nesql.server.common.Table;
 import com.github.dcysteine.nesql.server.common.display.InfoPanel;
 import com.github.dcysteine.nesql.server.common.display.Link;
+import com.github.dcysteine.nesql.server.common.service.DisplayService;
 import com.github.dcysteine.nesql.server.plugin.PluginDisplayService;
 import com.github.dcysteine.nesql.sql.Plugin;
 import com.github.dcysteine.nesql.sql.base.fluid.Fluid;
@@ -28,7 +29,7 @@ public class BaseDisplayService extends PluginDisplayService {
         registerFunction(RecipeType.class, this::buildRecipeTypeAdditionalInfo);
     }
 
-    public ImmutableList<InfoPanel> buildItemAdditionalInfo(Item item) {
+    public ImmutableList<InfoPanel> buildItemAdditionalInfo(Item item, DisplayService service) {
         InfoPanel basePanel =
                 InfoPanel.builder()
                         .setTitle("Base")
@@ -53,7 +54,7 @@ public class BaseDisplayService extends PluginDisplayService {
         return ImmutableList.of(basePanel);
     }
 
-    public ImmutableList<InfoPanel> buildFluidAdditionalInfo(Fluid fluid) {
+    public ImmutableList<InfoPanel> buildFluidAdditionalInfo(Fluid fluid, DisplayService service) {
         InfoPanel basePanel =
                 InfoPanel.builder()
                         .setTitle("Base")
@@ -79,7 +80,8 @@ public class BaseDisplayService extends PluginDisplayService {
         return ImmutableList.of(basePanel);
     }
 
-    public ImmutableList<InfoPanel> buildItemGroupAdditionalInfo(ItemGroup itemGroup) {
+    public ImmutableList<InfoPanel> buildItemGroupAdditionalInfo(
+            ItemGroup itemGroup, DisplayService service) {
         InfoPanel basePanel =
                 InfoPanel.builder()
                         .setTitle("Base")
@@ -100,7 +102,8 @@ public class BaseDisplayService extends PluginDisplayService {
         return ImmutableList.of(basePanel);
     }
 
-    public ImmutableList<InfoPanel> buildFluidGroupAdditionalInfo(FluidGroup fluidGroup) {
+    public ImmutableList<InfoPanel> buildFluidGroupAdditionalInfo(
+            FluidGroup fluidGroup, DisplayService service) {
         InfoPanel basePanel =
                 InfoPanel.builder()
                         .setTitle("Base")
@@ -121,7 +124,8 @@ public class BaseDisplayService extends PluginDisplayService {
         return ImmutableList.of(basePanel);
     }
 
-    public ImmutableList<InfoPanel> buildRecipeTypeAdditionalInfo(RecipeType recipeType) {
+    public ImmutableList<InfoPanel> buildRecipeTypeAdditionalInfo(
+            RecipeType recipeType, DisplayService service) {
         InfoPanel basePanel =
                 InfoPanel.builder()
                         .setTitle("Base")

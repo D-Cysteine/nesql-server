@@ -1,18 +1,19 @@
 package com.github.dcysteine.nesql.server.plugin;
 
 import com.github.dcysteine.nesql.server.common.display.InfoPanel;
+import com.github.dcysteine.nesql.server.common.service.DisplayService;
 import com.github.dcysteine.nesql.sql.Plugin;
 import com.google.common.collect.ImmutableList;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
 /** Service that registers a plugin's {@link InfoPanel} construction methods. */
 public abstract class PluginDisplayService {
     protected final Plugin plugin;
-    protected final Map<Class<?>, Function<?, List<InfoPanel>>> functionMap;
+    protected final Map<Class<?>, BiFunction<?, DisplayService, List<InfoPanel>>> functionMap;
 
     protected PluginDisplayService(Plugin plugin) {
         this.plugin = plugin;
@@ -23,18 +24,19 @@ public abstract class PluginDisplayService {
         return plugin;
     }
 
-    public final <T> List<InfoPanel> buildAdditionalInfo(Class<T> clazz, T entity) {
+    public final <T> List<InfoPanel> buildAdditionalInfo(
+            Class<T> clazz, T entity, DisplayService service) {
         if (functionMap.containsKey(clazz)) {
             @SuppressWarnings("unchecked")
-            var function = (Function<T, List<InfoPanel>>) functionMap.get(clazz);
-            return function.apply(entity);
+            var function = (BiFunction<T, DisplayService, List<InfoPanel>>) functionMap.get(clazz);
+            return function.apply(entity, service);
         } else {
             return ImmutableList.of();
         }
     }
 
     protected <T> void registerFunction(
-            Class<T> clazz, Function<T, List<InfoPanel>> function) {
+            Class<T> clazz, BiFunction<T, DisplayService, List<InfoPanel>> function) {
         functionMap.put(clazz, function);
     }
 }
