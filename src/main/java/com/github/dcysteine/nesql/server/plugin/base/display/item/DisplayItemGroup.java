@@ -9,71 +9,57 @@ import com.github.dcysteine.nesql.server.common.util.NumberUtil;
 import com.github.dcysteine.nesql.sql.base.item.ItemGroup;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Iterables;
 
-import java.util.Comparator;
 import java.util.Optional;
 
 @AutoValue
 public abstract class DisplayItemGroup implements Comparable<DisplayItemGroup> {
     public static DisplayItemGroup create(ItemGroup itemGroup, DisplayService service) {
-        ImmutableSortedSet<DisplayWildcardItemStack> wildcardItemStacks =
-                itemGroup.getWildcardItemStacks().stream()
-                        .map(wildcardItemStack ->
-                                DisplayWildcardItemStack.create(wildcardItemStack, service))
-                        .collect(
-                                ImmutableSortedSet.toImmutableSortedSet(Comparator.naturalOrder()));
-
-        ImmutableList<Icon> allItemStacks =
-                itemGroup.getAllItemStacks().stream()
+        ImmutableList<Icon> itemStacks =
+                itemGroup.getItemStacks().stream()
                         .sorted()
                         .map(itemStack -> DisplayItemStack.buildIcon(itemStack, service))
                         .collect(ImmutableList.toImmutableList());
-        int size = allItemStacks.size();
-        int directSize = itemGroup.getItemStacks().size();
-        int wildcardSize = itemGroup.getResolvedWildcardItemStacks().size();
+        int size = itemStacks.size();
 
         Optional<Icon> onlyItemStackIcon = Optional.empty();
         if (size == 1) {
-            onlyItemStackIcon = Optional.of(Iterables.getOnlyElement(allItemStacks));
+            onlyItemStackIcon = Optional.of(Iterables.getOnlyElement(itemStacks));
         }
 
         return new AutoValue_DisplayItemGroup(
                 itemGroup, buildIcon(itemGroup, service), onlyItemStackIcon,
-                size, directSize, wildcardSize, allItemStacks, wildcardItemStacks,
-                service.buildAdditionalInfo(ItemGroup.class, itemGroup));
+                size, itemStacks, service.buildAdditionalInfo(ItemGroup.class, itemGroup));
     }
 
     public static Icon buildIcon(ItemGroup itemGroup, DisplayService service) {
         String url = Table.ITEM_GROUP.getViewUrl(itemGroup);
 
-        Icon icon;
-        if (!itemGroup.getAllItemStacks().isEmpty()) {
-            int size = itemGroup.getAllItemStacks().size();
+        if (!itemGroup.getItemStacks().isEmpty()) {
+            int size = itemGroup.getItemStacks().size();
             String description =
                     String.format("Item Group (%s item stacks)", NumberUtil.formatInteger(size));
             Icon innerIcon =
                     DisplayItemStack.buildIcon(
-                            itemGroup.getAllItemStacks().iterator().next(), service);
+                            itemGroup.getItemStacks().iterator().next(), service);
             if (size == 1) {
                 description = String.format("Item Group (%s)", innerIcon.getDescription());
             }
 
-            icon = innerIcon.toBuilder()
+            return innerIcon.toBuilder()
                     .setDescription(description)
                     .setUrl(url)
                     .setTopLeft(NumberUtil.formatInteger(size))
                     .build();
         } else {
-            icon = Icon.builder()
+            return Icon.builder()
                     .setDescription("Item Group (empty)")
                     .setUrl(url)
                     .setImage(Constants.MISSING_IMAGE)
                     .setTopLeft("0")
                     .build();
         }
-        return icon;
     }
 
     public abstract ItemGroup getItemGroup();
@@ -83,10 +69,7 @@ public abstract class DisplayItemGroup implements Comparable<DisplayItemGroup> {
     public abstract Optional<Icon> getOnlyItemStackIcon();
 
     public abstract int getSize();
-    public abstract int getDirectSize();
-    public abstract int getWildcardSize();
-    public abstract ImmutableList<Icon> getAllItemStacks();
-    public abstract ImmutableSortedSet<DisplayWildcardItemStack> getWildcardItemStacks();
+    public abstract ImmutableList<Icon> getItemStacks();
     public abstract ImmutableList<InfoPanel> getAdditionalInfo();
 
     @Override

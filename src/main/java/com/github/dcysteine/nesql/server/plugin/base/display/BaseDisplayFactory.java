@@ -10,7 +10,6 @@ import com.github.dcysteine.nesql.server.plugin.base.display.item.DisplayItem;
 import com.github.dcysteine.nesql.server.plugin.base.display.item.DisplayItemGroup;
 import com.github.dcysteine.nesql.server.plugin.base.display.item.DisplayItemStack;
 import com.github.dcysteine.nesql.server.plugin.base.display.item.DisplayItemStackWithProbability;
-import com.github.dcysteine.nesql.server.plugin.base.display.item.DisplayWildcardItemStack;
 import com.github.dcysteine.nesql.server.plugin.base.display.recipe.DisplayRecipe;
 import com.github.dcysteine.nesql.server.plugin.base.display.recipe.DisplayRecipeType;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidGroup;
@@ -21,7 +20,6 @@ import com.github.dcysteine.nesql.sql.base.item.ItemGroup;
 import com.github.dcysteine.nesql.sql.base.item.Item;
 import com.github.dcysteine.nesql.sql.base.item.ItemStack;
 import com.github.dcysteine.nesql.sql.base.item.ItemStackWithProbability;
-import com.github.dcysteine.nesql.sql.base.item.WildcardItemStack;
 import com.github.dcysteine.nesql.sql.base.recipe.Recipe;
 import com.github.dcysteine.nesql.sql.base.recipe.RecipeType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,16 +55,6 @@ public class BaseDisplayFactory {
     public Icon buildDisplayItemStackWithProbabilityIcon(
             ItemStackWithProbability itemStack) {
         return DisplayItemStackWithProbability.buildIcon(itemStack, service);
-    }
-
-    public DisplayWildcardItemStack buildDisplayWildcardItemStack(
-            WildcardItemStack wildcardItemStack) {
-        return DisplayWildcardItemStack.create(wildcardItemStack, service);
-    }
-
-    public Icon buildDisplayWildcardItemStackIcon(
-            WildcardItemStack wildcardItemStack) {
-        return DisplayWildcardItemStack.buildIcon(wildcardItemStack, service);
     }
 
     public DisplayItemGroup buildDisplayItemGroup(ItemGroup itemGroup) {

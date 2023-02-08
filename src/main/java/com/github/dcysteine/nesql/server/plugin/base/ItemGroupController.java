@@ -56,8 +56,6 @@ public class ItemGroupController {
             @RequestParam(required = false) Optional<Integer> stackSize,
             @RequestParam(required = false) Optional<Integer> minSize,
             @RequestParam(required = false) Optional<Integer> maxSize,
-            @RequestParam(required = false) Optional<Boolean> noWildcard,
-            @RequestParam(required = false) Optional<Boolean> hasWildcard,
             @RequestParam(defaultValue = "1") int page,
             Model model) {
         List<Specification<ItemGroup>> specs = new ArrayList<>();
@@ -67,8 +65,6 @@ public class ItemGroupController {
         specs.add(ParamUtil.buildSpec(stackSize, ItemGroupSpec::buildStackSizeSpec));
         specs.add(ParamUtil.buildSpec(minSize, ItemGroupSpec::buildMinSizeSpec));
         specs.add(ParamUtil.buildSpec(maxSize, ItemGroupSpec::buildMaxSizeSpec));
-        specs.add(ParamUtil.buildBooleanSpec(noWildcard, ItemGroupSpec::buildNoWildcardSpec));
-        specs.add(ParamUtil.buildBooleanSpec(hasWildcard, ItemGroupSpec::buildHasWildcardSpec));
 
         PageRequest pageRequest = searchService.buildPageRequest(page, SearchResultsLayout.GRID);
         searchService.handleSearch(

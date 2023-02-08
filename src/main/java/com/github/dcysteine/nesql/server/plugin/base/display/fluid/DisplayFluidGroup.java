@@ -30,8 +30,7 @@ public abstract class DisplayFluidGroup implements Comparable<DisplayFluidGroup>
 
         return new AutoValue_DisplayFluidGroup(
                 fluidGroup, buildIcon(fluidGroup, service), onlyFluidStackIcon,
-                fluidGroup.getFluidStacks().size(), fluidStacks,
-                service.buildAdditionalInfo(FluidGroup.class, fluidGroup));
+                size, fluidStacks, service.buildAdditionalInfo(FluidGroup.class, fluidGroup));
     }
 
     public static Icon buildIcon(FluidGroup fluidGroup, DisplayService service) {

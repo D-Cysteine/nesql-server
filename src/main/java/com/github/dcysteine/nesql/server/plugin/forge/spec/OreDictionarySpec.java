@@ -43,7 +43,7 @@ public class OreDictionarySpec {
                                                     .get(ItemGroup_.ID)),
                                     builder.equal(
                                             itemGroupRoot
-                                                    .get(ItemGroup_.ALL_ITEM_STACKS)
+                                                    .get(ItemGroup_.ITEM_STACKS)
                                                     .get(ItemStack_.ITEM)
                                                     .get(Item_.ID),
                                             builder.any(itemQuery))));
@@ -76,7 +76,7 @@ public class OreDictionarySpec {
                                                     .get(ItemGroup_.ID)),
                                     builder.equal(
                                             itemGroupRoot
-                                                    .get(ItemGroup_.ALL_ITEM_STACKS)
+                                                    .get(ItemGroup_.ITEM_STACKS)
                                                     .get(ItemStack_.ITEM)
                                                     .get(Item_.ID),
                                             builder.any(itemQuery))));
@@ -99,7 +99,7 @@ public class OreDictionarySpec {
                                                     .get(ItemGroup_.ID)),
                                     builder.equal(
                                             itemGroupRoot
-                                                    .get(ItemGroup_.ALL_ITEM_STACKS)
+                                                    .get(ItemGroup_.ITEM_STACKS)
                                                     .get(ItemStack_.ITEM)
                                                     .get(Item_.ID),
                                             itemId)));
@@ -120,30 +120,16 @@ public class OreDictionarySpec {
     public static Specification<OreDictionary> buildMinSizeSpec(int size) {
         return (root, query, builder) ->
                 builder.greaterThanOrEqualTo(
-                        builder.sum(
-                                builder.size(
-                                        root
-                                                .get(OreDictionary_.ITEM_GROUP)
-                                                .get(ItemGroup_.ITEM_STACKS)),
-                                builder.size(
-                                        root
-                                                .get(OreDictionary_.ITEM_GROUP)
-                                                .get(ItemGroup_.RESOLVED_WILDCARD_ITEM_STACKS))),
+                        builder.size(
+                                root.get(OreDictionary_.ITEM_GROUP).get(ItemGroup_.ITEM_STACKS)),
                         size);
     }
 
     public static Specification<OreDictionary> buildMaxSizeSpec(int size) {
         return (root, query, builder) ->
                 builder.lessThanOrEqualTo(
-                        builder.sum(
-                                builder.size(
-                                        root
-                                                .get(OreDictionary_.ITEM_GROUP)
-                                                .get(ItemGroup_.ITEM_STACKS)),
-                                builder.size(
-                                        root
-                                                .get(OreDictionary_.ITEM_GROUP)
-                                                .get(ItemGroup_.RESOLVED_WILDCARD_ITEM_STACKS))),
+                        builder.size(
+                                root.get(OreDictionary_.ITEM_GROUP).get(ItemGroup_.ITEM_STACKS)),
                         size);
     }
 

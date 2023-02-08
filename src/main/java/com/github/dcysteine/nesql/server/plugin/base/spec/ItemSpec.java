@@ -6,7 +6,6 @@ import com.github.dcysteine.nesql.sql.base.item.ItemGroup;
 import com.github.dcysteine.nesql.sql.base.item.ItemGroup_;
 import com.github.dcysteine.nesql.sql.base.item.ItemStack_;
 import com.github.dcysteine.nesql.sql.base.item.Item_;
-import com.github.dcysteine.nesql.sql.base.item.WildcardItemStack_;
 import com.github.dcysteine.nesql.sql.base.recipe.Recipe;
 import com.github.dcysteine.nesql.sql.base.recipe.Recipe_;
 import jakarta.persistence.criteria.Root;
@@ -78,47 +77,28 @@ public class ItemSpec {
     /** Finds items that belong to the specified item group. */
     public static Specification<Item> buildItemGroupSpec(String itemGroupId) {
         return (root, query, builder) -> {
-            Subquery<Item> directItemsQuery = query.subquery(Item.class);
-            Root<ItemGroup> directItemGroupRoot = directItemsQuery.from(ItemGroup.class);
-            directItemsQuery.select(
-                            directItemGroupRoot.get(ItemGroup_.ITEM_STACKS).get(ItemStack_.ITEM))
-                    .where(builder.equal(directItemGroupRoot.get(ItemGroup_.ID), itemGroupId));
+            Subquery<Item> itemsQuery = query.subquery(Item.class);
+            Root<ItemGroup> itemGroupRoot = itemsQuery.from(ItemGroup.class);
+            itemsQuery.select(itemGroupRoot.get(ItemGroup_.ITEM_STACKS).get(ItemStack_.ITEM))
+                    .where(builder.equal(itemGroupRoot.get(ItemGroup_.ID), itemGroupId));
 
-            Subquery<Integer> wildcardItemsQuery = query.subquery(Integer.class);
-            Root<ItemGroup> wildcardItemGroupRoot = wildcardItemsQuery.from(ItemGroup.class);
-            wildcardItemsQuery.select(
-                            wildcardItemGroupRoot.get(ItemGroup_.WILDCARD_ITEM_STACKS)
-                                    .get(WildcardItemStack_.ITEM_ID))
-                    .where(builder.equal(wildcardItemGroupRoot.get(ItemGroup_.ID), itemGroupId));
-
-            return builder.or(
-                    builder.in(root).value(directItemsQuery),
-                    builder.in(root.get(Item_.ITEM_ID)).value(wildcardItemsQuery));
+            return builder.in(root).value(itemsQuery);
         };
     }
 
     /** Finds items that are inputs to the specified recipe. */
     public static Specification<Item> buildRecipeInputSpec(String recipeId) {
         return (root, query, builder) -> {
-            Subquery<Item> directItemsQuery = query.subquery(Item.class);
-            Root<Recipe> directRecipeRoot = directItemsQuery.from(Recipe.class);
-            directItemsQuery.select(
-                            directRecipeRoot.get(Recipe_.ITEM_INPUTS)
+            Subquery<Item> itemsQuery = query.subquery(Item.class);
+            Root<Recipe> directRecipeRoot = itemsQuery.from(Recipe.class);
+            itemsQuery.select(
+                            directRecipeRoot
+                                    .get(Recipe_.ITEM_INPUTS)
                                     .get(ItemGroup_.ITEM_STACKS)
                                     .get(ItemStack_.ITEM))
                     .where(builder.equal(directRecipeRoot.get(Recipe_.ID), recipeId));
 
-            Subquery<Integer> wildcardItemsQuery = query.subquery(Integer.class);
-            Root<Recipe> wildcardRecipeRoot = wildcardItemsQuery.from(Recipe.class);
-            wildcardItemsQuery.select(
-                            wildcardRecipeRoot.get(Recipe_.ITEM_INPUTS)
-                                    .get(ItemGroup_.WILDCARD_ITEM_STACKS)
-                                    .get(WildcardItemStack_.ITEM_ID))
-                    .where(builder.equal(wildcardRecipeRoot.get(Recipe_.ID), recipeId));
-
-            return builder.or(
-                    builder.in(root).value(directItemsQuery),
-                    builder.in(root.get(Item_.ITEM_ID)).value(wildcardItemsQuery));
+            return builder.in(root).value(itemsQuery);
         };
     }
 }

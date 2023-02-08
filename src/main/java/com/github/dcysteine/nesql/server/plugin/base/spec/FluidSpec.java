@@ -64,29 +64,28 @@ public class FluidSpec {
     /** Finds fluids that belong to the specified fluid group. */
     public static Specification<Fluid> buildFluidGroupSpec(String fluidGroupId) {
         return (root, query, builder) -> {
-            Subquery<Fluid> directFluidsQuery = query.subquery(Fluid.class);
-            Root<FluidGroup> directFluidGroupRoot = directFluidsQuery.from(FluidGroup.class);
-            directFluidsQuery.select(
-                            directFluidGroupRoot.get(FluidGroup_.FLUID_STACKS)
-                                    .get(FluidStack_.FLUID))
-                    .where(builder.equal(directFluidGroupRoot.get(FluidGroup_.ID), fluidGroupId));
+            Subquery<Fluid> fluidsQuery = query.subquery(Fluid.class);
+            Root<FluidGroup> fluidGroupRoot = fluidsQuery.from(FluidGroup.class);
+            fluidsQuery.select(fluidGroupRoot.get(FluidGroup_.FLUID_STACKS).get(FluidStack_.FLUID))
+                    .where(builder.equal(fluidGroupRoot.get(FluidGroup_.ID), fluidGroupId));
 
-            return builder.in(root).value(directFluidsQuery);
+            return builder.in(root).value(fluidsQuery);
         };
     }
 
     /** Finds fluids that are inputs to the specified recipe. */
     public static Specification<Fluid> buildRecipeInputSpec(String recipeId) {
         return (root, query, builder) -> {
-            Subquery<Fluid> directFluidsQuery = query.subquery(Fluid.class);
-            Root<Recipe> directRecipeRoot = directFluidsQuery.from(Recipe.class);
-            directFluidsQuery.select(
-                            directRecipeRoot.get(Recipe_.FLUID_INPUTS)
+            Subquery<Fluid> fluidsQuery = query.subquery(Fluid.class);
+            Root<Recipe> directRecipeRoot = fluidsQuery.from(Recipe.class);
+            fluidsQuery.select(
+                            directRecipeRoot
+                                    .get(Recipe_.FLUID_INPUTS)
                                     .get(FluidGroup_.FLUID_STACKS)
                                     .get(FluidStack_.FLUID))
                     .where(builder.equal(directRecipeRoot.get(Recipe_.ID), recipeId));
 
-            return builder.in(root).value(directFluidsQuery);
+            return builder.in(root).value(fluidsQuery);
         };
     }
 }

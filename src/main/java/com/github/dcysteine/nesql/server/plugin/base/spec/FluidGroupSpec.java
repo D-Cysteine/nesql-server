@@ -70,10 +70,7 @@ public class FluidGroupSpec {
     public static Specification<FluidGroup> buildAmountSpec(int amount) {
         return (root, query, builder) ->
                 builder.in(builder.literal(amount))
-                        .value(
-                                root
-                                        .get(FluidGroup_.FLUID_STACKS)
-                                        .get(FluidStack_.AMOUNT));
+                        .value(root.get(FluidGroup_.FLUID_STACKS).get(FluidStack_.AMOUNT));
     }
 
     public static Specification<FluidGroup> buildMinSizeSpec(int size) {
@@ -84,7 +81,6 @@ public class FluidGroupSpec {
 
     public static Specification<FluidGroup> buildMaxSizeSpec(int size) {
         return (root, query, builder) ->
-                builder.lessThanOrEqualTo(
-                        builder.size(root.get(FluidGroup_.FLUID_STACKS)), size);
+                builder.lessThanOrEqualTo(builder.size(root.get(FluidGroup_.FLUID_STACKS)), size);
     }
 }
