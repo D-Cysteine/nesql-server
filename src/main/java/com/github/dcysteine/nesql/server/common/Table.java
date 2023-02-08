@@ -15,7 +15,7 @@ public enum Table {
     ITEM_GROUP(Plugin.BASE, "Item Group", "itemgroup"),
     FLUID_GROUP(Plugin.BASE, "Fluid Group", "fluidgroup"),
     RECIPE(Plugin.BASE, "Recipe", "recipe"),
-    RECIPE_TYPE(Plugin.BASE, "Recipe Type", "recipetype"),
+    RECIPE_TYPE(Plugin.BASE, "Recipe Type", "recipetype", "minRecipeCount", "1"),
 
     /** This table uses {@code ItemGroup}'s {@code view} page. */
     ORE_DICTIONARY(Plugin.FORGE, "Ore Dictionary", "oredictionary"),
@@ -49,10 +49,14 @@ public enum Table {
     /** URL segment for this table. */
     private final String path;
 
-    Table(Plugin plugin, String name, String path) {
+    /** Default URL parameters for search endpoint. */
+    private final String[] defaultParams;
+
+    Table(Plugin plugin, String name, String path, String... defaultParams) {
         this.plugin = plugin;
         this.name = name;
         this.path = path;
+        this.defaultParams = defaultParams;
     }
 
     public Plugin getPlugin() {
@@ -77,7 +81,7 @@ public enum Table {
     }
 
     public String getSearchUrl() {
-        return String.format("~/%s/search", path);
+        return getSearchUrl(defaultParams);
     }
 
     public String getSearchUrl(String... params) {

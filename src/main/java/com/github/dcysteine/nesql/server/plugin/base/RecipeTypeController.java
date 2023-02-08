@@ -52,16 +52,20 @@ public class RecipeTypeController {
     public String search(
             @RequestParam(required = false) Optional<String> recipeCategory,
             @RequestParam(required = false) Optional<String> recipeType,
+            @RequestParam(required = false) Optional<Long> minRecipeCount,
+            @RequestParam(required = false) Optional<Long> maxRecipeCount,
             @RequestParam(defaultValue = "1") int page,
             Model model) {
         List<Specification<RecipeType>> specs = new ArrayList<>();
         specs.add(
                 ParamUtil.buildStringSpec(recipeCategory, RecipeTypeSpec::buildRecipeCategorySpec));
         specs.add(ParamUtil.buildStringSpec(recipeType, RecipeTypeSpec::buildRecipeTypeSpec));
+        specs.add(ParamUtil.buildSpec(minRecipeCount, RecipeTypeSpec::buildMinRecipeCountSpec));
+        specs.add(ParamUtil.buildSpec(maxRecipeCount, RecipeTypeSpec::buildMaxRecipeCountSpec));
 
         PageRequest pageRequest =
                 searchService.buildPageRequest(
-                        page, SearchResultsLayout.LIST, RecipeTypeSpec.DEFAULT_SORT);
+                        page, SearchResultsLayout.GRID, RecipeTypeSpec.DEFAULT_SORT);
         searchService.handleSearch(
                 pageRequest, model, recipeTypeRepository, Specification.allOf(specs),
                 baseDisplayFactory::buildDisplayRecipeTypeIcon);
