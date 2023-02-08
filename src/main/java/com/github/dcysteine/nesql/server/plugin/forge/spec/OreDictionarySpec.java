@@ -133,8 +133,19 @@ public class OreDictionarySpec {
                         size);
     }
 
-    public static Specification<OreDictionary> buildItemGroupIdSpec(String itemGroupId) {
-        return (root, query, builder) ->
-                builder.equal(root.get(OreDictionary_.ITEM_GROUP).get(ItemGroup_.ID), itemGroupId);
+    /** Finds Ore Dictionary entries by base item group. */
+    public static Specification<OreDictionary> buildBaseItemGroupIdSpec(String itemGroupId) {
+        return (root, query, builder) -> {
+            Subquery<String> baseItemGroupQuery = query.subquery(String.class);
+            Root<ItemGroup> baseItemGroupRoot = baseItemGroupQuery.from(ItemGroup.class);
+            baseItemGroupQuery.select(
+                            baseItemGroupRoot
+                                    .get(ItemGroup_.BASE_ITEM_GROUP)
+                                    .get(ItemGroup_.ID))
+                    .where(builder.equal(baseItemGroupRoot.get(ItemGroup_.ID), itemGroupId));
+
+            return builder.equal(
+                    root.get(OreDictionary_.ITEM_GROUP).get(ItemGroup_.ID), baseItemGroupQuery);
+        };
     }
 }

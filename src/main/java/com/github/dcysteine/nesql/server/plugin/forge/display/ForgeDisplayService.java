@@ -134,7 +134,7 @@ public class ForgeDisplayService extends PluginDisplayService {
             ItemGroup itemGroup, DisplayService service) {
         List<OreDictionary> oreDictionaryEntries =
                 oreDictionaryRepository.findAll(
-                        OreDictionarySpec.buildItemGroupIdSpec(itemGroup.getId()));
+                        OreDictionarySpec.buildBaseItemGroupIdSpec(itemGroup.getId()));
         if (oreDictionaryEntries.isEmpty()) {
             return ImmutableList.of();
         }
