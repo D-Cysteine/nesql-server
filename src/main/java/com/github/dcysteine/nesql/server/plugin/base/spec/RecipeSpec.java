@@ -18,7 +18,8 @@ import org.springframework.data.jpa.domain.Specification;
 
 public class RecipeSpec {
     public static final Sort DEFAULT_SORT =
-            Sort.unsorted().and(
+            Sort.unsorted()
+                    .and(
                             Sort.sort(Recipe.class)
                                     .by(Recipe::getRecipeType)
                                     .by(RecipeType::getCategory))
