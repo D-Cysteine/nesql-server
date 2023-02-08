@@ -7,6 +7,7 @@ import com.github.dcysteine.nesql.server.common.display.InfoPanel;
 import com.github.dcysteine.nesql.server.common.service.DisplayService;
 import com.github.dcysteine.nesql.server.common.util.NumberUtil;
 import com.github.dcysteine.nesql.sql.base.item.ItemGroup;
+import com.github.dcysteine.nesql.sql.base.item.ItemStack;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -36,13 +37,15 @@ public abstract class DisplayItemGroup implements Comparable<DisplayItemGroup> {
     public static Icon buildIcon(ItemGroup itemGroup, DisplayService service) {
         String url = Table.ITEM_GROUP.getViewUrl(itemGroup);
 
-        if (!itemGroup.getItemStacks().isEmpty()) {
-            int size = itemGroup.getItemStacks().size();
+        ImmutableList<ItemStack> itemStacks =
+                itemGroup.getItemStacks().stream()
+                        .sorted()
+                        .collect(ImmutableList.toImmutableList());
+        int size = itemStacks.size();
+        if (size > 0) {
             String description =
                     String.format("Item Group (%s item stacks)", NumberUtil.formatInteger(size));
-            Icon innerIcon =
-                    DisplayItemStack.buildIcon(
-                            itemGroup.getItemStacks().iterator().next(), service);
+            Icon innerIcon = DisplayItemStack.buildIcon(itemStacks.get(0), service);
             if (size == 1) {
                 description = String.format("Item Group (%s)", innerIcon.getDescription());
             }

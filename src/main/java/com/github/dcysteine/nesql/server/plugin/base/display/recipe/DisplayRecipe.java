@@ -153,6 +153,15 @@ public abstract class DisplayRecipe implements Comparable<DisplayRecipe> {
 
     private static ImmutableTable<Integer, Integer, Icon> buildIngredientsGrid(
             Dimension gridDimension, Map<Integer, Icon> ingredients, Recipe recipe) {
+        if (gridDimension.getWidth() == 0) {
+            if (!ingredients.isEmpty()) {
+                Main.Logger.error(
+                        "Tried to build recipe ingredients for zero dimension!\n"
+                                + "Got {} for recipe {}", ingredients.size(), recipe.getId());
+            }
+            return ImmutableTable.of();
+        }
+
         ImmutableTable.Builder<Integer, Integer, Icon> builder = ImmutableTable.builder();
         int excessEntries = 0;
         int maxIndex = 0;

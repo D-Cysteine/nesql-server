@@ -7,6 +7,7 @@ import com.github.dcysteine.nesql.server.common.display.InfoPanel;
 import com.github.dcysteine.nesql.server.common.service.DisplayService;
 import com.github.dcysteine.nesql.server.common.util.NumberUtil;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidGroup;
+import com.github.dcysteine.nesql.sql.base.fluid.FluidStack;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -36,13 +37,15 @@ public abstract class DisplayFluidGroup implements Comparable<DisplayFluidGroup>
     public static Icon buildIcon(FluidGroup fluidGroup, DisplayService service) {
         String url = Table.FLUID_GROUP.getViewUrl(fluidGroup);
 
-        if (!fluidGroup.getFluidStacks().isEmpty()) {
-            int size = fluidGroup.getFluidStacks().size();
+        ImmutableList<FluidStack> fluidStacks =
+                fluidGroup.getFluidStacks().stream()
+                        .sorted()
+                        .collect(ImmutableList.toImmutableList());
+        int size = fluidStacks.size();
+        if (size > 0) {
             String description =
                     String.format("Fluid Group (%s fluid stacks)", NumberUtil.formatInteger(size));
-            Icon innerIcon =
-                    DisplayFluidStack.buildIcon(
-                            fluidGroup.getFluidStacks().iterator().next(), service);
+            Icon innerIcon = DisplayFluidStack.buildIcon(fluidStacks.get(0), service);
             if (size == 1) {
                 description = String.format("Fluid Group (%s)", innerIcon.getDescription());
             }
