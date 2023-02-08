@@ -17,17 +17,17 @@ public enum Table {
     RECIPE(Plugin.BASE, "Recipe", "recipe"),
     RECIPE_TYPE(Plugin.BASE, "Recipe Type", "recipetype"),
 
-    /** This table is just a custom search for {@code ItemGroup}. */
+    /** This table uses {@code ItemGroup}'s {@code view} page. */
     ORE_DICTIONARY(Plugin.FORGE, "Ore Dictionary", "oredictionary"),
     // Fluid Block table is omitted.
-    /** This table is just a custom search for {@code Item}. */
+    /** This table uses {@code Item}'s {@code view} page. */
     FLUID_CONTAINER(Plugin.FORGE, "Fluid Container", "fluidcontainer"),
 
-    /** This table is just a custom search for {@code Recipe}. */
+    /** This table uses {@code Recipe}'s {@code view} page. */
     GREGTECH_RECIPE(Plugin.GREGTECH, "GregTech Recipe", "gregtechrecipe"),
 
     THAUMCRAFT_ASPECT(Plugin.THAUMCRAFT, "Thaumcraft Aspect", "thaumcraftaspect"),
-    /** This table is just a custom search for {@code Item}. */
+    /** This table uses {@code Item}'s {@code view} page. */
     THAUMCRAFT_ASPECT_ENTRY(Plugin.THAUMCRAFT, "Thaumcraft Aspect Entry", "thaumcraftaspectentry"),
 
     QUEST(Plugin.QUEST, "Quest", "quest"),
