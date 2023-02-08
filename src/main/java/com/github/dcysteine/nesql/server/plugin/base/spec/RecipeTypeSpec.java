@@ -7,10 +7,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 public class RecipeTypeSpec {
+    public static final Sort DEFAULT_SORT = Sort.by(RecipeType_.CATEGORY, RecipeType_.TYPE);
+
     // Static class.
     private RecipeTypeSpec() {}
-
-    public static final Sort DEFAULT_SORT = Sort.by(RecipeType_.CATEGORY, RecipeType_.TYPE);
 
     /** Matches by regex. */
     public static Specification<RecipeType> buildRecipeCategorySpec(String recipeCategory) {

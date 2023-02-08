@@ -15,11 +15,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 public class ItemSpec {
-    // Static class.
-    private ItemSpec() {}
-
     public static final Sort DEFAULT_SORT =
             Sort.by(Item_.MOD_ID, Item_.INTERNAL_NAME, Item_.ITEM_DAMAGE, Item_.NBT, Item_.ID);
+
+    // Static class.
+    private ItemSpec() {}
 
     /** Matches by regex. */
     public static Specification<Item> buildLocalizedNameSpec(String localizedName) {

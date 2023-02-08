@@ -14,11 +14,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 public class FluidSpec {
-    // Static class.
-    private FluidSpec() {}
-
     public static final Sort DEFAULT_SORT =
             Sort.by(Fluid_.MOD_ID, Fluid_.INTERNAL_NAME, Fluid_.NBT, Fluid_.ID);
+
+    // Static class.
+    private FluidSpec() {}
 
     /** Matches by regex. */
     public static Specification<Fluid> buildLocalizedNameSpec(String localizedName) {

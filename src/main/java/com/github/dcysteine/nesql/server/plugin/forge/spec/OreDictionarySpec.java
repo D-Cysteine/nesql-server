@@ -14,49 +14,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 public class OreDictionarySpec {
-    // Static class.
-    private OreDictionarySpec() {}
-
     public static final Sort DEFAULT_SORT = Sort.by(OreDictionary_.NAME, OreDictionary_.ID);
 
-    /** Matches by regex. */
-    public static Specification<OreDictionary> buildOreNameSpec(String oreName) {
-        return (root, query, builder) ->
-                QueryUtil.regexMatch(
-                        builder,
-                        root.get(OreDictionary_.NAME),
-                        builder.literal(oreName));
-    }
-
-    public static Specification<OreDictionary> buildMinSizeSpec(int size) {
-        return (root, query, builder) ->
-                builder.greaterThanOrEqualTo(
-                        builder.sum(
-                                builder.size(
-                                        root
-                                                .get(OreDictionary_.ITEM_GROUP)
-                                                .get(ItemGroup_.ITEM_STACKS)),
-                                builder.size(
-                                        root
-                                                .get(OreDictionary_.ITEM_GROUP)
-                                                .get(ItemGroup_.RESOLVED_WILDCARD_ITEM_STACKS))),
-                        size);
-    }
-
-    public static Specification<OreDictionary> buildMaxSizeSpec(int size) {
-        return (root, query, builder) ->
-                builder.lessThanOrEqualTo(
-                        builder.sum(
-                                builder.size(
-                                        root
-                                                .get(OreDictionary_.ITEM_GROUP)
-                                                .get(ItemGroup_.ITEM_STACKS)),
-                                builder.size(
-                                        root
-                                                .get(OreDictionary_.ITEM_GROUP)
-                                                .get(ItemGroup_.RESOLVED_WILDCARD_ITEM_STACKS))),
-                        size);
-    }
+    // Static class.
+    private OreDictionarySpec() {}
 
     /** Matches by regex. */
     public static Specification<OreDictionary> buildItemNameSpec(String localizedName) {
@@ -147,6 +108,44 @@ public class OreDictionarySpec {
         };
     }
 
+    /** Matches by regex. */
+    public static Specification<OreDictionary> buildOreNameSpec(String oreName) {
+        return (root, query, builder) ->
+                QueryUtil.regexMatch(
+                        builder,
+                        root.get(OreDictionary_.NAME),
+                        builder.literal(oreName));
+    }
+
+    public static Specification<OreDictionary> buildMinSizeSpec(int size) {
+        return (root, query, builder) ->
+                builder.greaterThanOrEqualTo(
+                        builder.sum(
+                                builder.size(
+                                        root
+                                                .get(OreDictionary_.ITEM_GROUP)
+                                                .get(ItemGroup_.ITEM_STACKS)),
+                                builder.size(
+                                        root
+                                                .get(OreDictionary_.ITEM_GROUP)
+                                                .get(ItemGroup_.RESOLVED_WILDCARD_ITEM_STACKS))),
+                        size);
+    }
+
+    public static Specification<OreDictionary> buildMaxSizeSpec(int size) {
+        return (root, query, builder) ->
+                builder.lessThanOrEqualTo(
+                        builder.sum(
+                                builder.size(
+                                        root
+                                                .get(OreDictionary_.ITEM_GROUP)
+                                                .get(ItemGroup_.ITEM_STACKS)),
+                                builder.size(
+                                        root
+                                                .get(OreDictionary_.ITEM_GROUP)
+                                                .get(ItemGroup_.RESOLVED_WILDCARD_ITEM_STACKS))),
+                        size);
+    }
 
     public static Specification<OreDictionary> buildItemGroupIdSpec(String itemGroupId) {
         return (root, query, builder) ->

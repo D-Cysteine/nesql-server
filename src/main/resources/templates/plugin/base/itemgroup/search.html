@@ -25,47 +25,47 @@
                     <div class="row">
                         <div class="col">
                             <div class="mt-2">
-                                <th:block th:replace="~{fragment/search::searchFieldRegex(itemName, 'Item name')}">
+                                <th:block th:replace="~{fragment/search::searchFieldRegex('itemName', 'Item name')}">
                                 </th:block>
                                 <div class="form-text">&nbsp;</div>
                             </div>
 
                             <div class="mt-2">
-                                <th:block th:replace="~{fragment/search::searchFieldRegex(itemModId, 'Item mod ID')}">
+                                <th:block th:replace="~{fragment/search::searchFieldRegex('itemModId', 'Item mod ID')}">
                                 </th:block>
                                 <div class="form-text">&nbsp;</div>
                             </div>
 
                             <div class="mt-2">
-                                <th:block th:replace="~{fragment/search::searchField(itemId, 'Item ID', 'search')}">
+                                <th:block th:replace="~{fragment/search::searchField('itemId', 'Item ID', 'search')}">
                                 </th:block>
                                 <div class="form-text">&nbsp;</div>
                             </div>
                         </div>
                         <div class="col">
                             <div class="mt-2">
-                                <th:block th:replace="~{fragment/search::searchFieldNumber(stackSize, 'Stack size')}">
+                                <th:block th:replace="~{fragment/search::searchFieldNumber('stackSize', 'Stack size')}">
                                 </th:block>
                                 <div class="form-text">&nbsp;</div>
                             </div>
 
                             <div class="mt-2">
-                                <th:block th:replace="~{fragment/search::searchFieldNumber(minSize, 'Minimum size')}">
+                                <th:block th:replace="~{fragment/search::searchFieldNumber('minSize', 'Minimum size')}">
                                 </th:block>
                                 <div class="form-text">&nbsp;</div>
                             </div>
 
                             <div class="mt-2">
-                                <th:block th:replace="~{fragment/search::searchFieldNumber(maxSize, 'Maximum size')}">
+                                <th:block th:replace="~{fragment/search::searchFieldNumber('maxSize', 'Maximum size')}">
                                 </th:block>
                                 <div class="form-text">&nbsp;</div>
                             </div>
 
                             <div class="mt-2">
-                                <th:block th:replace="~{fragment/search::searchFieldCheckbox(noWildcard, 'Does not have wildcard')}">
+                                <th:block th:replace="~{fragment/search::searchFieldCheckbox('noWildcard', 'Does not have wildcard')}">
                                 </th:block>
 
-                                <th:block th:replace="~{fragment/search::searchFieldCheckbox(hasWildcard, 'Has wildcard')}">
+                                <th:block th:replace="~{fragment/search::searchFieldCheckbox('hasWildcard', 'Has wildcard')}">
                                 </th:block>
                             </div>
                         </div>

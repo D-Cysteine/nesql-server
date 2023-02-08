@@ -17,9 +17,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 public class RecipeSpec {
-    // Static class.
-    private RecipeSpec() {}
-
     public static final Sort DEFAULT_SORT =
             Sort.unsorted().and(
                             Sort.sort(Recipe.class)
@@ -29,6 +26,9 @@ public class RecipeSpec {
                             Sort.sort(Recipe.class)
                                     .by(Recipe::getRecipeType)
                                     .by(RecipeType::getType));
+
+    // Static class.
+    private RecipeSpec() {}
 
     /** Matches by regex. */
     public static Specification<Recipe> buildRecipeCategorySpec(String recipeCategory) {
