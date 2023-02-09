@@ -4,13 +4,12 @@ import com.github.dcysteine.nesql.server.common.display.Icon;
 import com.github.dcysteine.nesql.server.common.service.DisplayService;
 import com.github.dcysteine.nesql.server.common.util.NumberUtil;
 import com.github.dcysteine.nesql.server.plugin.base.display.item.DisplayItem;
-import com.github.dcysteine.nesql.sql.base.item.Item;
 import com.github.dcysteine.nesql.sql.forge.FluidContainer;
 import com.google.auto.value.AutoValue;
 
 @AutoValue
 public abstract class DisplayFluidContainer implements Comparable<DisplayFluidContainer> {
-    /** We delegate view to {@link Item}, so this method is not currently used. */
+    /** We delegate view to {@code Item}, so this method is not currently used. */
     public static DisplayFluidContainer create(
             FluidContainer fluidContainer, DisplayService service) {
         return new AutoValue_DisplayFluidContainer(

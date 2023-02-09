@@ -4,13 +4,12 @@ import com.github.dcysteine.nesql.server.common.display.Icon;
 import com.github.dcysteine.nesql.server.common.service.DisplayService;
 import com.github.dcysteine.nesql.server.common.util.NumberUtil;
 import com.github.dcysteine.nesql.server.plugin.base.display.item.DisplayItem;
-import com.github.dcysteine.nesql.sql.base.item.Item;
 import com.github.dcysteine.nesql.sql.thaumcraft.AspectEntry;
 import com.google.auto.value.AutoValue;
 
 @AutoValue
 public abstract class DisplayAspectEntry implements Comparable<DisplayAspectEntry> {
-    /** We delegate view to {@link Item}, so this method is not currently used. */
+    /** We delegate view to {@code Item}, so this method is not currently used. */
     public static DisplayAspectEntry create(AspectEntry aspectEntry, DisplayService service) {
         return new AutoValue_DisplayAspectEntry(aspectEntry, buildIcon(aspectEntry, service));
     }
@@ -30,7 +29,7 @@ public abstract class DisplayAspectEntry implements Comparable<DisplayAspectEntr
                 .build();
     }
 
-    /** Alternate icon that is used for {@link Item} info panels. */
+    /** Alternate icon that is used for {@code Item} info panels. */
     public static Icon buildAspectIcon(AspectEntry aspectEntry, DisplayService service) {
         return DisplayAspect.buildIcon(aspectEntry.getAspect(), service).toBuilder()
                 .setBottomRight(NumberUtil.formatCompact(aspectEntry.getAmount()))

@@ -18,24 +18,24 @@
 <div th:fragment="infoPanel(panel)" class="card">
     <div class="card-body">
         <h5 class="card-title">[[${panel.title}]]</h5>
-    </div>
-    <div class="container mb-3">
-        <div class="mt-3" th:if="${panel.links.size} > 0">
-            <span th:each="link : ${panel.links}">
-                <a th:replace="~{fragment/info_panel::link(${link})}"></a>
-            </span>
-        </div>
+        <div class="container">
+            <div class="mt-3" th:if="${panel.links.size} > 0">
+                <span th:each="link : ${panel.links}">
+                    <a th:replace="~{fragment/info_panel::link(${link})}"></a>
+                </span>
+            </div>
 
-        <div class="row mt-3" th:if="${panel.icons.size} > 0">
-            <table th:replace="~{fragment/icon::iconTable(${panel.icons})}"></table>
-        </div>
+            <div class="row mt-3" th:if="${panel.icons.size} > 0">
+                <table th:replace="~{fragment/icon::iconTable(${panel.icons})}"></table>
+            </div>
 
-        <div class="row mt-3" th:if="${panel.properties.size} > 0">
-            <table th:replace="~{fragment/info_panel::properties(${panel.properties})}"></table>
-        </div>
+            <div class="row mt-3" th:if="${panel.properties.size} > 0">
+                <table th:replace="~{fragment/info_panel::properties(${panel.properties})}"></table>
+            </div>
 
-        <div class="row mt-3" th:if="${panel.text.size} > 0">
-            <table th:replace="~{fragment/info_panel::text(${panel.text})}"></table>
+            <div class="row mt-3" th:if="${panel.text.size} > 0">
+                <table th:replace="~{fragment/info_panel::text(${panel.text})}"></table>
+            </div>
         </div>
     </div>
 </div>
