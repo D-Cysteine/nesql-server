@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html th:replace="~{fragment/template::template(~{::title}, ~{::content})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Aspect: [[${displayAspect.icon.description}]]</title>
+</head>
+<body>
+
+<th:block th:fragment="content">
+    <div class="container">
+        <div class="row">
+            <h1 class="display-3 text-center">
+                Aspect
+            </h1>
+        </div>
+        <div class="row justify-content-center">
+            <div th:replace="~{fragment/icon::iconRowCentered(${displayAspect.icon})}"></div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-6">
+                <table class="table table-striped table-fixed border">
+                    <tr class="align-middle">
+                        <th scope="row">ID</th>
+                        <td class="text-truncate"
+                            data-bs-toggle="tooltip" th:data-bs-title="${aspect.id}">
+                            <button th:replace="~{fragment/copy::copyButton(${aspect.id})}"></button>
+                            [[${aspect.id}]]
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Name</th>
+                        <td class="text-truncate"
+                            data-bs-toggle="tooltip" th:data-bs-title="${aspect.name}">
+                            [[${aspect.name}]]
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Description</th>
+                        <td class="text-truncate"
+                            data-bs-toggle="tooltip" th:data-bs-title="${aspect.description}">
+                            [[${aspect.description}]]
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Primal</th>
+                        <td>
+                            <th:block th:replace="~{fragment/format::formatBoolean(${aspect.primal})}">
+                            </th:block>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div th:if="${aspect.components.size} > 0" class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Components</h5>
+                        <table th:replace="~{fragment/icon::iconTable(${displayAspect.components})}">
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div th:if="${aspect.componentOf.size} > 0" class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Component of</h5>
+                        <table th:replace="~{fragment/icon::iconTable(${displayAspect.componentOf})}">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <th:block th:if="${displayAspect.additionalInfo.size} > 0">
+        <div th:replace="~{fragment/info_panel::infoPanels(${displayAspect.additionalInfo})}"></div>
+    </th:block>
+</th:block>
+
+</body>
+</html>
