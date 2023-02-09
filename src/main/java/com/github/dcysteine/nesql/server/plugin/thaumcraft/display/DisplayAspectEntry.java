@@ -1,6 +1,5 @@
 package com.github.dcysteine.nesql.server.plugin.thaumcraft.display;
 
-import com.github.dcysteine.nesql.server.common.Table;
 import com.github.dcysteine.nesql.server.common.display.Icon;
 import com.github.dcysteine.nesql.server.common.service.DisplayService;
 import com.github.dcysteine.nesql.server.common.util.NumberUtil;
@@ -26,7 +25,6 @@ public abstract class DisplayAspectEntry implements Comparable<DisplayAspectEntr
 
         return DisplayItem.buildIcon(aspectEntry.getItem(), service).toBuilder()
                 .setDescription(description)
-                .setUrl(Table.ITEM.getViewUrl(aspectEntry.getItem()))
                 .setBottomLeftImage(aspectEntry.getAspect().getIcon().getImageFilePath())
                 .setBottomRight(NumberUtil.formatCompact(aspectEntry.getAmount()))
                 .build();

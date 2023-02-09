@@ -22,7 +22,7 @@ public abstract class DisplayItemStack implements Comparable<DisplayItemStack> {
 
         return innerIcon.toBuilder()
                 .setDescription(description)
-                .setBottomRight(NumberUtil.formatInteger(itemStack.getStackSize()))
+                .setBottomRight(NumberUtil.formatCompact(itemStack.getStackSize()))
                 .build();
     }
 

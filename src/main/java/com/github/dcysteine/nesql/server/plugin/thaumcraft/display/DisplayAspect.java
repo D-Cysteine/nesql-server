@@ -4,14 +4,12 @@ import com.github.dcysteine.nesql.server.common.Table;
 import com.github.dcysteine.nesql.server.common.display.Icon;
 import com.github.dcysteine.nesql.server.common.display.InfoPanel;
 import com.github.dcysteine.nesql.server.common.service.DisplayService;
-import com.github.dcysteine.nesql.sql.base.item.Item;
 import com.github.dcysteine.nesql.sql.thaumcraft.Aspect;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 
 @AutoValue
 public abstract class DisplayAspect implements Comparable<DisplayAspect> {
-    /** We delegate view to {@link Item}, so this method is not currently used. */
     public static DisplayAspect create(Aspect aspect, DisplayService service) {
         ImmutableList<Icon> componentIcons =
                 aspect.getComponents().stream()

@@ -53,7 +53,7 @@ public abstract class DisplayFluidGroup implements Comparable<DisplayFluidGroup>
             return innerIcon.toBuilder()
                     .setDescription(description)
                     .setUrl(url)
-                    .setTopLeft(NumberUtil.formatInteger(size))
+                    .setTopLeft(NumberUtil.formatCompact(size))
                     .build();
         } else {
             return Icon.builder()

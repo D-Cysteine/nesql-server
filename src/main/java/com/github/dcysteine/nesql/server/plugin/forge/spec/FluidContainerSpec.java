@@ -23,7 +23,8 @@ public class FluidContainerSpec {
                     .and(
                             Sort.sort(FluidContainer.class)
                                     .by(FluidContainer::getFluidStack)
-                                    .by(FluidStack::getAmount))
+                                    .by(FluidStack::getAmount)
+                                    .descending())
                     .and(
                             Sort.sort(FluidContainer.class)
                                     .by(FluidContainer::getEmptyContainer)

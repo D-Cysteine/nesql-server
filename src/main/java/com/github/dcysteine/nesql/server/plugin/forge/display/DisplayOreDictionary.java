@@ -1,6 +1,5 @@
 package com.github.dcysteine.nesql.server.plugin.forge.display;
 
-import com.github.dcysteine.nesql.server.common.Table;
 import com.github.dcysteine.nesql.server.common.display.Icon;
 import com.github.dcysteine.nesql.server.common.service.DisplayService;
 import com.github.dcysteine.nesql.server.plugin.base.display.item.DisplayItemGroup;

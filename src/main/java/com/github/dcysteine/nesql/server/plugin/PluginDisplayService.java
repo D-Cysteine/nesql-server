@@ -13,6 +13,8 @@ import java.util.function.BiFunction;
 /** Service that registers a plugin's {@link InfoPanel} construction methods. */
 public abstract class PluginDisplayService {
     protected final Plugin plugin;
+    // TODO if we want to allow each service to register multiple functions per class, we could use
+    // a multimap here.
     protected final Map<Class<?>, BiFunction<?, DisplayService, List<InfoPanel>>> functionMap;
 
     protected PluginDisplayService(Plugin plugin) {

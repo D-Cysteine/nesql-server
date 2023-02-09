@@ -91,6 +91,7 @@ public class ForgeDisplayService extends PluginDisplayService {
                         FluidContainerSpec.buildEmptyItemIdSpec(item.getId()));
         if (!emptyContainers.isEmpty()) {
             emptyContainers.stream()
+                    .sorted()
                     .map(fluidContainer -> DisplayFluidContainer.buildIcon(fluidContainer, service))
                     .forEach(fluidRegistryBuilder::addIcon);
             hasFluidRegistryEntry = true;
@@ -119,6 +120,7 @@ public class ForgeDisplayService extends PluginDisplayService {
                         FluidContainerSpec.buildFluidIdSpec(fluid.getId()));
         if (!fluidContainers.isEmpty()) {
             fluidContainers.stream()
+                    .sorted()
                     .map(fluidContainer -> DisplayFluidContainer.buildIcon(fluidContainer, service))
                     .forEach(fluidRegistryBuilder::addIcon);
             hasFluidRegistryEntry = true;
@@ -141,6 +143,7 @@ public class ForgeDisplayService extends PluginDisplayService {
 
         InfoPanel.Builder builder = InfoPanel.builder().setTitle("Ore Dictionary");
         oreDictionaryEntries.stream()
+                .sorted()
                 .map(oreDictionary -> DisplayOreDictionary.buildIcon(oreDictionary, service))
                 .forEach(builder::addIcon);
 

@@ -1,7 +1,6 @@
 package com.github.dcysteine.nesql.server.plugin.thaumcraft.spec;
 
 import com.github.dcysteine.nesql.server.common.util.QueryUtil;
-import com.github.dcysteine.nesql.sql.base.item.Item_;
 import com.github.dcysteine.nesql.sql.thaumcraft.Aspect;
 import com.github.dcysteine.nesql.sql.thaumcraft.Aspect_;
 import jakarta.persistence.criteria.Root;
