@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html th:replace="~{fragment/template::template(~{::title}, ~{::content})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Quest: [[${displayQuest.icon.description}]]</title>
+</head>
+<body>
+
+<th:block th:fragment="content">
+    <div class="container">
+        <div class="row">
+            <h1 class="display-3 text-center">
+                Quest
+            </h1>
+        </div>
+        <div class="row justify-content-center">
+            <div th:replace="~{fragment/icon::iconRowCentered(${displayQuest.icon})}"></div>
+        </div>
+
+        <div class="row justify-content-center mt-3">
+            <div class="col-6">
+                <table class="table table-striped table-fixed border">
+                    <tr class="align-middle">
+                        <th scope="row">ID</th>
+                        <td class="text-truncate"
+                            data-bs-toggle="tooltip" th:data-bs-title="${quest.id}">
+                            <button th:replace="~{fragment/copy::copyButton(${quest.id})}"></button>
+                            [[${quest.id}]]
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Quest ID</th>
+                        <td>
+                            [[${@thymeleafService.formatInteger(quest.questId)}]]
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Name</th>
+                        <td class="text-truncate"
+                            data-bs-toggle="tooltip" th:data-bs-title="${quest.name}">
+                            [[${quest.name}]]
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Visibility</th>
+                        <td class="text-truncate"
+                            data-bs-toggle="tooltip" th:data-bs-title="${quest.visibility}">
+                            [[${quest.visibility}]]
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Repeat time</th>
+                        <td>
+                            [[${@thymeleafService.formatInteger(quest.repeatTime)}]]
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Quest logic</th>
+                        <td class="text-truncate"
+                            data-bs-toggle="tooltip" th:data-bs-title="${quest.questLogic}">
+                            [[${quest.questLogic}]]
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Task logic</th>
+                        <td class="text-truncate"
+                            data-bs-toggle="tooltip" th:data-bs-title="${quest.taskLogic}">
+                            [[${quest.taskLogic}]]
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div th:if="${quest.requiredQuests.size} > 0" class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Required quests</h5>
+                        <span th:replace="~{fragment/icon::iconList(${displayQuest.requiredQuests})}">
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div th:if="${quest.requiredByQuests.size} > 0" class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Required by quests</h5>
+                        <span th:replace="~{fragment/icon::iconList(${displayQuest.requiredByQuests})}">
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center mt-3">
+            <div class="col-6" th:if="${displayQuest.tasks.size} > 0">
+                <div id="taskAccordion" class="accordion">
+                    <div th:each="task : ${displayQuest.tasks}" class="accordion-item">
+                        <h2 th:id="|${task.task.id}Label|" class="accordion-header">
+                            <button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse" th:data-bs-target="|#${task.task.id}Collapse|"
+                                    aria-expanded="false" th:aria-controls="|${task.task.id}Collapse|">
+                                [[${task.task.name}]]
+                            </button>
+                        </h2>
+                        <div th:id="|${task.task.id}Collapse|" class="accordion-collapse collapse"
+                             data-bs-parent="#taskAccordion" th:aria-labelledby="|${task.task.id}Label|">
+                            <table class="table table-striped table-fixed mb-0">
+                                <tr>
+                                    <th scope="row">Task type</th>
+                                    <td class="text-truncate"
+                                        data-bs-toggle="tooltip" th:data-bs-title="${task.task.type.name}">
+                                        [[${task.task.type.name}]]
+                                    </td>
+                                </tr>
+                                <tr th:if="${task.task.entityId.length} > 0">
+                                    <th scope="row">Entity ID</th>
+                                    <td class="text-truncate"
+                                        data-bs-toggle="tooltip" th:data-bs-title="${task.task.entityId}">
+                                        [[${task.task.entityId}]]
+                                    </td>
+                                </tr>
+                                <tr th:if="${task.task.numberRequired} > 0">
+                                    <th scope="row">Number required</th>
+                                    <td>
+                                        [[${@thymeleafService.formatInteger(task.task.numberRequired)}]]
+                                    </td>
+                                </tr>
+                                <tr th:if="${task.task.dimensionName.length} > 0">
+                                    <th scope="row">Dimension</th>
+                                    <td class="text-truncate"
+                                        data-bs-toggle="tooltip" th:data-bs-title="${task.task.dimensionName}">
+                                        [[${task.task.dimensionName}]]
+                                    </td>
+                                </tr>
+                                <tr th:if="${task.items.size} > 0">
+                                    <th scope="row" class="align-middle">Items</th>
+                                    <td>
+                                        <span th:replace="~{fragment/icon::iconList(${task.items})}">
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr th:if="${task.fluids.size} > 0">
+                                    <th scope="row" class="align-middle">Fluids</th>
+                                    <td>
+                                        <span th:replace="~{fragment/icon::iconList(${task.fluids})}">
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6" th:if="${displayQuest.rewards.size} > 0">
+                <div id="rewardAccordion" class="accordion">
+                    <div th:each="reward : ${displayQuest.rewards}" class="accordion-item">
+                        <h2 th:id="|${reward.reward.id}Label|" class="accordion-header">
+                            <button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse" th:data-bs-target="|#${reward.reward.id}Collapse|"
+                                    aria-expanded="false" th:aria-controls="|${reward.reward.id}Collapse|">
+                                [[${reward.reward.name}]]
+                            </button>
+                        </h2>
+                        <div th:id="|${reward.reward.id}Collapse|" class="accordion-collapse collapse"
+                             data-bs-parent="#rewardAccordion" th:aria-labelledby="|${reward.reward.id}Label|">
+                            <table class="table table-striped table-fixed mb-0">
+                                <tr>
+                                    <th scope="row">Reward type</th>
+                                    <td class="text-truncate"
+                                        data-bs-toggle="tooltip" th:data-bs-title="${reward.reward.type.name}">
+                                        [[${reward.reward.type.name}]]
+                                    </td>
+                                </tr>
+                                <tr th:if="${reward.reward.command.length} > 0">
+                                    <th scope="row">Command</th>
+                                    <td class="text-truncate"
+                                        data-bs-toggle="tooltip" th:data-bs-title="${reward.reward.command}">
+                                        [[${reward.reward.command}]]
+                                    </td>
+                                </tr>
+                                <tr th:if="${reward.reward.xp} > 0">
+                                    <th th:if="${reward.reward.levels}" scope="row">XP levels</th>
+                                    <th th:if="!${reward.reward.levels}" scope="row">XP</th>
+                                    <td>
+                                        [[${@thymeleafService.formatInteger(reward.reward.xp)}]]
+                                    </td>
+                                </tr>
+                                <tr th:if="${reward.items.size} > 0">
+                                    <th scope="row" class="align-middle">Items</th>
+                                    <td>
+                                        <span th:replace="~{fragment/icon::iconList(${reward.items})}">
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr th:if="${reward.completeQuest.isPresent}">
+                                    <th scope="row" class="align-middle">Complete quest</th>
+                                    <td>
+                                        <a th:replace="~{fragment/icon::linkIcon(${reward.completeQuest.get})}">
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Quest description</h5>
+                    [(${displayQuest.description})]
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <th:block th:if="${displayQuest.additionalInfo.size} > 0">
+        <div th:replace="~{fragment/info_panel::infoPanels(${displayQuest.additionalInfo})}"></div>
+    </th:block>
+</th:block>
+
+</body>
+</html>

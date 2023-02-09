@@ -55,8 +55,8 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Components</h5>
-                        <table th:replace="~{fragment/icon::iconTable(${displayAspect.components})}">
-                        </table>
+                        <span th:replace="~{fragment/icon::iconList(${displayAspect.components})}">
+                        </span>
                     </div>
                 </div>
             </div>
@@ -64,8 +64,8 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Component of</h5>
-                        <table th:replace="~{fragment/icon::iconTable(${displayAspect.componentOf})}">
-                        </table>
+                        <span th:replace="~{fragment/icon::iconList(${displayAspect.componentOf})}">
+                        </span>
                     </div>
                 </div>
             </div>

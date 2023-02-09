@@ -4,6 +4,7 @@ import com.github.dcysteine.nesql.server.common.display.InfoPanel;
 import com.github.dcysteine.nesql.server.plugin.PluginDisplayService;
 import com.github.dcysteine.nesql.sql.base.item.ItemRepository;
 import com.github.dcysteine.nesql.sql.base.recipe.RecipeRepository;
+import com.github.dcysteine.nesql.sql.quest.QuestRepository;
 import com.google.common.collect.ImmutableList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,12 +27,19 @@ public class DisplayService {
     @Autowired
     private RecipeRepository recipeRepository;
 
+    @Autowired
+    private QuestRepository questRepository;
+
     public ItemRepository getItemRepository() {
         return itemRepository;
     }
 
     public RecipeRepository getRecipeRepository() {
         return recipeRepository;
+    }
+
+    public QuestRepository getQuestRepository() {
+        return questRepository;
     }
 
     public <T> ImmutableList<InfoPanel> buildAdditionalInfo(Class<T> clazz, T entity) {

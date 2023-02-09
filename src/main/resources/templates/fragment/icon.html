@@ -21,8 +21,7 @@
     <div th:replace="~{fragment/icon::icon(${icon})}"></div>
 </a>
 
-<div th:fragment="iconRow(icon)"
-     class="row align-items-center">
+<div th:fragment="iconRow(icon)" class="row align-items-center">
     <div class="col-auto">
         <img th:replace="~{fragment/icon::icon(${icon})}"/>
     </div>
@@ -48,6 +47,12 @@
 <a th:fragment="linkIconRowCentered(icon)" th:href="@{${icon.url}}" class="text-decoration-none">
     <div th:replace="~{fragment/icon::iconRowCentered(${icon})}"></div>
 </a>
+
+<span th:fragment="iconList(icons)">
+    <th:block th:each="icon : ${icons}">
+        <a th:replace="~{fragment/icon::linkIcon(${icon})}"></a>
+    </th:block>
+</span>
 
 <table th:fragment="iconTable(rows)" class="table table-striped border">
     <tr th:each="row : ${rows}">
