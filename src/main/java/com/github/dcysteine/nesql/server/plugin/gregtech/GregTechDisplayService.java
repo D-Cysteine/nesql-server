@@ -48,9 +48,14 @@ public class GregTechDisplayService extends PluginDisplayService {
                         .addProperty(
                                 "Amperage", NumberUtil.formatInteger(gregTechRecipe.getAmperage()))
                         .addProperty(
-                                "Duration",
-                                NumberUtil.formatDouble(gregTechRecipe.getDuration() / 20d)
-                                        + " sec")
+                                "Duration (sec)",
+                                NumberUtil.formatDouble(gregTechRecipe.getDuration() / 20d))
+                        .addProperty(
+                                "Total EU",
+                                NumberUtil.formatInteger(
+                                        (long) gregTechRecipe.getVoltage()
+                                                * gregTechRecipe.getAmperage()
+                                                * gregTechRecipe.getDuration()))
                         .addProperty("Requires cleanroom", gregTechRecipe.isRequiresCleanroom())
                         .addProperty("Requires low gravity", gregTechRecipe.isRequiresLowGravity());
 
