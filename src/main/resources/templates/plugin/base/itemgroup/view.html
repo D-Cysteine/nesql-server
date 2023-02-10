@@ -46,8 +46,13 @@
 
         <div th:if="${displayItemGroup.itemStacks.size} > 0"
              class="row justify-content-center mt-3">
-            <table th:replace="~{fragment/icon::iconTable(${displayItemGroup.itemStacks})}">
-            </table>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Items</h5>
+                    <span th:replace="~{fragment/icon::iconList(${displayItemGroup.itemStacks})}">
+                    </span>
+                </div>
+            </div>
         </div>
     </div>
 

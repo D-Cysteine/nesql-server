@@ -46,8 +46,13 @@
 
         <div th:if="${displayFluidGroup.fluidStacks.size} > 0"
              class="row justify-content-center mt-3">
-            <table th:replace="~{fragment/icon::iconTable(${displayFluidGroup.fluidStacks})}">
-            </table>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Fluids</h5>
+                    <span th:replace="~{fragment/icon::iconList(${displayFluidGroup.fluidStacks})}">
+                    </span>
+                </div>
+            </div>
         </div>
     </div>
 
