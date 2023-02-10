@@ -64,7 +64,7 @@
     <div class="row">
         <table class="table table-striped border"
                th:with="partitions = ${@thymeleafService.partitionGrid(page.content)}">
-            <tr th:each="row : ${partitions}">
+            <tr th:each="row : ${partitions}" class="text-center">
                 <td th:each="cell : ${row}">
                     <a th:replace="~{fragment/icon::linkIcon(${cell})}"></a>
                 </td>
