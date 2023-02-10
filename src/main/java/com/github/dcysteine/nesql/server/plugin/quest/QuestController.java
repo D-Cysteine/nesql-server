@@ -44,7 +44,7 @@ public class QuestController {
 
         model.addAttribute("quest", quest);
         model.addAttribute("displayQuest", displayQuest);
-        return "plugin/quest/view";
+        return "plugin/quest/quest/view";
     }
 
     @GetMapping(path = "/search")
@@ -67,6 +67,6 @@ public class QuestController {
         searchService.handleSearch(
                 pageRequest, model, questRepository, Specification.allOf(specs),
                 questDisplayFactory::buildDisplayQuestIcon);
-        return "plugin/quest/search";
+        return "plugin/quest/quest/search";
     }
 }

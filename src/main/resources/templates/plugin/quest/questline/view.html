@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html th:replace="~{fragment/template::template(~{::title}, ~{::content})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Quest Line: [[${displayQuestLine.icon.description}]]</title>
+</head>
+<body>
+
+<th:block th:fragment="content">
+    <div class="container">
+        <div class="row">
+            <h1 class="display-3 text-center">
+                Quest Line
+            </h1>
+        </div>
+        <div class="row justify-content-center">
+            <div th:replace="~{fragment/icon::iconRowCentered(${displayQuestLine.icon})}"></div>
+        </div>
+
+        <div class="row justify-content-center mt-3">
+            <div class="col-6">
+                <table class="table table-striped table-fixed border">
+                    <tr class="align-middle">
+                        <th scope="row">ID</th>
+                        <td class="text-truncate"
+                            data-bs-toggle="tooltip" th:data-bs-title="${questLine.id}">
+                            <button th:replace="~{fragment/copy::copyButton(${questLine.id})}"></button>
+                            [[${questLine.id}]]
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Quest Line ID</th>
+                        <td>
+                            [[${@thymeleafService.formatInteger(questLine.questLineId)}]]
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Name</th>
+                        <td class="text-truncate"
+                            data-bs-toggle="tooltip" th:data-bs-title="${questLine.name}">
+                            [[${questLine.name}]]
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Visibility</th>
+                        <td class="text-truncate"
+                            data-bs-toggle="tooltip" th:data-bs-title="${questLine.visibility}">
+                            [[${questLine.visibility}]]
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Quest line description</h5>
+                    [(${displayQuestLine.description})]
+                </div>
+            </div>
+        </div>
+
+        <div th:if="${questLine.quests.size} > 0" class="row justify-content-center mt-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Quests</h5>
+                    <span th:replace="~{fragment/icon::iconList(${displayQuestLine.quests})}">
+                        </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <th:block th:if="${displayQuestLine.additionalInfo.size} > 0">
+        <div th:replace="~{fragment/info_panel::infoPanels(${displayQuestLine.additionalInfo})}">
+        </div>
+    </th:block>
+</th:block>
+
+</body>
+</html>

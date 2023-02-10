@@ -70,7 +70,19 @@
                     </tr>
                 </table>
             </div>
-            <div th:if="${quest.requiredQuests.size} > 0" class="col">
+        </div>
+
+        <div class="row justify-content-center mt-3">
+            <div th:if="${quest.questLines.size} > 0" class="col-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Quest lines</h5>
+                        <span th:replace="~{fragment/icon::iconList(${displayQuest.questLines})}">
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div th:if="${quest.requiredQuests.size} > 0" class="col-4">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Required quests</h5>
@@ -79,7 +91,7 @@
                     </div>
                 </div>
             </div>
-            <div th:if="${quest.requiredByQuests.size} > 0" class="col">
+            <div th:if="${quest.requiredByQuests.size} > 0" class="col-4">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Required by quests</h5>

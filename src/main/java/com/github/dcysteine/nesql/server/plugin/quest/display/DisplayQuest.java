@@ -14,6 +14,13 @@ public abstract class DisplayQuest implements Comparable<DisplayQuest> {
     public static DisplayQuest create(Quest quest, DisplayService service) {
         String description = quest.getDescription().replace("\n", "<br>");
 
+
+        ImmutableList<Icon> questLines =
+                quest.getQuestLines().stream()
+                        .sorted()
+                        .map(questLine -> DisplayQuestLine.buildIcon(questLine, service))
+                        .collect(ImmutableList.toImmutableList());
+
         ImmutableList<Icon> requiredQuests =
                 quest.getRequiredQuests().stream()
                         .sorted()
@@ -36,7 +43,7 @@ public abstract class DisplayQuest implements Comparable<DisplayQuest> {
 
         return new AutoValue_DisplayQuest(
                 quest, buildIcon(quest, service), description,
-                requiredQuests, requiredByQuests, tasks, rewards,
+                questLines, requiredQuests, requiredByQuests, tasks, rewards,
                 service.buildAdditionalInfo(Quest.class, quest));
     }
 
@@ -58,6 +65,7 @@ public abstract class DisplayQuest implements Comparable<DisplayQuest> {
     public abstract Quest getQuest();
     public abstract Icon getIcon();
     public abstract String getDescription();
+    public abstract ImmutableList<Icon> getQuestLines();
     public abstract ImmutableList<Icon> getRequiredQuests();
     public abstract ImmutableList<Icon> getRequiredByQuests();
     public abstract ImmutableList<DisplayTask> getTasks();

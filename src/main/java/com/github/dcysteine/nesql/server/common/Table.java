@@ -31,6 +31,7 @@ public enum Table {
 
     QUEST(Plugin.QUEST, "Quest", "quest"),
     // Task and Reward tables are omitted.
+    QUEST_LINE(Plugin.QUEST, "Quest Line", "questline"),
     ;
 
     public static final ImmutableListMultimap<Plugin, Table> TABLES =
