@@ -25,9 +25,9 @@ public enum Table {
 
     // GregTech Recipe table is omitted.
 
-    THAUMCRAFT_ASPECT(Plugin.THAUMCRAFT, "Thaumcraft Aspect", "thaumcraftaspect"),
+    ASPECT(Plugin.THAUMCRAFT, "Thaumcraft Aspect", "aspect"),
     /** This table uses {@code Item}'s {@code view} page. */
-    THAUMCRAFT_ASPECT_ENTRY(Plugin.THAUMCRAFT, "Thaumcraft Aspect Entry", "thaumcraftaspectentry"),
+    ASPECT_ENTRY(Plugin.THAUMCRAFT, "Thaumcraft Aspect Entry", "aspectentry"),
 
     QUEST(Plugin.QUEST, "Quest", "quest"),
     // Task and Reward tables are omitted.
@@ -69,12 +69,12 @@ public enum Table {
     }
 
     public String getPath() {
-        return path;
+        return String.format("%s/%s", plugin.getName(), path);
     }
 
     /** Returns the URL without the leading '~' needed by Thymeleaf. */
     public String getViewUrlNoPrefix(Identifiable<?> entity) {
-        return String.format("/%s/view/%s", path, entity.getId());
+        return String.format("/%s/view/%s", getPath(), entity.getId());
     }
 
     public String getViewUrl(Identifiable<?> entity) {
@@ -92,7 +92,7 @@ public enum Table {
         }
 
         UriComponentsBuilder builder =
-                UriComponentsBuilder.fromUriString(String.format("~/%s/search", path));
+                UriComponentsBuilder.fromUriString(String.format("~/%s/search", getPath()));
         for (int i = 0; i < params.length; i += 2) {
             builder.queryParam(params[i], params[i + 1]);
         }

@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping(path = "/oredictionary")
+@RequestMapping(path = "/forge/oredictionary")
 public class OreDictionaryController {
     @Autowired
     private OreDictionaryRepository oreDictionaryRepository;

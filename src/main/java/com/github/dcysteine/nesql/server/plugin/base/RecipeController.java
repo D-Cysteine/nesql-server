@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping(path = "/recipe")
+@RequestMapping(path = "/base/recipe")
 public class RecipeController {
     @Autowired
     private RecipeRepository recipeRepository;

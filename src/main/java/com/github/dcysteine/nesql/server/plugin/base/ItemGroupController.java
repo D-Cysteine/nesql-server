@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping(path = "/itemgroup")
+@RequestMapping(path = "/base/itemgroup")
 public class ItemGroupController {
     @Autowired
     private ItemGroupRepository itemGroupRepository;

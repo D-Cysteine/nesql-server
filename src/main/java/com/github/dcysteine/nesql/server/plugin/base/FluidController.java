@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping(path = "/fluid")
+@RequestMapping(path = "/base/fluid")
 public class FluidController {
     @Autowired
     private FluidRepository fluidRepository;

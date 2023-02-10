@@ -31,7 +31,7 @@ public abstract class DisplayAspect implements Comparable<DisplayAspect> {
         Icon.Builder builder =
                 Icon.builder()
                         .setDescription(aspect.getName())
-                        .setUrl(Table.THAUMCRAFT_ASPECT.getViewUrl(aspect))
+                        .setUrl(Table.ASPECT.getViewUrl(aspect))
                         .setImage(aspect.getIcon().getImageFilePath());
 
         if (aspect.isPrimal()) {

@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping(path = "/quest")
+@RequestMapping(path = "/quest/quest")
 public class QuestController {
     @Autowired
     private QuestRepository questRepository;

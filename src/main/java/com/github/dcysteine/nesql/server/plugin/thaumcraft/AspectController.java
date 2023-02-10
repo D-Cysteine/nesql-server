@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping(path = "/thaumcraftaspect")
+@RequestMapping(path = "/thaumcraft/aspect")
 public class AspectController {
     @Autowired
     private AspectRepository aspectRepository;

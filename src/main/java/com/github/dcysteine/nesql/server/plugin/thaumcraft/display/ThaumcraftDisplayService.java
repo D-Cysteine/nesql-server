@@ -54,7 +54,7 @@ public class ThaumcraftDisplayService extends PluginDisplayService {
                                 Link.create(
                                         "bi-search",
                                         "Aspect entries",
-                                        Table.THAUMCRAFT_ASPECT_ENTRY.getSearchUrl(
+                                        Table.ASPECT_ENTRY.getSearchUrl(
                                                 "aspectId", aspect.getId())))
                         .build();
 
