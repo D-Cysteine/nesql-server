@@ -123,6 +123,13 @@
                                         [[${task.task.type.name}]]
                                     </td>
                                 </tr>
+                                <tr th:if="${task.task.type.name} == 'retrieval'">
+                                    <th scope="row">Consume</th>
+                                    <td>
+                                        <th:block th:replace="~{fragment/format::formatBoolean(${task.task.consume})}">
+                                        </th:block>
+                                    </td>
+                                </tr>
                                 <tr th:if="${task.task.entityId.length} > 0">
                                     <th scope="row">Entity ID</th>
                                     <td class="text-truncate"
