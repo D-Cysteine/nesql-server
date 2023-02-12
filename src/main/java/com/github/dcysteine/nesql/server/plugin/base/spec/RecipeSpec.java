@@ -3,9 +3,11 @@ package com.github.dcysteine.nesql.server.plugin.base.spec;
 import com.github.dcysteine.nesql.server.common.util.QueryUtil;
 import com.github.dcysteine.nesql.sql.base.fluid.Fluid;
 import com.github.dcysteine.nesql.sql.base.fluid.FluidGroup_;
+import com.github.dcysteine.nesql.sql.base.fluid.FluidStackWithProbability_;
 import com.github.dcysteine.nesql.sql.base.fluid.Fluid_;
 import com.github.dcysteine.nesql.sql.base.item.Item;
 import com.github.dcysteine.nesql.sql.base.item.ItemGroup_;
+import com.github.dcysteine.nesql.sql.base.item.ItemStackWithProbability_;
 import com.github.dcysteine.nesql.sql.base.item.Item_;
 import com.github.dcysteine.nesql.sql.base.recipe.Recipe;
 import com.github.dcysteine.nesql.sql.base.recipe.RecipeType;
@@ -17,6 +19,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 public class RecipeSpec {
+    // TODO see if we can re-add sorting.
+    //  Will probably require rewriting the queries to not use Specification.
     public static final Sort DEFAULT_SORT =
             Sort.unsorted()
                     .and(
@@ -68,6 +72,7 @@ public class RecipeSpec {
                                     itemRoot.get(Item_.LOCALIZED_NAME),
                                     builder.literal(localizedName)));
 
+            query.distinct(true);
             return builder.equal(
                     root.get(Recipe_.ITEM_INPUTS_ITEMS).get(Item_.ID),
                     builder.any(itemQuery));
@@ -86,6 +91,7 @@ public class RecipeSpec {
                                     itemRoot.get(Item_.MOD_ID),
                                     builder.literal(modId)));
 
+            query.distinct(true);
             return builder.equal(
                     root.get(Recipe_.ITEM_INPUTS_ITEMS).get(Item_.ID),
                     builder.any(itemQuery));
@@ -98,8 +104,10 @@ public class RecipeSpec {
     }
 
     public static Specification<Recipe> buildInputItemGroupIdSpec(String itemGroupId) {
-        return (root, query, builder) ->
-                builder.equal(root.get(Recipe_.UNIQUE_ITEM_INPUTS).get(ItemGroup_.ID), itemGroupId);
+        return (root, query, builder) -> {
+            query.distinct(true);
+            return builder.equal(root.get(Recipe_.ITEM_INPUTS).get(ItemGroup_.ID), itemGroupId);
+        };
     }
 
     /** Matches by regex. */
@@ -114,6 +122,7 @@ public class RecipeSpec {
                                     fluidRoot.get(Fluid_.LOCALIZED_NAME),
                                     builder.literal(localizedName)));
 
+            query.distinct(true);
             return builder.equal(
                     root.get(Recipe_.FLUID_INPUTS_FLUIDS).get(Fluid_.ID),
                     builder.any(fluidQuery));
@@ -132,6 +141,7 @@ public class RecipeSpec {
                                     fluidRoot.get(Fluid_.MOD_ID),
                                     builder.literal(modId)));
 
+            query.distinct(true);
             return builder.equal(
                     root.get(Recipe_.FLUID_INPUTS_FLUIDS).get(Fluid_.ID),
                     builder.any(fluidQuery));
@@ -144,9 +154,10 @@ public class RecipeSpec {
     }
 
     public static Specification<Recipe> buildInputFluidGroupIdSpec(String fluidGroupId) {
-        return (root, query, builder) ->
-                builder.equal(
-                        root.get(Recipe_.UNIQUE_FLUID_INPUTS).get(FluidGroup_.ID), fluidGroupId);
+        return (root, query, builder) -> {
+            query.distinct(true);
+            return builder.equal(root.get(Recipe_.FLUID_INPUTS).get(FluidGroup_.ID), fluidGroupId);
+        };
     }
 
     /** Matches by regex. */
@@ -161,8 +172,12 @@ public class RecipeSpec {
                                     itemRoot.get(Item_.LOCALIZED_NAME),
                                     builder.literal(localizedName)));
 
+            query.distinct(true);
             return builder.equal(
-                    root.get(Recipe_.UNIQUE_ITEM_OUTPUTS).get(Item_.ID),
+                    root
+                            .get(Recipe_.ITEM_OUTPUTS)
+                            .get(ItemStackWithProbability_.ITEM)
+                            .get(Item_.ID),
                     builder.any(itemQuery));
         };
     }
@@ -179,15 +194,26 @@ public class RecipeSpec {
                                     itemRoot.get(Item_.MOD_ID),
                                     builder.literal(modId)));
 
+            query.distinct(true);
             return builder.equal(
-                    root.get(Recipe_.UNIQUE_ITEM_OUTPUTS).get(Item_.ID),
+                    root
+                            .get(Recipe_.ITEM_OUTPUTS)
+                            .get(ItemStackWithProbability_.ITEM)
+                            .get(Item_.ID),
                     builder.any(itemQuery));
         };
     }
 
     public static Specification<Recipe> buildOutputItemIdSpec(String itemId) {
-        return (root, query, builder) ->
-                builder.equal(root.get(Recipe_.UNIQUE_ITEM_OUTPUTS).get(Item_.ID), itemId);
+        return (root, query, builder) -> {
+            query.distinct(true);
+            return builder.equal(
+                    root
+                            .get(Recipe_.ITEM_OUTPUTS)
+                            .get(ItemStackWithProbability_.ITEM)
+                            .get(Item_.ID),
+                    itemId);
+        };
     }
 
     /** Matches by regex. */
@@ -202,8 +228,12 @@ public class RecipeSpec {
                                     fluidRoot.get(Fluid_.LOCALIZED_NAME),
                                     builder.literal(localizedName)));
 
+            query.distinct(true);
             return builder.equal(
-                    root.get(Recipe_.UNIQUE_FLUID_OUTPUTS).get(Fluid_.ID),
+                    root
+                            .get(Recipe_.FLUID_OUTPUTS)
+                            .get(FluidStackWithProbability_.FLUID)
+                            .get(Fluid_.ID),
                     builder.any(fluidQuery));
         };
     }
@@ -220,14 +250,25 @@ public class RecipeSpec {
                                     fluidRoot.get(Fluid_.MOD_ID),
                                     builder.literal(modId)));
 
+            query.distinct(true);
             return builder.equal(
-                    root.get(Recipe_.UNIQUE_FLUID_OUTPUTS).get(Fluid_.ID),
+                    root
+                            .get(Recipe_.FLUID_OUTPUTS)
+                            .get(FluidStackWithProbability_.FLUID)
+                            .get(Fluid_.ID),
                     builder.any(fluidQuery));
         };
     }
 
     public static Specification<Recipe> buildOutputFluidIdSpec(String fluidId) {
-        return (root, query, builder) ->
-                builder.equal(root.get(Recipe_.UNIQUE_FLUID_OUTPUTS).get(Fluid_.ID), fluidId);
+        return (root, query, builder) -> {
+            query.distinct(true);
+            return builder.equal(
+                    root
+                            .get(Recipe_.FLUID_OUTPUTS)
+                            .get(FluidStackWithProbability_.FLUID)
+                            .get(Fluid_.ID),
+                    fluidId);
+        };
     }
 }

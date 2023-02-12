@@ -92,9 +92,9 @@ public class RecipeController {
                 ParamUtil.buildStringSpec(outputFluidModId, RecipeSpec::buildOutputFluidModIdSpec));
         specs.add(ParamUtil.buildStringSpec(outputFluidId, RecipeSpec::buildOutputFluidIdSpec));
 
-        PageRequest pageRequest =
-                searchService.buildPageRequest(
-                        page, SearchResultsLayout.RECIPE, RecipeSpec.DEFAULT_SORT);
+        // TODO see if we can re-add sorting.
+        //  Will probably require rewriting the queries to not use Specification.
+        PageRequest pageRequest = searchService.buildPageRequest(page, SearchResultsLayout.RECIPE);
         searchService.handleSearch(
                 pageRequest, model, recipeRepository, Specification.allOf(specs),
                 baseDisplayFactory::buildDisplayRecipe);
