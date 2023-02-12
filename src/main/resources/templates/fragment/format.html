@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-<th:block th:fragment="formatInteger(number)">
-    [[${@thymeleafService.formatInteger(number)}]]
-</th:block>
-
 <th:block th:fragment="formatBoolean(bool)">
     <i th:if="${bool}" class="bi-check-square" data-bs-toggle="tooltip" data-bs-title="True"></i>
     <i th:if="!${bool}" class="bi-x-square" data-bs-toggle="tooltip" data-bs-title="False"></i>

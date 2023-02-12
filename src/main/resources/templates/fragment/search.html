@@ -130,13 +130,9 @@
      th:with="pageNumber=${page.number} + 1"
      class="row align-items-baseline">
     <div class="col">
-        Page
-        <th:block th:replace="~{fragment/format::formatInteger(${pageNumber})}"></th:block>
-        of
-        <th:block th:replace="~{fragment/format::formatInteger(${page.totalPages})}"></th:block>
-        |
-        <th:block th:replace="~{fragment/format::formatInteger(${page.totalElements})}"></th:block>
-        total results
+        Page [[${@thymeleafService.formatInteger(pageNumber)}]] of
+        [[${@thymeleafService.formatInteger(page.totalPages)}]] |
+        [[${@thymeleafService.formatInteger(page.totalElements)}]] total results
     </div>
     <div class="col-auto">
         <form method="get">
@@ -150,9 +146,7 @@
                 <input name="page" type="number" class="form-control text-end"
                        th:value="${pageNumber}">
                 <span class="input-group-text">
-                    /
-                    <th:block th:replace="~{fragment/format::formatInteger(${page.totalPages})}">
-                    </th:block>
+                    / [[${@thymeleafService.formatInteger(page.totalPages)}]]
                 </span>
                 <button type="submit" class="btn btn-primary">
                     <i class="bi-arrow-up-right"></i>
@@ -173,7 +167,7 @@
                 </li>
                 <li class="page-item disabled" tab-index="-1">
                     <a class="page-link" href="#">
-                        <span th:replace="~{fragment/format::formatInteger(${pageNumber})}"></span>
+                        [[${@thymeleafService.formatInteger(pageNumber)}]]
                     </a>
                 </li>
                 <li class="page-item"

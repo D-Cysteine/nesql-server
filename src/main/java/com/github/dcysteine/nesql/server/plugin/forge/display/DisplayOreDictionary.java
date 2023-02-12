@@ -16,6 +16,7 @@ public abstract class DisplayOreDictionary implements Comparable<DisplayOreDicti
     public static Icon buildIcon(OreDictionary oreDictionary, DisplayService service) {
         return DisplayItemGroup.buildIcon(oreDictionary.getItemGroup(), service).toBuilder()
                 .setDescription(oreDictionary.getName())
+                .setBottomRight(null)
                 .build();
     }
 

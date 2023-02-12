@@ -12,6 +12,7 @@ import com.github.dcysteine.nesql.sql.base.recipe.RecipeRepository;
 import com.github.dcysteine.nesql.sql.base.recipe.RecipeType;
 import com.github.dcysteine.nesql.sql.base.recipe.RecipeTypeRepository;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -26,6 +27,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 @Controller
@@ -82,42 +84,64 @@ public class AdvancedRecipeSearchController {
                 ParamUtil.buildStringSpec(outputFluidModId, RecipeSpec::buildOutputFluidModIdSpec));
         specs.add(ParamUtil.buildStringSpec(outputFluidId, RecipeSpec::buildOutputFluidIdSpec));
 
-        List<RecipeType> recipeTypes =
-                recipeTypeRepository.findAll(
-                        RecipeTypeSpec.buildMinRecipeCountSpec(1), RecipeTypeSpec.DEFAULT_SORT);
-        ImmutableList<Icon> icons =
-                recipeTypes.stream()
-                        .map(rt -> buildIcon(params, specs, rt))
-                        .flatMap(Optional::stream)
-                        .collect(ImmutableList.toImmutableList());
-        model.addAttribute("results", icons);
+        IconBuilder iconBuilder = new IconBuilder(params, specs);
+        iconBuilder.buildIcons();
+        model.addAttribute("results", iconBuilder.icons);
+        model.addAttribute("totalSize", iconBuilder.totalSize);
 
         return "plugin/base/advrecipe/search";
     }
 
-    private Optional<Icon> buildIcon(
-            Map<String, String> params, List<Specification<Recipe>> specs, RecipeType recipeType) {
-        Specification<Recipe> recipeTypeIdSpec =
-                RecipeSpec.buildRecipeTypeIdSpec(recipeType.getId());
-        Iterable<Specification<Recipe>> modifiedSpecs =
-                Iterables.concat(specs, Collections.singleton(recipeTypeIdSpec));
-        long size = recipeRepository.count(Specification.allOf(modifiedSpecs));
+    /** Helper class that constructs icons for the grouped recipe types. */
+    private class IconBuilder {
+        private final ImmutableMap<String, String> params;
+        private final ImmutableList<Specification<Recipe>> specs;
+        private List<Icon> icons;
+        private long totalSize;
 
-        if (size == 0) {
-            return Optional.empty();
+        private IconBuilder(Map<String, String> params, List<Specification<Recipe>> specs) {
+            this.params = ImmutableMap.copyOf(params);
+            // Must filter out nulls to avoid a NullPointerException.
+            this.specs =
+                    specs.stream()
+                            .filter(Objects::nonNull)
+                            .collect(ImmutableList.toImmutableList());
+
+            this.icons = new ArrayList<>();
+            this.totalSize = 0;
         }
 
-        Map<String, String> modifiedParams = new HashMap<>(params);
-        modifiedParams.put("recipeTypeId", recipeType.getId());
-        modifiedParams.remove("recipeCategory");
-        modifiedParams.remove("recipeType");
-        String url = Table.RECIPE.getSearchUrl(modifiedParams);
+        private void buildIcons() {
+            List<RecipeType> recipeTypes =
+                    recipeTypeRepository.findAll(
+                            RecipeTypeSpec.buildMinRecipeCountSpec(1), RecipeTypeSpec.DEFAULT_SORT);
+            recipeTypes.forEach(this::buildIcon);
+        }
 
-        Icon icon =
-                baseDisplayFactory.buildDisplayRecipeTypeIcon(recipeType).toBuilder()
-                        .setUrl(url)
-                        .setBottomRight(NumberUtil.formatInteger(size))
-                        .build();
-        return Optional.of(icon);
+        private void buildIcon(RecipeType recipeType) {
+            Specification<Recipe> recipeTypeIdSpec =
+                    RecipeSpec.buildRecipeTypeIdSpec(recipeType.getId());
+            Iterable<Specification<Recipe>> modifiedSpecs =
+                    Iterables.concat(specs, Collections.singleton(recipeTypeIdSpec));
+
+            long size = recipeRepository.count(Specification.allOf(modifiedSpecs));
+            if (size == 0) {
+                return;
+            }
+            totalSize += size;
+
+            Map<String, String> modifiedParams = new HashMap<>(params);
+            modifiedParams.put("recipeTypeId", recipeType.getId());
+            modifiedParams.remove("recipeCategory");
+            modifiedParams.remove("recipeType");
+            String url = Table.RECIPE.getSearchUrl(modifiedParams);
+
+            Icon icon =
+                    baseDisplayFactory.buildDisplayRecipeTypeIcon(recipeType).toBuilder()
+                            .setUrl(url)
+                            .setBottomRight(NumberUtil.formatCompact(size))
+                            .build();
+            icons.add(icon);
+        }
     }
 }
