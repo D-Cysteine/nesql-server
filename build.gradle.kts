@@ -35,6 +35,10 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
     runtimeOnly("org.hsqldb:hsqldb:2.7.1")
+
+    runtimeOnly("org.webjars:webjars-locator:0.46")
+    runtimeOnly("org.webjars.npm:bootstrap:5.3.0-alpha1")
+    runtimeOnly("org.webjars.npm:bootstrap-icons:1.10.3")
 }
 
 tasks.withType<Jar> {
