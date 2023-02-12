@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html th:replace="~{fragment/template::template(~{::title}, ~{::content})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Advanced Search Recipes</title>
+</head>
+<body>
+
+<th:block th:fragment="content">
+    <div class="container">
+        <div class="row">
+            <h1 class="display-3 text-center">
+                Advanced Search Recipes
+            </h1>
+        </div>
+        <div class="row">
+            <span class="text-center text-info">
+                Search recipes grouped by recipe type.
+            </span>
+        </div>
+        <div class="row">
+            <span class="text-center">
+                Query fields will be joined with AND. Leave all fields blank to retrieve everything.
+            </span>
+        </div>
+
+        <div class="row justify-content-center mt-5">
+            <form method="get">
+                <div class="container"></div>
+                <div class="row">
+                    <div class="col">
+                        <div class="mt-2">
+                            <th:block th:replace="~{fragment/search::searchFieldRegex('recipeCategory', 'Recipe category')}">
+                            </th:block>
+                            <div class="form-text">&nbsp;</div>
+                        </div>
+
+                        <div class="mt-2">
+                            <th:block th:replace="~{fragment/search::searchFieldRegex('recipeType', 'Recipe type')}">
+                            </th:block>
+                            <div class="form-text">&nbsp;</div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mt-2">
+                            <th:block th:replace="~{fragment/search::searchFieldRegex('inputItemName', 'Input item localized name')}">
+                            </th:block>
+                            <div class="form-text">&nbsp;</div>
+                        </div>
+
+                        <div class="mt-2">
+                            <th:block th:replace="~{fragment/search::searchFieldRegex('inputItemModId', 'Input item mod ID')}">
+                            </th:block>
+                            <div class="form-text">&nbsp;</div>
+                        </div>
+
+                        <div class="mt-2">
+                            <th:block th:replace="~{fragment/search::searchField('inputItemId', 'Input item ID', 'search')}">
+                            </th:block>
+                            <div class="form-text">&nbsp;</div>
+                        </div>
+
+                        <div class="mt-2">
+                            <th:block th:replace="~{fragment/search::searchField('inputItemGroupId', 'Input item group ID', 'search')}">
+                            </th:block>
+                            <div class="form-text">&nbsp;</div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mt-2">
+                            <th:block th:replace="~{fragment/search::searchFieldRegex('inputFluidName', 'Input fluid localized name')}">
+                            </th:block>
+                            <div class="form-text">&nbsp;</div>
+                        </div>
+
+                        <div class="mt-2">
+                            <th:block th:replace="~{fragment/search::searchFieldRegex('inputFluidModId', 'Input fluid mod ID')}">
+                            </th:block>
+                            <div class="form-text">&nbsp;</div>
+                        </div>
+
+                        <div class="mt-2">
+                            <th:block th:replace="~{fragment/search::searchField('inputFluidId', 'Input fluid ID', 'search')}">
+                            </th:block>
+                            <div class="form-text">&nbsp;</div>
+                        </div>
+
+                        <div class="mt-2">
+                            <th:block th:replace="~{fragment/search::searchField('inputFluidGroupId', 'Input fluid group ID', 'search')}">
+                            </th:block>
+                            <div class="form-text">&nbsp;</div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mt-2">
+                            <th:block th:replace="~{fragment/search::searchFieldRegex('outputItemName', 'Output item localized name')}">
+                            </th:block>
+                            <div class="form-text">&nbsp;</div>
+                        </div>
+
+                        <div class="mt-2">
+                            <th:block th:replace="~{fragment/search::searchFieldRegex('outputItemModId', 'Output item mod ID')}">
+                            </th:block>
+                            <div class="form-text">&nbsp;</div>
+                        </div>
+
+                        <div class="mt-2">
+                            <th:block th:replace="~{fragment/search::searchField('outputItemId', 'Output item ID', 'search')}">
+                            </th:block>
+                            <div class="form-text">&nbsp;</div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mt-2">
+                            <th:block th:replace="~{fragment/search::searchFieldRegex('outputFluidName', 'Output fluid localized name')}">
+                            </th:block>
+                            <div class="form-text">&nbsp;</div>
+                        </div>
+
+                        <div class="mt-2">
+                            <th:block th:replace="~{fragment/search::searchFieldRegex('outputFluidModId', 'Output fluid mod ID')}">
+                            </th:block>
+                            <div class="form-text">&nbsp;</div>
+                        </div>
+
+                        <div class="mt-2">
+                            <th:block th:replace="~{fragment/search::searchField('outputFluidId', 'Output fluid ID', 'search')}">
+                            </th:block>
+                            <div class="form-text">&nbsp;</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center mt-3">
+                    <div class="col-auto">
+                        <button th:replace="~{fragment/search::searchButton}"></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="row my-5">
+            <h1 class="display-3 text-center">
+                Search Results
+            </h1>
+        </div>
+        <div class="row">
+            <div class="card">
+                <div class="card-body">
+                    <span th:replace="~{fragment/icon::iconList(${results})}">
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+</body>
+</html>

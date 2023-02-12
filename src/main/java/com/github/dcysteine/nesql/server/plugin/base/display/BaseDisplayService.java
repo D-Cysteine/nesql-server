@@ -49,6 +49,17 @@ public class BaseDisplayService extends PluginDisplayService {
                                         "Recipe output",
                                         Table.RECIPE.getSearchUrl(
                                                 "outputItemId", item.getId())))
+                        .addLink(
+                                Link.create(
+                                        "bi-search",
+                                        "Recipe+ input",
+                                        Table.ADVANCED_RECIPE_SEARCH.getSearchUrl("inputItemId", item.getId())))
+                        .addLink(
+                                Link.create(
+                                        "bi-search",
+                                        "Recipe+ output",
+                                        Table.ADVANCED_RECIPE_SEARCH.getSearchUrl(
+                                                "outputItemId", item.getId())))
                         .build();
 
         return ImmutableList.of(basePanel);
@@ -75,6 +86,18 @@ public class BaseDisplayService extends PluginDisplayService {
                                         "Recipe output",
                                         Table.RECIPE.getSearchUrl(
                                                 "outputFluidId", fluid.getId())))
+                        .addLink(
+                                Link.create(
+                                        "bi-search",
+                                        "Recipe+ input",
+                                        Table.ADVANCED_RECIPE_SEARCH.getSearchUrl(
+                                                "inputFluidId", fluid.getId())))
+                        .addLink(
+                                Link.create(
+                                        "bi-search",
+                                        "Recipe+ output",
+                                        Table.ADVANCED_RECIPE_SEARCH.getSearchUrl(
+                                                "outputFluidId", fluid.getId())))
                         .build();
 
         return ImmutableList.of(basePanel);
@@ -97,6 +120,12 @@ public class BaseDisplayService extends PluginDisplayService {
                                         "Recipe input",
                                         Table.RECIPE.getSearchUrl(
                                                 "inputItemGroupId", itemGroup.getId())))
+                        .addLink(
+                                Link.create(
+                                        "bi-search",
+                                        "Recipe+ input",
+                                        Table.ADVANCED_RECIPE_SEARCH.getSearchUrl(
+                                                "inputItemGroupId", itemGroup.getId())))
                         .build();
 
         return ImmutableList.of(basePanel);
@@ -118,6 +147,12 @@ public class BaseDisplayService extends PluginDisplayService {
                                         "bi-search",
                                         "Recipe input",
                                         Table.RECIPE.getSearchUrl(
+                                                "inputFluidGroupId", fluidGroup.getId())))
+                        .addLink(
+                                Link.create(
+                                        "bi-search",
+                                        "Recipe+ input",
+                                        Table.ADVANCED_RECIPE_SEARCH.getSearchUrl(
                                                 "inputFluidGroupId", fluidGroup.getId())))
                         .build();
 

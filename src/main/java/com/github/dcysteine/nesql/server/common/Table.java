@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableListMultimap;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Arrays;
+import java.util.Map;
 import java.util.function.Function;
 
 /** Enum for organizing code relating to tables. */
@@ -16,6 +17,8 @@ public enum Table {
     FLUID_GROUP(Plugin.BASE, "Fluid Group", "fluidgroup"),
     RECIPE(Plugin.BASE, "Recipe", "recipe"),
     RECIPE_TYPE(Plugin.BASE, "Recipe Type", "recipetype", "minRecipeCount", "1"),
+    /** Advanced recipe search. Does not have a {@code view} page. */
+    ADVANCED_RECIPE_SEARCH(Plugin.BASE, "Recipe+", "advrecipe"),
 
     /** This table uses {@code ItemGroup}'s {@code view} page. */
     ORE_DICTIONARY(Plugin.FORGE, "Ore Dictionary", "oredictionary"),
@@ -83,6 +86,13 @@ public enum Table {
 
     public String getSearchUrl() {
         return getSearchUrl(defaultParams);
+    }
+
+    public String getSearchUrl(Map<String, String> params) {
+        UriComponentsBuilder builder =
+                UriComponentsBuilder.fromUriString(String.format("~/%s/search", getPath()));
+        params.forEach(builder::queryParam);
+        return builder.toUriString();
     }
 
     public String getSearchUrl(String... params) {
