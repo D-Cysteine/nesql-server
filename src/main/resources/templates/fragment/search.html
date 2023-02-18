@@ -144,7 +144,7 @@
             <div class="input-group">
                 <span class="input-group-text">Page</span>
                 <input name="page" type="number" class="form-control text-end"
-                       th:value="${pageNumber}">
+                       th:value="${pageNumber}" min="1" th:max="${page.totalPages}">
                 <span class="input-group-text">
                     / [[${@thymeleafService.formatInteger(page.totalPages)}]]
                 </span>
