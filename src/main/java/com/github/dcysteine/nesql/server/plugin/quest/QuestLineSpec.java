@@ -31,7 +31,7 @@ public class QuestLineSpec {
                         builder.literal(questLineDescription));
     }
 
-    public static Specification<QuestLine> buildQuestLineIdSpec(int questLineId) {
+    public static Specification<QuestLine> buildQuestLineIdSpec(String questLineId) {
         return (root, query, builder) ->
                 builder.equal(root.get(QuestLine_.QUEST_LINE_ID), questLineId);
     }

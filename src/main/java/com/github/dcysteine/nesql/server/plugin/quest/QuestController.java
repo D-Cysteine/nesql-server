@@ -51,7 +51,7 @@ public class QuestController {
     public String search(
             @RequestParam(required = false) Optional<String> questName,
             @RequestParam(required = false) Optional<String> questDescription,
-            @RequestParam(required = false) Optional<Integer> questId,
+            @RequestParam(required = false) Optional<String> questId,
             @RequestParam(required = false) Optional<String> visibility,
             @RequestParam(defaultValue = "1") int page,
             Model model) {

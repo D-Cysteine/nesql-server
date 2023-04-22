@@ -30,7 +30,7 @@ public class QuestSpec {
                         builder.literal(questDescription));
     }
 
-    public static Specification<Quest> buildQuestIdSpec(int questId) {
+    public static Specification<Quest> buildQuestIdSpec(String questId) {
         return (root, query, builder) ->
                 builder.equal(root.get(Quest_.QUEST_ID), questId);
     }

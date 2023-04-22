@@ -4,7 +4,6 @@ import com.github.dcysteine.nesql.server.common.Table;
 import com.github.dcysteine.nesql.server.common.display.Icon;
 import com.github.dcysteine.nesql.server.common.display.InfoPanel;
 import com.github.dcysteine.nesql.server.common.service.DisplayService;
-import com.github.dcysteine.nesql.server.common.util.NumberUtil;
 import com.github.dcysteine.nesql.sql.quest.QuestLine;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
@@ -30,7 +29,7 @@ public abstract class DisplayQuestLine implements Comparable<DisplayQuestLine> {
                 .setDescription(questLine.getName())
                 .setUrl(Table.QUEST_LINE.getViewUrl(questLine))
                 .setImage(questLine.getIcon().getImageFilePath())
-                .setBottomRight(NumberUtil.formatInteger(questLine.getQuestLineId()))
+                .setBottomRight(questLine.getQuestLineId())
                 .build();
     }
 

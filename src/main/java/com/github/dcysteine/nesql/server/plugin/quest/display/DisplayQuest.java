@@ -4,7 +4,6 @@ import com.github.dcysteine.nesql.server.common.Table;
 import com.github.dcysteine.nesql.server.common.display.Icon;
 import com.github.dcysteine.nesql.server.common.display.InfoPanel;
 import com.github.dcysteine.nesql.server.common.service.DisplayService;
-import com.github.dcysteine.nesql.server.common.util.NumberUtil;
 import com.github.dcysteine.nesql.sql.quest.Quest;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
@@ -53,7 +52,7 @@ public abstract class DisplayQuest implements Comparable<DisplayQuest> {
                         .setDescription(quest.getName())
                         .setUrl(Table.QUEST.getViewUrl(quest))
                         .setImage(quest.getIcon().getImageFilePath())
-                        .setBottomRight(NumberUtil.formatInteger(quest.getQuestId()));
+                        .setBottomRight(quest.getQuestId());
 
         if (quest.getRepeatTime() > 0) {
             builder.setTopLeft("*");
